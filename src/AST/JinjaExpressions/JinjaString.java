@@ -3,8 +3,8 @@ package AST.JinjaExpressions;
 import AST.JinjaExpression;
 
 public class JinjaString extends JinjaExpression {
-    String value;
-    protected JinjaString(int line, String value) {
+    public String value;
+    public JinjaString(int line, String value) {
         super(line, "JinjaString" );
         this.value=value;
     }
@@ -12,6 +12,7 @@ public class JinjaString extends JinjaExpression {
     public String toString() {
         return "\"" + value + "\"";
     }
+    @Override
     public String prettyPrint(int level) {
         return indent(level) + nodeName + " (line " + line + ") \"" + value + "\"\n";
     }

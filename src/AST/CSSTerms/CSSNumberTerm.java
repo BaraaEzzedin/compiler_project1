@@ -6,7 +6,7 @@ public class CSSNumberTerm extends CSSTerm {
     public Boolean negative;
     public double number;
     public String unit;
-    protected CSSNumberTerm(int line, Boolean negative, double number, String unit) {
+    public CSSNumberTerm(int line, Boolean negative, double number, String unit) {
         super(line, "CSSNumberTerm");
         this.negative=negative;
         this.number=number;
@@ -19,7 +19,7 @@ public class CSSNumberTerm extends CSSTerm {
         String unitStr = (unit != null && !unit.isEmpty()) ? unit : "";
         return sign + numberStr + unitStr;
     }
-
+    @Override
     public String prettyPrint(int level) {
         String sign = (negative != null && negative) ? "-" : "";
         String numberStr = (number == (int) number) ? String.valueOf((int) number) : String.valueOf(number);

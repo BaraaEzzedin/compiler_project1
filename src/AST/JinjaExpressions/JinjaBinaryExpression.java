@@ -3,10 +3,10 @@ package AST.JinjaExpressions;
 import AST.JinjaExpression;
 
 public class JinjaBinaryExpression extends JinjaExpression {
-    JinjaExpression left;
-    JinjaExpression right;
-    String op;
-    protected JinjaBinaryExpression(int line, JinjaExpression left, JinjaExpression right,String op) {
+    public JinjaExpression left;
+    public JinjaExpression right;
+    public String op;
+    public JinjaBinaryExpression(int line, JinjaExpression left, JinjaExpression right, String op) {
         super(line, "JinjaBinaryExpression");
         this.left=left;
         this.right=right;
@@ -15,7 +15,7 @@ public class JinjaBinaryExpression extends JinjaExpression {
     public String toString() {
         return "(" + left + " " + op + " " + right + ")";
     }
-
+    @Override
     public String prettyPrint(int level) {
         StringBuilder sb = new StringBuilder();
         sb.append(indent(level)).append(nodeName).append(" '").append(op).append("' (line ").append(line).append(")\n");

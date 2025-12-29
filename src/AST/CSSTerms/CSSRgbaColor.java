@@ -4,7 +4,7 @@ import AST.CSSTerm;
 
 public class CSSRgbaColor extends CSSTerm {
     public String value;
-    protected CSSRgbaColor(int line, String value) {
+    public CSSRgbaColor(int line, String value) {
         super(line, "CSSRgbaColor");
         this.value=value;
     }
@@ -12,7 +12,7 @@ public class CSSRgbaColor extends CSSTerm {
     public String toString() {
         return "rgba(" + value + ")";
     }
-
+    @Override
     public String prettyPrint(int level) {
         return indent(level) + nodeName + " (line " + line + ") rgba(" + value + ")\n";
     }

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CSSMultipleValues extends CSSValue {
     public List<CSSTerm> terms;
-    protected CSSMultipleValues(int line, List<CSSTerm> terms) {
+    public CSSMultipleValues(int line, List<CSSTerm> terms) {
         super(line, "CSSMultipleValues");
         this.terms=new ArrayList<>(terms);
     }
@@ -25,7 +25,7 @@ public class CSSMultipleValues extends CSSValue {
         }
         return sb.toString();
     }
-
+    @Override
     public String prettyPrint(int level) {
         StringBuilder sb = new StringBuilder();
         sb.append(indent(level)).append(nodeName).append(" (line ").append(line).append(")\n");

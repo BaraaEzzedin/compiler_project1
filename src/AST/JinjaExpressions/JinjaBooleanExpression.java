@@ -3,8 +3,8 @@ package AST.JinjaExpressions;
 import AST.JinjaExpression;
 
 public class JinjaBooleanExpression extends JinjaExpression {
-    private Boolean value;
-    protected JinjaBooleanExpression(int line, Boolean value) {
+    public Boolean value;
+    public JinjaBooleanExpression(int line, Boolean value) {
         super(line, "JinjaBooleanExpression");
         this.value=value;
     }
@@ -13,7 +13,7 @@ public class JinjaBooleanExpression extends JinjaExpression {
         if (value == null) return "null";
         return value.toString();
     }
-
+    @Override
     public String prettyPrint(int level) {
         String val = (value == null) ? "null" : value.toString();
         return indent(level) + nodeName + " (line " + line + ") " + val + "\n";

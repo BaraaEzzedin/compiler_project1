@@ -4,7 +4,7 @@ import AST.CSSTerm;
 
 public class CSSString extends CSSTerm {
     public String value;
-    protected CSSString(int line, String value) {
+    public CSSString(int line, String value) {
         super(line, "CSSString");
         this.value=value;
     }
@@ -14,7 +14,7 @@ public class CSSString extends CSSTerm {
         // CSS strings are typically wrapped in quotes
         return "\"" + value + "\"";
     }
-
+    @Override
     public String prettyPrint(int level) {
         String val = (value == null) ? "" : value;
         return indent(level) + nodeName + " (line " + line + ") \"" + val + "\"\n";

@@ -4,7 +4,7 @@ import AST.CSSTerm;
 
 public class CSSCalc extends CSSTerm {
     public String expression;
-    protected CSSCalc(int line, String expression) {
+    public CSSCalc(int line, String expression) {
         super(line, "CSSCalc");
         this.expression = expression;
     }
@@ -12,7 +12,7 @@ public class CSSCalc extends CSSTerm {
     public String toString() {
         return "calc(" + expression + ")";
     }
-
+    @Override
     public String prettyPrint(int level) {
         return indent(level) + nodeName + " (line " + line + ") calc(" + expression + ")\n";
     }

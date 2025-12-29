@@ -4,7 +4,7 @@ import AST.CSSTerm;
 
 public class CSSHslaColor extends CSSTerm {
     public String value;
-    protected CSSHslaColor(int line, String value) {
+    public CSSHslaColor(int line, String value) {
         super(line, "CSSHslaColor");
         this.value=value;
     }
@@ -12,7 +12,7 @@ public class CSSHslaColor extends CSSTerm {
     public String toString() {
         return "hsla(" + value + ")";
     }
-
+    @Override
     public String prettyPrint(int level) {
         return indent(level) + nodeName + " (line " + line + ") hsla(" + value + ")\n";
     }

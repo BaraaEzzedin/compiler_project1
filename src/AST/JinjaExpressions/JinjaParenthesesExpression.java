@@ -4,7 +4,7 @@ import AST.JinjaExpression;
 
 public class JinjaParenthesesExpression extends JinjaExpression {
     public JinjaExpression expression;
-    protected JinjaParenthesesExpression(int line, JinjaExpression expression) {
+    public JinjaParenthesesExpression(int line, JinjaExpression expression) {
         super(line, "JinjaParenthesesExpression");
         this.expression=expression;
     }
@@ -14,7 +14,7 @@ public class JinjaParenthesesExpression extends JinjaExpression {
         if (expression == null) return "()";
         return "(" + expression.toString() + ")";
     }
-
+    @Override
     public String prettyPrint(int level) {
         StringBuilder sb = new StringBuilder();
         sb.append(indent(level)).append(nodeName).append(" (line ").append(line).append(")\n");

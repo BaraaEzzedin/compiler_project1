@@ -5,7 +5,7 @@ import AST.CSSTerm;
 public class CSSFunctionTerm extends CSSTerm {
     public String functionName;
     public CSSValueList arguments;
-    protected CSSFunctionTerm(int line, String functionName,CSSValueList arguments) {
+    public CSSFunctionTerm(int line, String functionName, CSSValueList arguments) {
         super(line, "CSSFunctionTerm");
         this.functionName=functionName;
         this.arguments=arguments;
@@ -18,7 +18,7 @@ public class CSSFunctionTerm extends CSSTerm {
         }
         return functionName + "(" + arguments.toString() + ")";
     }
-
+    @Override
     public String prettyPrint(int level) {
         StringBuilder sb = new StringBuilder();
         sb.append(indent(level)).append(nodeName).append(" '").append(functionName).append("' (line ").append(line).append(")\n");

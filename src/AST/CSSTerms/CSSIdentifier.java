@@ -4,7 +4,7 @@ import AST.CSSTerm;
 
 public class CSSIdentifier extends CSSTerm {
     public String name;
-    protected CSSIdentifier(int line, String Name) {
+    public CSSIdentifier(int line, String Name) {
         super(line, "CSSIdentifier");
         this.name=Name;
     }
@@ -13,7 +13,7 @@ public class CSSIdentifier extends CSSTerm {
         if (name == null) return "";
         return name;
     }
-
+    @Override
     public String prettyPrint(int level) {
         return indent(level) + nodeName + " (line " + line + ") '" + (name != null ? name : "") + "'\n";
     }

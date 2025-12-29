@@ -6,8 +6,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class JinjaIdentifier extends JinjaExpression {
-    private final List<String> parts;
-    protected JinjaIdentifier(int line, List<String> parts) {
+    public List<String> parts;
+    public JinjaIdentifier(int line, List<String> parts) {
         super(line, "JinjaIdentifier");
         this.parts=parts;
     }
@@ -25,9 +25,10 @@ public class JinjaIdentifier extends JinjaExpression {
         }
         return String.join(".", parts);
     }
-
+    @Override
     public String prettyPrint(int level) {
         String identifier = (parts == null || parts.isEmpty()) ? "" : String.join(".", parts);
         return indent(level) + nodeName + " (line " + line + ") '" + identifier + "'\n";
     }
+
 }

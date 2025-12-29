@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CSSValueList extends ASTNode {
     public List<CSSValue> values;
-    protected CSSValueList(int line, List<CSSValue> values) {
+    public CSSValueList(int line, List<CSSValue> values) {
         super(line, "CSSValueList");
         this.values=new ArrayList<>(values);
     }
@@ -25,7 +25,7 @@ public class CSSValueList extends ASTNode {
         }
         return sb.toString();
     }
-
+    @Override
     public String prettyPrint(int level) {
         StringBuilder sb = new StringBuilder();
         sb.append(indent(level)).append(nodeName).append(" (line ").append(line).append(")\n");
