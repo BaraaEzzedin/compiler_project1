@@ -3,8 +3,8 @@ package AST.HtmlElements;
 import AST.ASTNode;
 
 public class HtmlAttribute extends ASTNode {
-    String name;
-    String value;
+    public String name;
+    public String value;
     public HtmlAttribute(int line, String name, String value) {
         super(line, "HtmlAttribute");
         this.name=name;

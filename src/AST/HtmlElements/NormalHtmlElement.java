@@ -7,8 +7,8 @@ import java.util.List;
 
 public class NormalHtmlElement extends HtmlElement {
     String tagName;
-    List<HtmlAttribute> attributes;
-    List<Statement> content;
+    public List<HtmlAttribute> attributes;
+    public List<Statement> content;
     public NormalHtmlElement(int line, String tagName, List<HtmlAttribute> attributes, List<Statement> content) {
         super(line, "NormalHtmlElement");
         this.tagName=tagName;

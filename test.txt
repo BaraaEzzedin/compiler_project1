@@ -223,7 +223,7 @@
               {% if products %}
               <div class="product-grid">
                 {% for p in products %}
-                <div class="product-card">
+                <div class="product-carffd">
                   <img src="{{ p.image }}" alt="{{ p.name }}" />
                   <div class="product-info">
                     <h3>{{ p.name }}</h3>

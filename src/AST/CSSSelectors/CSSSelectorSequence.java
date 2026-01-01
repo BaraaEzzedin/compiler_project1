@@ -5,7 +5,7 @@ import AST.CSSStatement;
 import java.util.List;
 
 public class CSSSelectorSequence extends CSSStatement {
-    List<CSSCompoundSelector> compoundSelectors;
+    public List<CSSCompoundSelector> compoundSelectors;
     public CSSSelectorSequence(int line, List<CSSCompoundSelector> compoundSelectors) {
         super(line, "CSSSelectorSequence");
         this.compoundSelectors=compoundSelectors;

@@ -1,4 +1,5 @@
 import AST.Program;
+import SymbolTable.SymbolTableBuilder;
 import Visitor.ProjectVisitor;
 import grammer.lexer.ProjectLexer;
 import grammer.lexer.ProjectParser;
@@ -23,8 +24,11 @@ public class Main {
             ParseTree tree= parser.program();
             ProjectVisitor visitor = new ProjectVisitor();
             Program program = (Program) visitor.visit(tree);
-            System.out.println("=== AST ===");
-            System.out.println(program.prettyPrint(0));
+            System.out.println("\n=== Building Symbol Table ===");
+            SymbolTableBuilder symbolTableBuilder = new SymbolTableBuilder();
+            symbolTableBuilder.build(program);
+
+            symbolTableBuilder.printStatistics();
 
         } catch (IOException e) {
             e.printStackTrace();
