@@ -1,17 +1,37 @@
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
+import AST.Program;
+import SymbolTable.SymbolTableBuilder;
+import Visitor.ProjectVisitor;
+import grammer.lexer.ProjectLexer;
+import grammer.lexer.ProjectParser;
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.tree.*;
+
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import java.io.IOException;
+
+import static org.antlr.v4.runtime.CharStreams.fromFileName;
+
 public class Main {
-    public static void main(String[] args) {
-        // Press Alt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+    public static void main(String[] args) throws Exception {
+        try{
+            String path = "test.txt";
+            CharStream input =fromFileName(path);
+            ProjectLexer  lexer = new ProjectLexer(input);
+            CommonTokenStream token = new CommonTokenStream(lexer);
+            ProjectParser parser = new ProjectParser(token);
+            ParseTree tree= parser.program();
+            ProjectVisitor visitor = new ProjectVisitor();
+            Program program = (Program) visitor.visit(tree);
+            System.out.println("\n=== Building Symbol Table ===");
+            SymbolTableBuilder symbolTableBuilder = new SymbolTableBuilder();
+            symbolTableBuilder.build(program);
 
-        // Press Shift+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
+            symbolTableBuilder.printStatistics();
 
-            // Press Shift+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+F8.
-            System.out.println("i = " + i);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

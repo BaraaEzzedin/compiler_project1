@@ -1,4 +1,4 @@
-// Generated from C:/Users/ASUSD/IdeaProjects/compiler_project1/src/grammer/lexer/ProjectLexer.g4 by ANTLR 4.13.2
+// Generated from /home/mohee/compiler_project1/src/grammer/lexer/ProjectLexer.g4 by ANTLR 4.13.2
 package grammer.lexer;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
