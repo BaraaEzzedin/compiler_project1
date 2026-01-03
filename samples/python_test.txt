@@ -1,0 +1,99 @@
+import os
+from flask import Flask,render_template,redirect,url_for,request
+from werkzeug.utils import secure_filename
+
+app = Flask(__name__)
+
+UPLOAD_FOLDER = "static/images"
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+products = []
+
+@app.route("/")
+def list_products():
+<INDENT>
+    return render_template("product_template.html", section="list", products=products)
+<DEDENT>
+
+@app.route("/add", methods=["GET", "POST"])
+def add_product():
+<INDENT>
+    if request.method == "POST":
+<INDENT>
+        name = request.form.get("name")
+        price = request.form.get("price")
+        description = request.form.get("description")
+        image = request.files["image"]
+
+        if image and image.filename != "":
+        <INDENT>
+            filename = secure_filename(image.filename)
+            image_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+            image.save(image_path)
+        <DEDENT>
+        else:
+        <INDENT>
+            filename = None
+        <DEDENT>
+        product = {
+        "id": len(products) + 1,
+        "name": name,
+        "price": price,
+        "description": description,
+        "image": image
+        }
+        products.append(product)
+        return redirect(url_for("list_products"))
+        <DEDENT>
+    return render_template("product_template.html", section="add")
+<DEDENT>
+
+@app.route("/product/<int:product_id>")
+def view_product(product_id):
+<INDENT>
+    for product in products:
+    <INDENT>
+        if(product["id"] == product_id):
+        <INDENT>
+            return render_template("product_template.html", section="view", product=product)
+        <DEDENT>
+    return "Product not found"
+    <DEDENT>
+<DEDENT>
+
+@app.route('/delete/<int:product_id>', methods=['POST'])
+def delete_product(product_id):
+<INDENT>
+    global products
+
+    product = next((p for p in products if p['id'] == product_id), None)
+
+    if product == None:
+    <INDENT>
+        return "Not Found", 404
+    <DEDENT>
+
+    image_path = os.path.join(app.config['UPLOAD_FOLDER'], product['image'])
+    if product['image'] != 'default.jpg' and os.path.exists(image_path):
+    <INDENT>
+        os.remove(image_path)
+    <DEDENT>
+
+    new_products = []
+
+    for p in products:
+    <INDENT>
+        if p['id'] != product_id:
+        <INDENT>
+            new_products.append(p)
+        <DEDENT>
+    <DEDENT>
+    products = new_products
+
+    return redirect(url_for('list_products'))
+<DEDENT>
+
+if __name__ == "__main__":
+<INDENT>
+    app.run(debug=True)
+<DEDENT>

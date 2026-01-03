@@ -10,19 +10,8 @@ public class Program extends ASTNode {
         super(line, "Program");
         this.statements = statements != null ? statements : new ArrayList<>();
     }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Program (line ").append(line).append("):\n");
-        for (Statement stmt : statements) {
-            if (stmt != null) {
-                sb.append(indent(1))
-                        .append(stmt)
-                        .append("\n");
-            }
-        }
-        return sb.toString();
+    public List<Statement> getStatements() {
+        return statements;
     }
 
     @Override
