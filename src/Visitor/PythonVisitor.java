@@ -135,16 +135,64 @@ public class PythonVisitor extends PythonParserBaseVisitor<ASTNode> {
         );
     }
 
+//    @Override
+//    public ASTNode visitFunctionDefinition(PythonParser.FunctionDefinitionContext ctx) {
+//        String name = ctx.ID().getText();
+//        List<String> params = new ArrayList<>();
+//        if (ctx.paramList() != null) {
+//            params.add(ctx.paramList().getText());
+//        }
+//        Block body = (Block) visit(ctx.block());
+//        int line = ctx.getStart().getLine();
+//        return new FunctionDef(line, name, params, body);
+//    }
+@Override
+public ASTNode visitFunctionDefinition(PythonParser.FunctionDefinitionContext ctx) {
+    int line = ctx.getStart().getLine();
+    String name = ctx.ID().getText();
+
+//        symbolTable.define(name, "Function", line);
+
+//        symbolTable = new PythonSymbolTable(symbolTable);
+//        System.out.println(">>> Entering New Scope for function: " + name);
+
+    List<String> params = new ArrayList<>();
+    if (ctx.paramList() != null) {
+        params.add(ctx.paramList().getText());
+    }
+
+    List<DecoratorExpr> decorators = new ArrayList<>();
+    for (PythonParser.DecoratorContext dctx : ctx.decorator()) {
+        decorators.add((DecoratorExpr) visit(dctx));
+    }
+
+    Block body = (Block) visit(ctx.block());
+
+//        symbolTable.printScope("Function: " + name);
+//
+//        symbolTable = symbolTable.getParent();
+//        System.out.println("<<< Returning to Parent Scope.");
+    return new FunctionDef(line, name,decorators, params, body);
+}
     @Override
-    public ASTNode visitFunctionDefinition(PythonParser.FunctionDefinitionContext ctx) {
-        String name = ctx.ID().getText();
-        List<String> params = new ArrayList<>();
-        if (ctx.paramList() != null) {
-            params.add(ctx.paramList().getText());
-        }
-        Block body = (Block) visit(ctx.block());
+    public ASTNode visitDecoratorExpr(PythonParser.DecoratorExprContext ctx) {
         int line = ctx.getStart().getLine();
-        return new FunctionDef(line, name, params, body);
+
+        // Extract dotted name parts
+        List<String> nameParts = new ArrayList<>();
+        for (TerminalNode id : ctx.dottedName().ID()) {
+            nameParts.add(id.getText());
+        }
+
+        // Extract arguments (if any)
+        List<Expression> args = new ArrayList<>();
+        if (ctx.argList() != null) {
+            for (PythonParser.ArgContext ectx : ctx.argList().arg()) {
+                args.add((Expression) visit(ectx));
+            }
+        }
+
+        return new DecoratorExpr(line, nameParts, args);
     }
 
     @Override

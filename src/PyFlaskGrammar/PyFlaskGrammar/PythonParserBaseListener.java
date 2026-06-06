@@ -197,25 +197,13 @@ public class PythonParserBaseListener implements PythonParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDecoratorWithArgs(PythonParser.DecoratorWithArgsContext ctx) { }
+	@Override public void enterDecoratorExpr(PythonParser.DecoratorExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDecoratorWithArgs(PythonParser.DecoratorWithArgsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDecoratorNoArgs(PythonParser.DecoratorNoArgsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDecoratorNoArgs(PythonParser.DecoratorNoArgsContext ctx) { }
+	@Override public void exitDecoratorExpr(PythonParser.DecoratorExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
