@@ -180,29 +180,17 @@ public interface PythonParserListener extends ParseTreeListener {
 	 */
 	void exitClassDefinition(PythonParser.ClassDefinitionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code DecoratorWithArgs}
+	 * Enter a parse tree produced by the {@code DecoratorExpr}
 	 * labeled alternative in {@link PythonParser#decorator}.
 	 * @param ctx the parse tree
 	 */
-	void enterDecoratorWithArgs(PythonParser.DecoratorWithArgsContext ctx);
+	void enterDecoratorExpr(PythonParser.DecoratorExprContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code DecoratorWithArgs}
+	 * Exit a parse tree produced by the {@code DecoratorExpr}
 	 * labeled alternative in {@link PythonParser#decorator}.
 	 * @param ctx the parse tree
 	 */
-	void exitDecoratorWithArgs(PythonParser.DecoratorWithArgsContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code DecoratorNoArgs}
-	 * labeled alternative in {@link PythonParser#decorator}.
-	 * @param ctx the parse tree
-	 */
-	void enterDecoratorNoArgs(PythonParser.DecoratorNoArgsContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code DecoratorNoArgs}
-	 * labeled alternative in {@link PythonParser#decorator}.
-	 * @param ctx the parse tree
-	 */
-	void exitDecoratorNoArgs(PythonParser.DecoratorNoArgsContext ctx);
+	void exitDecoratorExpr(PythonParser.DecoratorExprContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link PythonParser#ifStat}.
 	 * @param ctx the parse tree

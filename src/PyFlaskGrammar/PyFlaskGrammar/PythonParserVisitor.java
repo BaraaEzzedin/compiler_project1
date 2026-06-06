@@ -112,19 +112,12 @@ public interface PythonParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitClassDefinition(PythonParser.ClassDefinitionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code DecoratorWithArgs}
+	 * Visit a parse tree produced by the {@code DecoratorExpr}
 	 * labeled alternative in {@link PythonParser#decorator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDecoratorWithArgs(PythonParser.DecoratorWithArgsContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code DecoratorNoArgs}
-	 * labeled alternative in {@link PythonParser#decorator}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDecoratorNoArgs(PythonParser.DecoratorNoArgsContext ctx);
+	T visitDecoratorExpr(PythonParser.DecoratorExprContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PythonParser#ifStat}.
 	 * @param ctx the parse tree
