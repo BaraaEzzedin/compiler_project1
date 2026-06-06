@@ -1,5 +1,9 @@
 lexer grammar PythonLexer;
 
+tokens {
+    INDENT,
+    DEDENT
+}
 // lexer
 BOOL: 'true'|'false';
 PRINT: 'print';
@@ -53,8 +57,8 @@ STRING
     : '"'  ( ~["\\]  | '\\' . )* '"'
     | '\'' ( ~['\\]  | '\\' . )* '\''
     ;
-NEWLINE: ('\r'? '\n')+ ;
-
+//NEWLINE: ('\r'? '\n')+ ;
+NEWLINE: ({this.atStartOfInput()}? SPACES | ( '\r'? '\n' | '\r' | '\f') SPACES?) {this.onNewLine();};
 //NEWLINE: ('\r'? '\n' (' ' | '\t')*);
 WS: [ \t]+ -> skip;
 //COMMENT: '#' ~[\r\n]* -> skip;
@@ -64,5 +68,4 @@ WS: [ \t]+ -> skip;
 
 //WS: [ \t]+ -> skip;
 COMMENT: '#' ~[\r\n]* -> skip;
-INDENT: '<INDENT>';
-DEDENT: '<DEDENT>';
+fragment SPACES: [ \t]+;

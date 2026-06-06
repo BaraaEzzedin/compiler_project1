@@ -5,8 +5,8 @@ import AST.PyFlask.Block;
 import AST.PyFlask.Expressions.*;
 import AST.PyFlask.Statements.*;
 
-import PyFlaskGrammar.PythonParser;
-import PyFlaskGrammar.PythonParserBaseVisitor;
+import PyFlaskGrammar.PyFlaskGrammar.PythonParser;
+import PyFlaskGrammar.PyFlaskGrammar.PythonParserBaseVisitor;
 import AST.PyFlask.Expression;
 
 import org.antlr.v4.runtime.tree.TerminalNode;
