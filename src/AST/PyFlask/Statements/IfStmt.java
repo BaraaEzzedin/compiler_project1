@@ -3,6 +3,7 @@ package AST.PyFlask.Statements;
 import AST.PyFlask.Block;
 import AST.PyFlask.Expression;
 import AST.Statement;
+import SymbolTable.PyFlask.ASTVisitor;
 
 public class IfStmt extends Statement {
     public Expression condition;
@@ -15,7 +16,10 @@ public class IfStmt extends Statement {
         this.thenBlock = thenBlock;
         this.elseBlock = elseBlock;
     }
-
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
     @Override
     public String prettyPrint(int indent) {
         StringBuilder sb = new StringBuilder();

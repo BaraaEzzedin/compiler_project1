@@ -1,14 +1,11 @@
 package SymbolTable.JijnaCss;
 
-import AST.*;
+//import AST.*;
+import AST.JinjaCss.*;
 import AST.JinjaCss.CSSDeclarations.CSSDeclaration;
 import AST.JinjaCss.CSSSelectors.*;
-import AST.JinjaCss.CSSSimpleSelector;
-import AST.JinjaCss.CSSStatement;
 import AST.JinjaCss.CSSStatements.*;
-import AST.JinjaCss.HtmlElement;
 import AST.JinjaCss.HtmlElements.*;
-import AST.JinjaCss.JinjaExpression;
 import AST.JinjaCss.Statements.*;
 import AST.JinjaCss.JinjaExpressions.*;
 public class SymbolTableBuilder {

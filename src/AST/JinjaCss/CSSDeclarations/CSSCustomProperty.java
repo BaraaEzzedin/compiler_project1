@@ -1,6 +1,7 @@
 package AST.JinjaCss.CSSDeclarations;
 
-import AST.ASTNode;
+import AST.JinjaCss.ASTNode;
+
 import AST.JinjaCss.CSSValue;
 
 public class CSSCustomProperty extends ASTNode {

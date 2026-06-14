@@ -1,7 +1,7 @@
 package AST.JinjaCss.HtmlElements;
 
 import AST.JinjaCss.HtmlElement;
-import AST.Statement;
+import AST.JinjaCss.Statement;
 
 import java.util.List;
 

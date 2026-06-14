@@ -1,7 +1,8 @@
 package Visitor;
 
-import AST.*;
+//import AST.*;
 import AST.JinjaCss.*;
+import AST.JinjaCss.ASTNode;
 import AST.JinjaCss.CSSDeclarations.CSSCustomProperty;
 import AST.JinjaCss.CSSDeclarations.CSSDeclaration;
 import AST.JinjaCss.CSSSelectors.*;
@@ -12,6 +13,8 @@ import AST.JinjaCss.CSSStatements.CSSRule;
 import AST.JinjaCss.CSSTerms.*;
 import AST.JinjaCss.HtmlElements.*;
 import AST.JinjaCss.JinjaExpressions.*;
+import AST.JinjaCss.Program;
+import AST.JinjaCss.Statement;
 import AST.JinjaCss.Statements.*;
 
 import JinjaCssGrammar.ProjectParser;

@@ -5,7 +5,7 @@ tokens {
     DEDENT
 }
 // lexer
-BOOL: 'true'|'false';
+BOOL: 'true'|'false'|'True'|'False';
 PRINT: 'print';
 DEF: 'def';
 RETURN: 'return';
@@ -22,12 +22,12 @@ ASSIGN: '=';
 COMMA:',';
 DOT: '.';
 COLON: ':';
-LPARENS: '(';
-RPARENS: ')';
-LSB: '[';
-RSB: ']';
-LBK: '{';
-RBK: '}';
+LPARENS: '(' {this.openBrace()};
+RPARENS: ')' {this.closeBrace()};
+LSB: '[' {this.openBrace()};
+RSB: ']' {this.closeBrace()};
+LBK: '{' {this.openBrace()};
+RBK: '}' {this.closeBrace()};
 ADD: '+';
 SUB: '-';
 MUL: '*';

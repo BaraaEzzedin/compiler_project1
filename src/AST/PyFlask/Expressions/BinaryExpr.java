@@ -1,6 +1,7 @@
 package AST.PyFlask.Expressions;
 
 import AST.PyFlask.Expression;
+import SymbolTable.PyFlask.ASTVisitor;
 
 public class BinaryExpr extends Expression {
     public Expression left;
@@ -13,7 +14,10 @@ public class BinaryExpr extends Expression {
         this.op = op;
         this.right = right;
     }
-
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
     @Override
     public String toString() {
         return "(" + left + " " + op + " " + right + ")";

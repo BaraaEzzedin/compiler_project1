@@ -1,30 +1,18 @@
-package AST;
-
-import SymbolTable.PyFlask.ASTVisitor;
-import SymbolTable.PyFlask.Scope;
+package AST.JinjaCss;
 
 public abstract class ASTNode {
     public final int line;
     protected final String nodeName;
-    private Scope scope;
 
     protected ASTNode(int line, String nodeName) {
         this.line = line;
         this.nodeName = nodeName;
     }
 
-    public void setScope(Scope scope) {
-        this.scope = scope;
-    }
-
-    public Scope getScope() {
-        return scope;
-    }
     public int getLine() {
         return line;
     }
 
-    public abstract void accept(ASTVisitor visitor);
     public String getNodeName() {
         return nodeName;
     }

@@ -2,6 +2,7 @@ package AST.PyFlask.Statements;
 
 import AST.PyFlask.Expression;
 import AST.Statement;
+import SymbolTable.PyFlask.ASTVisitor;
 
 public class PrintStmt extends Statement {
     public Expression expr;
@@ -10,7 +11,10 @@ public class PrintStmt extends Statement {
         super(line, "Print");
         this.expr = expr;
     }
-
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
     @Override
     public String prettyPrint(int level) {
         StringBuilder sb = new StringBuilder();

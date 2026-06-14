@@ -1,6 +1,7 @@
 package AST.JinjaCss.HtmlElements;
 
-import AST.ASTNode;
+import AST.JinjaCss.ASTNode;
+
 
 public class HtmlAttribute extends ASTNode {
     public String name;

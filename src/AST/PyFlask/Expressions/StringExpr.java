@@ -1,6 +1,7 @@
 package AST.PyFlask.Expressions;
 
 import AST.PyFlask.Expression;
+import SymbolTable.PyFlask.ASTVisitor;
 
 public class StringExpr extends Expression {
     public String value;
@@ -9,7 +10,10 @@ public class StringExpr extends Expression {
         super(line, "StringExpr");
         this.value = value;
     }
-
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
     @Override
     public String toString() {
         return "\"" + value + "\"";

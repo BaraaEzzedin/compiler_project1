@@ -1,6 +1,5 @@
 // Generated from /home/abdalrhman/Desktop/compiler_project1/src/PyFlaskGrammar/PythonParser.g4 by ANTLR 4.13.2
 package PyFlaskGrammar.PyFlaskGrammar;
-
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -173,13 +172,13 @@ public class PythonParserBaseListener implements PythonParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParameterList(PythonParser.ParameterListContext ctx) { }
+	@Override public void enterParamList(PythonParser.ParamListContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParameterList(PythonParser.ParameterListContext ctx) { }
+	@Override public void exitParamList(PythonParser.ParamListContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -1,6 +1,6 @@
 package AST.JinjaCss.CSSStatements;
 
-import AST.ASTNode;
+import AST.JinjaCss.ASTNode;
 
 public class CSSMediaQuery extends ASTNode {
     public CSSMediaExpression expression;

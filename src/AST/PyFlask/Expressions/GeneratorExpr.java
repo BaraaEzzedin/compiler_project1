@@ -1,6 +1,7 @@
 package AST.PyFlask.Expressions;
 
 import AST.PyFlask.Expression;
+import SymbolTable.PyFlask.ASTVisitor;
 
 public class GeneratorExpr extends Expression{
     public final IdentifierExpr yieldVar;
@@ -21,7 +22,10 @@ public class GeneratorExpr extends Expression{
         this.iterable = iterable;
         this.filter = filter;
     }
-
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
     @Override
     public String prettyPrint(int indent) {
         StringBuilder sb = new StringBuilder();

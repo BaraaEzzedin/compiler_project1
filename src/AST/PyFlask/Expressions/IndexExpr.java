@@ -1,6 +1,7 @@
 package AST.PyFlask.Expressions;
 
 import AST.PyFlask.Expression;
+import SymbolTable.PyFlask.ASTVisitor;
 
 public class IndexExpr extends Expression {
     public Expression array;
@@ -11,7 +12,10 @@ public class IndexExpr extends Expression {
         this.array = array;
         this.index = index;
     }
-
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
     @Override
     public String toString() {
         return array + "[" + index + "]";

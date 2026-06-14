@@ -1,8 +1,8 @@
 package AST.JinjaCss.Statements;
 
-import AST.ASTNode;
+import AST.JinjaCss.ASTNode;
 import AST.JinjaCss.JinjaExpression;
-import AST.Statement;
+import AST.JinjaCss.Statement;
 
 import java.util.List;
 

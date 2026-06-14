@@ -1,6 +1,6 @@
 package AST.JinjaCss.CSSSelectors;
 
-import AST.ASTNode;
+import AST.JinjaCss.ASTNode;
 import AST.JinjaCss.CSSSimpleSelector;
 
 import java.util.List;

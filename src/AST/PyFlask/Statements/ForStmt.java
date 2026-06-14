@@ -3,6 +3,7 @@ package AST.PyFlask.Statements;
 import AST.PyFlask.Block;
 import AST.PyFlask.Expression;
 import AST.Statement;
+import SymbolTable.PyFlask.ASTVisitor;
 
 public class ForStmt extends Statement {
     public Expression loopVariable;  // The loop variable (e.g., "product" in "for product in products")
@@ -15,7 +16,10 @@ public class ForStmt extends Statement {
         this.iterable = iterable;
         this.body = body;
     }
-
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
     @Override
     public String prettyPrint(int indent) {
         StringBuilder sb = new StringBuilder();

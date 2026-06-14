@@ -1,7 +1,7 @@
-package AST;
+package AST.JinjaCss;
 
-import SymbolTable.PyFlask.ASTVisitor;
-
+import AST.JinjaCss.ASTNode;
+import AST.JinjaCss.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,10 +15,7 @@ public class Program extends ASTNode {
     public List<Statement> getStatements() {
         return statements;
     }
-    @Override
-    public void accept(ASTVisitor visitor) {
-        visitor.visit(this);
-    }
+
     @Override
     public String prettyPrint(int level) {
         StringBuilder sb = new StringBuilder();

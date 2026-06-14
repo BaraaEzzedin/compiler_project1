@@ -2,6 +2,7 @@ package AST.PyFlask;
 
 import AST.ASTNode;
 import AST.Statement;
+import SymbolTable.PyFlask.ASTVisitor;
 
 import java.util.List;
 
@@ -15,6 +16,11 @@ public class Block extends ASTNode {
 
     public List<Statement> getStatements() {
         return statements;
+    }
+
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

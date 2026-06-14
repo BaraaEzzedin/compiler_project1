@@ -1,7 +1,9 @@
 package AST.PyFlask.Statements;
 
 import AST.PyFlask.Expression;
+import AST.PyFlask.Expressions.IdentifierExpr;
 import AST.Statement;
+import SymbolTable.PyFlask.ASTVisitor;
 
 public class AssignStmt extends Statement {
     public Expression name;
@@ -12,7 +14,10 @@ public class AssignStmt extends Statement {
         this.name = name;
         this.value = value;
     }
-
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
     @Override
     public String prettyPrint(int indent) {
         StringBuilder sb = new StringBuilder();

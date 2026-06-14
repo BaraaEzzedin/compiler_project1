@@ -1,6 +1,7 @@
 package AST.JinjaCss;
 
-import AST.ASTNode;
+import AST.JinjaCss.ASTNode;
+
 
 public abstract class JinjaExpression extends ASTNode {
 
