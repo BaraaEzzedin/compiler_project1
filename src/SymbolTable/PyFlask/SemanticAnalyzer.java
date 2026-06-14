@@ -4,9 +4,12 @@ import AST.PyFlask.Expression;
 import AST.PyFlask.Expressions.*;
 import AST.PyFlask.Statements.AssignStmt;
 import AST.PyFlask.Statements.IfStmt;
+import SymbolTable.JijnaCss.JinjaTemplateInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class SemanticAnalyzer extends ASTVisitor {
     private final SymbolTable symbolTable;
@@ -47,6 +50,12 @@ public class SemanticAnalyzer extends ASTVisitor {
                             .resolve(id.name);
             if (symbol != null)
                 return symbol.getType();
+        }
+        if (expr instanceof FunctionCallExpr id) {
+            if (id.callee instanceof IdentifierExpr id2) {
+                if (id2.name.equals("len"))
+                    return Type.FLOAT;
+            }
         }
         return Type.UNKNOWN;
     }
@@ -331,6 +340,60 @@ public class SemanticAnalyzer extends ASTVisitor {
             }
 
             System.out.println();
+        }
+    }
+
+    public void validateTemplateVariables(
+            Map<String, JinjaTemplateInfo> templates) {
+
+        for (JinjaTemplateInfo info : templates.values()) {
+
+            System.out.println(
+                    "\nTemplate: " +
+                            info.getTemplateName());
+
+            System.out.println(
+                    info.getTemplateVariables());
+        }
+        for (TemplateContext ctx : templateContexts) {
+
+            JinjaTemplateInfo template =
+                    templates.get(
+                            ctx.templateName);
+            // Skip if this render_template call is for another template
+            if (!ctx.templateName.equals(
+                    template.getTemplateName())) {
+                continue;
+            }
+
+            Set<String> usedVariables =
+                    template.getTemplateVariables();
+
+            for (String variable : usedVariables) {
+
+                if (!ctx.passedVariables.contains(variable)) {
+
+                    report(
+                            0,
+                            "Template variable '" +
+                                    variable +
+                                    "' is used in template '" +
+                                    ctx.templateName +
+                                    "' but was not passed to render_template()"
+                    );
+                }
+            }
+        }
+    }
+
+    public void printErrors() {
+        System.out.println("\nSemantic Errors:");
+        if (this.getErrors().isEmpty()) {
+            System.out.println("No semantic errors.");
+        } else {
+            for (CompilerError error : this.getErrors()) {
+                System.err.println(error);
+            }
         }
     }
 }

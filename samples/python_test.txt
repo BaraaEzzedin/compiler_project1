@@ -11,7 +11,7 @@ products = [{"id": 1,"name": "Product 1"},{"id": 2,"name": "Product 2"}]
 
 @app.route("/")
 def list_products():
-    return render_template("product_template.html", section="list", products=products)
+    return render_template("list.html", products=products)
 
 @app.route("/add", methods=["GET", "POST"])
 def add_product():
@@ -36,13 +36,13 @@ def add_product():
         }
         products.append(product)
         return redirect(url_for("list_products"))
-    return render_template("product_template.html", section="add")
+    return render_template("add.html")
 
 @app.route("/product/<int:product_id>")
 def view_product(product_id):
     for product in products:
         if(product["id"] == product_id):
-            return render_template("product_template.html", section="view", product=product)
+            return render_template("view.html", product=product)
     return "Product not found"
 
 @app.route('/delete/<int:product_id>', methods=['POST'])

@@ -1,0 +1,22 @@
+products = []
+users = []
+current_user = "Ahmed"
+site_name = "My Store"
+
+def products_page():
+    return render_template(
+        "products.html",
+        products=products
+    )
+
+def users_page():
+    return render_template(
+        "users.html",
+        users=users
+    )
+
+def home_page():
+    return render_template(
+        "home.html",
+        site_name=site_name
+    )
