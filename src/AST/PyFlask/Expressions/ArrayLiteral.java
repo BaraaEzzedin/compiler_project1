@@ -1,6 +1,7 @@
 package AST.PyFlask.Expressions;
 
 import AST.PyFlask.Expression;
+import SymbolTable.PyFlask.ASTVisitor;
 
 import java.util.List;
 
@@ -11,7 +12,10 @@ public class ArrayLiteral extends Expression {
         super(line, "ArrayLiteral");
         this.elements = elements;
     }
-
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
     @Override
     public String toString() {
         return elements.toString();

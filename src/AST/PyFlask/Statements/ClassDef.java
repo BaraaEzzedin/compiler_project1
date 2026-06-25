@@ -1,6 +1,7 @@
 package AST.PyFlask.Statements;
 
 import AST.Statement;
+import SymbolTable.PyFlask.ASTVisitor;
 
 import java.util.List;
 
@@ -15,7 +16,10 @@ public class ClassDef extends Statement {
         this.superClass = superClass;
         this.body = body;
     }
-
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
     @Override
     public String prettyPrint(int indent) {
         StringBuilder sb = new StringBuilder();

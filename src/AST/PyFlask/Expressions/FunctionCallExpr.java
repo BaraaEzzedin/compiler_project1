@@ -1,6 +1,7 @@
 package AST.PyFlask.Expressions;
 
 import AST.PyFlask.Expression;
+import SymbolTable.PyFlask.ASTVisitor;
 
 import java.util.List;
 
@@ -13,8 +14,10 @@ public class FunctionCallExpr extends Expression {
         this.callee = callee;
         this.args = args;
     }
-
-    // @Override public String toString() { return name + "(" + args + ")"; }
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
     @Override
     public String prettyPrint(int indent) {
         StringBuilder sb = new StringBuilder();

@@ -98,12 +98,11 @@ public interface PythonParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunctionDefinition(PythonParser.FunctionDefinitionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ParameterList}
-	 * labeled alternative in {@link PythonParser#paramList}.
+	 * Visit a parse tree produced by {@link PythonParser#paramList}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitParameterList(PythonParser.ParameterListContext ctx);
+	T visitParamList(PythonParser.ParamListContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ClassDefinition}
 	 * labeled alternative in {@link PythonParser#classDef}.

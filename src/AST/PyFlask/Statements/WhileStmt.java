@@ -3,6 +3,7 @@ package AST.PyFlask.Statements;
 import AST.PyFlask.Block;
 import AST.PyFlask.Expression;
 import AST.Statement;
+import SymbolTable.PyFlask.ASTVisitor;
 
 public class WhileStmt extends Statement {
     public Expression condition;
@@ -12,6 +13,10 @@ public class WhileStmt extends Statement {
         super(line, "While");
         this.condition = condition;
         this.body = body;
+    }
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

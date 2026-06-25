@@ -1,6 +1,7 @@
 package AST.PyFlask.Expressions;
 
 import AST.PyFlask.Expression;
+import SymbolTable.PyFlask.ASTVisitor;
 
 import java.util.List;
 
@@ -17,7 +18,10 @@ public class DecoratorExpr extends Expression {
         this.nameParts = nameParts;
         this.arguments = arguments;
     }
-
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
     @Override
     public String prettyPrint(int indent) {
         StringBuilder sb = new StringBuilder();

@@ -2,6 +2,7 @@ package AST.PyFlask.Statements;
 
 import AST.PyFlask.Expression;
 import AST.Statement;
+import SymbolTable.PyFlask.ASTVisitor;
 
 public class ArrayAssignStmt extends Statement {
     public Expression array;
@@ -14,7 +15,10 @@ public class ArrayAssignStmt extends Statement {
         this.index = index;
         this.value = value;
     }
-
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
     @Override
     public String toString() {
         return "ArrayAssignStmt [array=" + array + ", index=" + index + ", value=" + value + "]";

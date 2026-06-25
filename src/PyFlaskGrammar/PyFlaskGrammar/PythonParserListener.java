@@ -156,17 +156,15 @@ public interface PythonParserListener extends ParseTreeListener {
 	 */
 	void exitFunctionDefinition(PythonParser.FunctionDefinitionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ParameterList}
-	 * labeled alternative in {@link PythonParser#paramList}.
+	 * Enter a parse tree produced by {@link PythonParser#paramList}.
 	 * @param ctx the parse tree
 	 */
-	void enterParameterList(PythonParser.ParameterListContext ctx);
+	void enterParamList(PythonParser.ParamListContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ParameterList}
-	 * labeled alternative in {@link PythonParser#paramList}.
+	 * Exit a parse tree produced by {@link PythonParser#paramList}.
 	 * @param ctx the parse tree
 	 */
-	void exitParameterList(PythonParser.ParameterListContext ctx);
+	void exitParamList(PythonParser.ParamListContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ClassDefinition}
 	 * labeled alternative in {@link PythonParser#classDef}.

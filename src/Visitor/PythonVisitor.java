@@ -158,7 +158,9 @@ public ASTNode visitFunctionDefinition(PythonParser.FunctionDefinitionContext ct
 
     List<String> params = new ArrayList<>();
     if (ctx.paramList() != null) {
-        params.add(ctx.paramList().getText());
+        for (TerminalNode id : ctx.paramList().ID()) {
+            params.add(id.getText());
+        }
     }
 
     List<DecoratorExpr> decorators = new ArrayList<>();
@@ -222,6 +224,34 @@ public ASTNode visitFunctionDefinition(PythonParser.FunctionDefinitionContext ct
     }
 
     @Override
+    public ASTNode visitImportModule(PythonParser.ImportModuleContext ctx) {
+        String module =
+                ctx.dottedName(0).getText();
+
+        List<String> names =
+                new ArrayList<>();
+
+        for (int i = 1;
+             i < ctx.dottedName().size();
+             i++) {
+
+            names.add(
+                    ctx.dottedName(i).getText()
+            );
+        }
+
+        int line =
+                ctx.getStart().getLine();
+
+        return new ImportStmt(
+                line,
+                false,
+                module,
+                names
+        );
+    }
+
+    @Override
     public ASTNode visitBlock(PythonParser.BlockContext ctx) {
         List<Statement> statements = new ArrayList<>();
         for (PythonParser.StatContext s : ctx.stat()) {
@@ -258,7 +288,8 @@ public ASTNode visitFunctionDefinition(PythonParser.FunctionDefinitionContext ct
     public ASTNode visitBooleanLiteral(PythonParser.BooleanLiteralContext ctx) {
         int line = ctx.getStart().getLine();
 
-        return new BooleanExpr(line, Boolean.parseBoolean(ctx.BOOL().getText()));
+        boolean value = ctx.BOOL().getText().equalsIgnoreCase("true");
+        return new BooleanExpr(line, value);
     }
 
     @Override
@@ -266,6 +297,21 @@ public ASTNode visitFunctionDefinition(PythonParser.FunctionDefinitionContext ct
         int line = ctx.getStart().getLine();
 
         return new IdentifierExpr(line, ctx.ID().getText());
+    }
+
+    @Override
+    public ASTNode visitKeyValue(PythonParser.KeyValueContext ctx) {
+        Expression key =
+                (Expression) visit(ctx.expr(0));
+
+        Expression value =
+                (Expression) visit(ctx.expr(1));
+
+        return new KeyValue(
+                ctx.getStart().getLine(),
+                key,
+                value
+        );
     }
 
     @Override

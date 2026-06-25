@@ -2,9 +2,10 @@ package AST.PyFlask.Expressions;
 
 import AST.ASTNode;
 import AST.PyFlask.Expression;
+import SymbolTable.PyFlask.ASTVisitor;
 
-public class KeyValue extends ASTNode {
-    public final Expression key; // typically StringLiteral
+public class KeyValue extends Expression {
+    public final Expression key;
     public final Expression value;
 
     public KeyValue(int line, Expression key, Expression value) {
@@ -12,7 +13,10 @@ public class KeyValue extends ASTNode {
         this.key = key;
         this.value = value;
     }
-
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
     @Override
     public String toString() {
         return key + ":" + value;

@@ -1,8 +1,7 @@
 package AST.JinjaCss.Statements;
 
-import AST.ASTNode;
-import AST.Statement;
-
+import AST.JinjaCss.ASTNode;
+import AST.JinjaCss.Statement;
 import java.util.List;
 
 public class JinjaElseStatement extends Statement {

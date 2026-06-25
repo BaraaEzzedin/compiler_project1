@@ -1,6 +1,6 @@
 package AST.JinjaCss.Statements;
 
-import AST.Statement;
+import AST.JinjaCss.Statement;
 
 public class TextStatement extends Statement {
     public String text;

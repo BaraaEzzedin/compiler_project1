@@ -1,6 +1,6 @@
 package AST.JinjaCss;
 
-import AST.ASTNode;
+import AST.JinjaCss.ASTNode;
 
 public abstract class CSSTerm extends ASTNode {
     protected CSSTerm(int line, String nodeName) {

@@ -1,6 +1,7 @@
 package AST.PyFlask.Expressions;
 
 import AST.PyFlask.Expression;
+import SymbolTable.PyFlask.ASTVisitor;
 
 public class NumberExpr extends Expression {
     public double value;
@@ -9,7 +10,10 @@ public class NumberExpr extends Expression {
         super(line, "NumberExpr");
         this.value = Double.parseDouble(value);
     }
-
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
 //    @Override
 //    public String toString() {
 //        return value;

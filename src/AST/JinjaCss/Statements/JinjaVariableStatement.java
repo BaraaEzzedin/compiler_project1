@@ -1,7 +1,7 @@
 package AST.JinjaCss.Statements;
 
 import AST.JinjaCss.JinjaExpression;
-import AST.Statement;
+import AST.JinjaCss.Statement;
 
 public class JinjaVariableStatement extends Statement {
     public JinjaExpression expression;

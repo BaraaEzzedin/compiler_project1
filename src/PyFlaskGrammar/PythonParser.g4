@@ -76,7 +76,7 @@ funcDef
     ;
 
 paramList
-    : ID (COMMA ID)*               # ParameterList
+    : ID (COMMA ID)*
     ;
 
 classDef
@@ -134,5 +134,14 @@ dictBody: NEWLINE* pair (NEWLINE* ',' NEWLINE* pair)* NEWLINE*;
 pair: STRING COLON expr;
 
 
-argList : (arg (COMMA arg)*)?;
-arg : NEWLINE* expr NEWLINE* | ID ASSIGN expr ;
+//argList : (arg (COMMA arg)*)?;
+argList
+    : NEWLINE*
+      arg
+      (NEWLINE* COMMA NEWLINE* arg)*
+      NEWLINE*
+    ;
+arg
+    : expr
+    | ID ASSIGN expr
+    ;
