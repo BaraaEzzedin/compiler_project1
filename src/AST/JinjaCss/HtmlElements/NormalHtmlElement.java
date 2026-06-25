@@ -9,6 +9,10 @@ public class NormalHtmlElement extends HtmlElement {
     String tagName;
     public List<HtmlAttribute> attributes;
     public List<Statement> content;
+
+    public String getTagName() {
+        return tagName;
+    }
     public NormalHtmlElement(int line, String tagName, List<HtmlAttribute> attributes, List<Statement> content) {
         super(line, "NormalHtmlElement");
         this.tagName=tagName;

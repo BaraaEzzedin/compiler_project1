@@ -23,6 +23,10 @@ public class SemanticAnalyzer extends ASTVisitor {
         return errors;
     }
 
+    public List<TemplateContext> getTemplateContexts() {
+        return templateContexts;
+    }
+
     public static void report(int line, String message) {
         errors.add(new CompilerError(line, message));
     }

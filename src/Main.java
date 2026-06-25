@@ -1,4 +1,6 @@
 import AST.JinjaCss.Program;
+import Generator.CodeGenerationContext;
+import Generator.FlaskProjectGenerator;
 import JinjaCssGrammar.ProjectLexer;
 import JinjaCssGrammar.ProjectParser;
 import PyFlaskGrammar.PyFlaskGrammar.PythonLexer;
@@ -6,6 +8,7 @@ import PyFlaskGrammar.PyFlaskGrammar.PythonParser;
 import SymbolTable.JijnaCss.JinjaTemplateInfo;
 import SymbolTable.JijnaCss.SymbolTableBuilder;
 import SymbolTable.PyFlask.SemanticAnalyzer;
+import SymbolTable.PyFlask.TemplateContext;
 import Visitor.ProjectVisitor;
 import Visitor.PythonVisitor;
 import org.antlr.v4.runtime.CharStream;
@@ -14,6 +17,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -96,6 +100,9 @@ public class Main {
             Map<String, JinjaTemplateInfo> templates =
                     new HashMap<>();
 
+            Map<String, Program> templateAsts =
+                    new HashMap<>();
+
             File templateDir =
                     new File("templates");
 
@@ -154,6 +161,10 @@ public class Main {
                     templates.put(
                             file.getName(),
                             builder.getTemplateInfo());
+
+                    templateAsts.put(
+                            file.getName(),
+                            ast);
                 }
             }
 
@@ -238,6 +249,39 @@ public class Main {
              * ==========================================
              */
             analyzer.printErrors();
+
+            /*
+             * ==========================================
+             * Code Generation
+             * ==========================================
+             */
+            CodeGenerationContext codeGenContext =
+                    new CodeGenerationContext(pythonAst);
+
+            for (Map.Entry<String, JinjaTemplateInfo> entry : templates.entrySet()) {
+                String templateName = entry.getKey();
+                codeGenContext.registerTemplate(
+                        templateName,
+                        templateAsts.get(templateName),
+                        entry.getValue());
+            }
+
+            for (TemplateContext callSite : analyzer.getTemplateContexts()) {
+                codeGenContext.linkCallSite(callSite);
+            }
+
+            FlaskProjectGenerator projectGenerator =
+                    new FlaskProjectGenerator(codeGenContext);
+
+            projectGenerator.generate();
+            projectGenerator.printSummary();
+
+            Path outputDir = Path.of("generated_project");
+            projectGenerator.writeTo(outputDir);
+
+            System.out.println(
+                    "\nGenerated Flask project written to: "
+                            + outputDir.toAbsolutePath());
 
         } catch (Exception e) {
 
