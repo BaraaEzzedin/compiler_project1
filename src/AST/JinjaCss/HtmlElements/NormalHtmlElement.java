@@ -6,15 +6,17 @@ import AST.JinjaCss.Statement;
 import java.util.List;
 
 public class NormalHtmlElement extends HtmlElement {
-    String tagName;
+    public String tagName;
     public List<HtmlAttribute> attributes;
     public List<Statement> content;
+
     public NormalHtmlElement(int line, String tagName, List<HtmlAttribute> attributes, List<Statement> content) {
         super(line, "NormalHtmlElement");
-        this.tagName=tagName;
-        this.attributes=attributes;
-        this.content=content;
+        this.tagName = tagName;
+        this.attributes = attributes;
+        this.content = content;
     }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

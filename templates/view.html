@@ -1,37 +1,41 @@
-<div>
-    <a href="/" class="back-link">
-        ← Back to product list
-    </a>
+<head>
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles.css') }}"
+  />
+  />
+</head>
+<div class="container">
+  <div class="inner">
+    <div>
+      <a href="/" class="back-link"> ← Back to product list </a>
 
-    <form
-            action="{{ url_for('delete_product', product_id=product.id) }}"
-            method="POST">
+      <form
+        action="{{ url_for('delete_product', product_id=product.id) }}"
+        method="POST"
+      >
+        <button type="submit" class="btn btn-small btn-danger">Delete</button>
+      </form>
+    </div>
 
-        <button type="submit"
-                class="btn btn-small btn-danger">
-            Delete
-        </button>
+    <h2>{{ product.name }}</h2>
 
-    </form>
+    <img
+      src="../static/images/{{ product.image }}"
+      alt="{{ product.name }}"
+      width="500"
+      height="500"
+    />
+
+    <p>
+      <strong>Price:</strong>
+      ${{ product.price }}
+    </p>
+
+    <p>
+      <strong>Description:</strong>
+    </p>
+
+    <p>{{ product.description }}</p>
+  </div>
 </div>
-
-<h2>{{ product.name }}</h2>
-
-<img
-        src="/static/images/{{ product.image }}"
-        alt="{{ product.name }}"
-        width="500"
-        height="500"/>
-
-<p>
-    <strong>Price:</strong>
-    ${{ product.price }}
-</p>
-
-<p>
-    <strong>Description:</strong>
-</p>
-
-<p>
-    {{ product.description }}
-</p>

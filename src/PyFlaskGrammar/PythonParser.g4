@@ -26,6 +26,7 @@ stat
     | continueStat
     | importStat
     | exprStat
+    | globalStat
     | arrayAssignStat
     | NEWLINE
     ;
@@ -35,7 +36,7 @@ printStat
     ;
 
 assignStat
-    : VAR? ID ASSIGN expr NEWLINE?                     # Assignment
+    : VAR? expr ASSIGN expr NEWLINE?                     # Assignment
     ;
 
 exprStat
@@ -57,6 +58,8 @@ continueStat
 arrayAssignStat
     : expr LSB expr RSB ASSIGN expr NEWLINE?    # ArrayAssignment
     ;
+globalStat
+    : GLOBAL ID (COMMA ID)* NEWLINE?;
 // -------------------------------------------------
 // IMPORTS
 // -------------------------------------------------
@@ -115,11 +118,11 @@ expr
     | expr op=(MUL|DIV) expr                     # MultDivExpr
     | expr op=(ADD|SUB) expr                     # AddSubExpr
     | expr op=(LT|GT|GE|LE|EQ|NE) expr           # ComparisonExpr
-    | expr ASSIGN expr                           # KeyValue
     | expr LSB expr RSB                          # IndexExpr
     | LPARENS ID FOR ID IN expr (IF expr)? RPARENS # GeneratorExpression
     | ID LPARENS argList? RPARENS                # FunctionCallExpr
     | expr DOT expr                              # AttributeExpr
+    | expr (COMMA expr)+                         # TupleExpr
     | LSB NEWLINE* argList? NEWLINE* RSB                           # ArrayLiteral
     | LPARENS expr RPARENS                       # ParenExpr
     | LBK dictBody? RBK                          # DictLiteral
@@ -142,6 +145,6 @@ argList
       NEWLINE*
     ;
 arg
-    : expr
-    | ID ASSIGN expr
+    : ID ASSIGN expr
+    | expr
     ;

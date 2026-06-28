@@ -1,0 +1,1 @@
+global products, users, settings

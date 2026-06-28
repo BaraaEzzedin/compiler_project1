@@ -1,17 +1,17 @@
 package Visitor;
 
-import AST.*;
+import AST.ASTNode;
+import AST.Program;
 import AST.PyFlask.Block;
+import AST.PyFlask.Expression;
 import AST.PyFlask.Expressions.*;
 import AST.PyFlask.Statements.*;
-
+import AST.Statement;
 import PyFlaskGrammar.PyFlaskGrammar.PythonParser;
 import PyFlaskGrammar.PyFlaskGrammar.PythonParserBaseVisitor;
-import AST.PyFlask.Expression;
-
 import org.antlr.v4.runtime.tree.TerminalNode;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class PythonVisitor extends PythonParserBaseVisitor<ASTNode> {
@@ -37,15 +37,14 @@ public class PythonVisitor extends PythonParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitAssignment(PythonParser.AssignmentContext ctx) {
-        Expression target;
         int line = ctx.getStart().getLine();
-        if (ctx.ID() != null) {
-            target = new IdentifierExpr(line, ctx.ID().getText());
-        } else {
-            // fallback
-            target = (Expression) visit(ctx.getChild(0));
-        }
-        Expression value = (Expression) visit(ctx.expr());
+
+        Expression target =
+                (Expression) visit(ctx.expr(0));
+
+        Expression value =
+                (Expression) visit(ctx.expr(1));
+
         return new AssignStmt(line, target, value);
     }
 
@@ -100,12 +99,12 @@ public class PythonVisitor extends PythonParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitForStatement(PythonParser.ForStatementContext ctx) {
-            Expression loopVar = (Expression) visit(ctx.expr(0));  // Loop variable
-            Expression iterable = (Expression) visit(ctx.expr(1));  // Iterable expression
-            Block body = (Block) visit(ctx.block());
-            int line = ctx.getStart().getLine();
+        Expression loopVar = (Expression) visit(ctx.expr(0));  // Loop variable
+        Expression iterable = (Expression) visit(ctx.expr(1));  // Iterable expression
+        Block body = (Block) visit(ctx.block());
+        int line = ctx.getStart().getLine();
 
-            return new ForStmt(line, loopVar, iterable, body);
+        return new ForStmt(line, loopVar, iterable, body);
     }
 
     @Override
@@ -135,7 +134,7 @@ public class PythonVisitor extends PythonParserBaseVisitor<ASTNode> {
         );
     }
 
-//    @Override
+    //    @Override
 //    public ASTNode visitFunctionDefinition(PythonParser.FunctionDefinitionContext ctx) {
 //        String name = ctx.ID().getText();
 //        List<String> params = new ArrayList<>();
@@ -146,36 +145,37 @@ public class PythonVisitor extends PythonParserBaseVisitor<ASTNode> {
 //        int line = ctx.getStart().getLine();
 //        return new FunctionDef(line, name, params, body);
 //    }
-@Override
-public ASTNode visitFunctionDefinition(PythonParser.FunctionDefinitionContext ctx) {
-    int line = ctx.getStart().getLine();
-    String name = ctx.ID().getText();
+    @Override
+    public ASTNode visitFunctionDefinition(PythonParser.FunctionDefinitionContext ctx) {
+        int line = ctx.getStart().getLine();
+        String name = ctx.ID().getText();
 
 //        symbolTable.define(name, "Function", line);
 
 //        symbolTable = new PythonSymbolTable(symbolTable);
 //        System.out.println(">>> Entering New Scope for function: " + name);
 
-    List<String> params = new ArrayList<>();
-    if (ctx.paramList() != null) {
-        for (TerminalNode id : ctx.paramList().ID()) {
-            params.add(id.getText());
+        List<String> params = new ArrayList<>();
+        if (ctx.paramList() != null) {
+            for (TerminalNode id : ctx.paramList().ID()) {
+                params.add(id.getText());
+            }
         }
-    }
 
-    List<DecoratorExpr> decorators = new ArrayList<>();
-    for (PythonParser.DecoratorContext dctx : ctx.decorator()) {
-        decorators.add((DecoratorExpr) visit(dctx));
-    }
+        List<DecoratorExpr> decorators = new ArrayList<>();
+        for (PythonParser.DecoratorContext dctx : ctx.decorator()) {
+            decorators.add((DecoratorExpr) visit(dctx));
+        }
 
-    Block body = (Block) visit(ctx.block());
+        Block body = (Block) visit(ctx.block());
 
 //        symbolTable.printScope("Function: " + name);
 //
 //        symbolTable = symbolTable.getParent();
 //        System.out.println("<<< Returning to Parent Scope.");
-    return new FunctionDef(line, name,decorators, params, body);
-}
+        return new FunctionDef(line, name, decorators, params, body);
+    }
+
     @Override
     public ASTNode visitDecoratorExpr(PythonParser.DecoratorExprContext ctx) {
         int line = ctx.getStart().getLine();
@@ -224,30 +224,46 @@ public ASTNode visitFunctionDefinition(PythonParser.FunctionDefinitionContext ct
     }
 
     @Override
-    public ASTNode visitImportModule(PythonParser.ImportModuleContext ctx) {
-        String module =
-                ctx.dottedName(0).getText();
+    public ASTNode visitGlobalStat(PythonParser.GlobalStatContext ctx) {
+        List<String> names = new ArrayList<>();
 
-        List<String> names =
-                new ArrayList<>();
-
-        for (int i = 1;
-             i < ctx.dottedName().size();
-             i++) {
-
-            names.add(
-                    ctx.dottedName(i).getText()
-            );
+        for (TerminalNode id : ctx.ID()) {
+            names.add(id.getText());
         }
 
-        int line =
-                ctx.getStart().getLine();
+        return new GlobalStmt(
+                ctx.getStart().getLine(),
+                names
+        );
+    }
+
+    @Override
+    public ASTNode visitTupleExpr(PythonParser.TupleExprContext ctx) {
+        List<Expression> elements = new ArrayList<>();
+
+        for (PythonParser.ExprContext expr : ctx.expr()) {
+            elements.add((Expression) visit(expr));
+        }
+
+        return new TupleExpr(
+                ctx.getStart().getLine(),
+                elements
+        );
+    }
+
+    @Override
+    public ASTNode visitImportModule(PythonParser.ImportModuleContext ctx) {
+        List<String> imports = new ArrayList<>();
+
+        for (PythonParser.DottedNameContext dn : ctx.dottedName()) {
+            imports.add(dn.getText());
+        }
 
         return new ImportStmt(
-                line,
+                ctx.getStart().getLine(),
                 false,
-                module,
-                names
+                null,
+                imports
         );
     }
 
@@ -299,20 +315,6 @@ public ASTNode visitFunctionDefinition(PythonParser.FunctionDefinitionContext ct
         return new IdentifierExpr(line, ctx.ID().getText());
     }
 
-    @Override
-    public ASTNode visitKeyValue(PythonParser.KeyValueContext ctx) {
-        Expression key =
-                (Expression) visit(ctx.expr(0));
-
-        Expression value =
-                (Expression) visit(ctx.expr(1));
-
-        return new KeyValue(
-                ctx.getStart().getLine(),
-                key,
-                value
-        );
-    }
 
     @Override
     public ASTNode visitFunctionCallExpr(PythonParser.FunctionCallExprContext ctx) {
@@ -333,6 +335,22 @@ public ASTNode visitFunctionDefinition(PythonParser.FunctionDefinitionContext ct
     }
 
     @Override
+    public ASTNode visitArg(PythonParser.ArgContext ctx) {
+        if (ctx.ASSIGN() != null) {
+
+            int line = ctx.getStart().getLine();
+
+            return new KeyValue(
+                    line,
+                    new IdentifierExpr(line, ctx.ID().getText()),
+                    (Expression) visit(ctx.expr())
+            );
+        }
+
+        return visit(ctx.expr());
+    }
+
+    @Override
     public ASTNode visitAttributeExpr(PythonParser.AttributeExprContext ctx) {
         Expression target = (Expression) visit(ctx.expr(0));
         Expression attr = (Expression) visit(ctx.expr(1));
@@ -349,6 +367,7 @@ public ASTNode visitFunctionDefinition(PythonParser.FunctionDefinitionContext ct
 
         return new IndexExpr(line, target, index);
     }
+
 
     @Override
     public ASTNode visitArrayLiteral(PythonParser.ArrayLiteralContext ctx) {

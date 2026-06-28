@@ -1,52 +1,15 @@
-import AST.JinjaCss.Program;
-import JinjaCssGrammar.ProjectLexer;
-import JinjaCssGrammar.ProjectParser;
+import CodeGeneration.PythonCodeGeneration;
 import PyFlaskGrammar.PyFlaskGrammar.PythonLexer;
 import PyFlaskGrammar.PyFlaskGrammar.PythonParser;
-import SymbolTable.JijnaCss.JinjaTemplateInfo;
-import SymbolTable.JijnaCss.SymbolTableBuilder;
-import SymbolTable.PyFlask.SemanticAnalyzer;
-import Visitor.ProjectVisitor;
 import Visitor.PythonVisitor;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
 public class Main {
-//    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
 //        SymbolTableBuilder jinjaBuilder = null;
-//        try {
-//            File dir =
-//                    new File("samples");
-//
-//            for (File file :
-//                    dir.listFiles()) {
-//
-//                if (!file.getName()
-//                        .endsWith(".html")) {
-//                    continue;
-//                }
-//                CharStream input = fromFileName(file.getPath());
-//                ProjectLexer lexer = new ProjectLexer(input);
-//                CommonTokenStream token = new CommonTokenStream(lexer);
-//                ProjectParser parser = new ProjectParser(token);
-//                ParseTree tree = parser.program();
-//                ProjectVisitor visitor = new ProjectVisitor();
-//                Program program = (Program) visitor.visit(tree);
-//                System.out.println(program.prettyPrint(0));
-//                System.out.println("\n=== Buildinbg Symbol Table ===");
-//                jinjaBuilder = new SymbolTableBuilder("products.html");
-//                jinjaBuilder.build(program);
-//            }
-////            symbolTableBuilder.printStatistics();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
 //        try {
 //            String path = "samples/test.txt";
 //            CharStream input = fromFileName(path);
@@ -79,169 +42,204 @@ public class Main {
 ////            analyzer.printTemplateContexts();
 //
 
-    /// /
+        /// /
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
 //    }
-    public static void main(String[] args) {
+//    public static void main(String[] args) {
+//
+//        try {
+//
+////            /*
+////             * ==========================================
+////             * Parse Jinja Templates
+////             * ==========================================
+////             */
+////            Map<String, JinjaTemplateInfo> templates =
+////                    new HashMap<>();
+////
+////            File templateDir =
+////                    new File("templates");
+////
+////            File[] templateFiles =
+////                    templateDir.listFiles();
+////
+////            if (templateFiles != null) {
+////
+////                for (File file : templateFiles) {
+////
+////                    if (!file.getName()
+////                            .endsWith(".html")) {
+////                        continue;
+////                    }
+////
+////                    System.out.println(
+////                            "\n==============================");
+////                    System.out.println(
+////                            "Template: " +
+////                                    file.getName());
+////                    System.out.println(
+////                            "==============================");
+////
+////                    CharStream input =
+////                            CharStreams.fromFileName(
+////                                    file.getPath());
+////
+////                    ProjectLexer lexer =
+////                            new ProjectLexer(input);
+////
+////                    CommonTokenStream tokens =
+////                            new CommonTokenStream(
+////                                    lexer);
+////
+////                    ProjectParser parser =
+////                            new ProjectParser(tokens);
+////
+////                    ParseTree tree =
+////                            parser.program();
+////
+////                    ProjectVisitor visitor =
+////                            new ProjectVisitor();
+////
+////                    Program ast =
+////                            (Program) visitor.visit(tree);
+////
+////                    System.out.println(
+////                            ast.prettyPrint(0));
+////
+////                    SymbolTableBuilder builder =
+////                            new SymbolTableBuilder(
+////                                    file.getName());
+////
+////                    builder.build(ast);
+////
+////                    templates.put(
+////                            file.getName(),
+////                            builder.getTemplateInfo());
+////                }
+////            }
+//
+        /*
+         * ==========================================
+         * Parse Flask / Python
+         * ==========================================
+         */
+        String pythonPath =
+                "samples/app.py";
 
-        try {
+        CharStream pythonInput =
+                CharStreams.fromFileName(
+                        pythonPath);
 
-            /*
-             * ==========================================
-             * Parse Jinja Templates
-             * ==========================================
-             */
-            Map<String, JinjaTemplateInfo> templates =
-                    new HashMap<>();
+        PythonLexer pythonLexer =
+                new PythonLexer(
+                        pythonInput);
 
-            File templateDir =
-                    new File("templates");
+        CommonTokenStream pythonTokens =
+                new CommonTokenStream(
+                        pythonLexer);
 
-            File[] templateFiles =
-                    templateDir.listFiles();
+        PythonParser pythonParser =
+                new PythonParser(
+                        pythonTokens);
 
-            if (templateFiles != null) {
+        ParseTree pythonTree =
+                pythonParser.prog();
 
-                for (File file : templateFiles) {
+        PythonVisitor pythonVisitor =
+                new PythonVisitor();
 
-                    if (!file.getName()
-                            .endsWith(".html")) {
-                        continue;
-                    }
+        AST.Program pythonAst =
+                (AST.Program)
+                        pythonVisitor.visit(
+                                pythonTree);
 
-                    System.out.println(
-                            "\n==============================");
-                    System.out.println(
-                            "Template: " +
-                                    file.getName());
-                    System.out.println(
-                            "==============================");
+        System.out.println(
+                "\n=== Python AST ===");
 
-                    CharStream input =
-                            CharStreams.fromFileName(
-                                    file.getPath());
+        System.out.println(
+                pythonAst);
 
-                    ProjectLexer lexer =
-                            new ProjectLexer(input);
+        /*
+         * ==========================================
+         * Build Python Symbol Table
+         * ==========================================
+         */
+        SymbolTable.PyFlask.SymbolTableBuilder
+                symbolTableBuilder =
+                new SymbolTable.PyFlask
+                        .SymbolTableBuilder();
 
-                    CommonTokenStream tokens =
-                            new CommonTokenStream(
-                                    lexer);
+        pythonAst.accept(
+                symbolTableBuilder);
 
-                    ProjectParser parser =
-                            new ProjectParser(tokens);
+        PythonCodeGeneration generator =
+                new PythonCodeGeneration();
 
-                    ParseTree tree =
-                            parser.program();
+        generator.generate(pythonAst);
+        generator.writeToFile("app.py");
 
-                    ProjectVisitor visitor =
-                            new ProjectVisitor();
+//        System.out.println(generated);
+//        GenerationContext context = new GenerationContext();
+//
+//        RuntimeExtractor extractor =
+//                new RuntimeExtractor(context);
+//
+//        pythonAst.accept(extractor);
 
-                    Program ast =
-                            (Program) visitor.visit(tree);
+//        String path = "samples/html-test.txt";
+//        CharStream input = CharStreams.fromFileName(path);
+//        ProjectLexer lexer = new ProjectLexer(input);
+//        CommonTokenStream token = new CommonTokenStream(lexer);
+//        ProjectParser parser = new ProjectParser(token);
+//        ParseTree tree = parser.program();
+//        ProjectVisitor visitor = new ProjectVisitor();
+//        Program program = (Program) visitor.visit(tree);
+//        System.out.println(program.prettyPrint(0));
+//        JinjaCodeGenerator generator =
+//                new JinjaCodeGenerator(context);
+//
+//        String output =
+//                generator.generate(program);
+//        System.out.println(output);
+//                System.out.println("\n=== Buildinbg Symbol Table ===");
+//                jinjaBuilder = new SymbolTableBuilder("products.html");
+//                jinjaBuilder.build(program);
+//            symbolTableBuilder.printStatistics();
 
-                    System.out.println(
-                            ast.prettyPrint(0));
-
-                    SymbolTableBuilder builder =
-                            new SymbolTableBuilder(
-                                    file.getName());
-
-                    builder.build(ast);
-
-                    templates.put(
-                            file.getName(),
-                            builder.getTemplateInfo());
-                }
-            }
-
-            /*
-             * ==========================================
-             * Parse Flask / Python
-             * ==========================================
-             */
-            String pythonPath =
-                    "samples/python_test.txt";
-
-            CharStream pythonInput =
-                    CharStreams.fromFileName(
-                            pythonPath);
-
-            PythonLexer pythonLexer =
-                    new PythonLexer(
-                            pythonInput);
-
-            CommonTokenStream pythonTokens =
-                    new CommonTokenStream(
-                            pythonLexer);
-
-            PythonParser pythonParser =
-                    new PythonParser(
-                            pythonTokens);
-
-            ParseTree pythonTree =
-                    pythonParser.prog();
-
-            PythonVisitor pythonVisitor =
-                    new PythonVisitor();
-
-            AST.Program pythonAst =
-                    (AST.Program)
-                            pythonVisitor.visit(
-                                    pythonTree);
-
-            System.out.println(
-                    "\n=== Python AST ===");
-
-            System.out.println(
-                    pythonAst);
-
-            /*
-             * ==========================================
-             * Build Python Symbol Table
-             * ==========================================
-             */
-            SymbolTable.PyFlask.SymbolTableBuilder
-                    symbolTableBuilder =
-                    new SymbolTable.PyFlask
-                            .SymbolTableBuilder();
-
-            pythonAst.accept(
-                    symbolTableBuilder);
-
-            System.out.println(
-                    "\n=== Python Symbol Table ===");
-
-            System.out.println(
-                    symbolTableBuilder
-                            .getSymbolTable());
-
-            /*
-             * ==========================================
-             * Semantic Analysis
-             * ==========================================
-             */
-            SemanticAnalyzer analyzer =
-                    new SemanticAnalyzer(
-                            symbolTableBuilder
-                                    .getSymbolTable());
-
-            pythonAst.accept(analyzer);
-
-            analyzer.validateTemplateVariables(templates);
-
-            /*
-             * ==========================================
-             * Print Errors
-             * ==========================================
-             */
-            analyzer.printErrors();
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
+////            System.out.println(
+////                    "\n=== Python Symbol Table ===");
+////
+////            System.out.println(
+////                    symbolTableBuilder
+////                            .getSymbolTable());
+//
+////            /*
+////             * ==========================================
+////             * Semantic Analysis
+////             * ==========================================
+////             */
+////            SemanticAnalyzer analyzer =
+////                    new SemanticAnalyzer(
+////                            symbolTableBuilder
+////                                    .getSymbolTable());
+////
+////            pythonAst.accept(analyzer);
+////
+////            analyzer.validateTemplateVariables(templates);
+////
+////            /*
+////             * ==========================================
+////             * Print Errors
+////             * ==========================================
+////             */
+////            analyzer.printErrors();
+//
+//        } catch (Exception e) {
+//
+//            e.printStackTrace();
+//        }
+//    }
     }
 }

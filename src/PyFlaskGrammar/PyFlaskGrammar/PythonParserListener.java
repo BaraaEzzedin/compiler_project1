@@ -1,6 +1,5 @@
 // Generated from /home/abdalrhman/Desktop/compiler_project1/src/PyFlaskGrammar/PythonParser.g4 by ANTLR 4.13.2
-package PyFlaskGrammar.PyFlaskGrammar;
-import org.antlr.v4.runtime.tree.ParseTreeListener;
+package PyFlaskGrammar.PyFlaskGrammar;import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
  * This interface defines a complete listener for a parse tree produced by
@@ -109,6 +108,16 @@ public interface PythonParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitArrayAssignment(PythonParser.ArrayAssignmentContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PythonParser#globalStat}.
+	 * @param ctx the parse tree
+	 */
+	void enterGlobalStat(PythonParser.GlobalStatContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PythonParser#globalStat}.
+	 * @param ctx the parse tree
+	 */
+	void exitGlobalStat(PythonParser.GlobalStatContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ImportModule}
 	 * labeled alternative in {@link PythonParser#importStat}.
@@ -246,18 +255,6 @@ public interface PythonParserListener extends ParseTreeListener {
 	 */
 	void exitMultDivExpr(PythonParser.MultDivExprContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code KeyValue}
-	 * labeled alternative in {@link PythonParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void enterKeyValue(PythonParser.KeyValueContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code KeyValue}
-	 * labeled alternative in {@link PythonParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void exitKeyValue(PythonParser.KeyValueContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code ComparisonExpr}
 	 * labeled alternative in {@link PythonParser#expr}.
 	 * @param ctx the parse tree
@@ -329,6 +326,18 @@ public interface PythonParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitIndexExpr(PythonParser.IndexExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code TupleExpr}
+	 * labeled alternative in {@link PythonParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterTupleExpr(PythonParser.TupleExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code TupleExpr}
+	 * labeled alternative in {@link PythonParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitTupleExpr(PythonParser.TupleExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code DictLiteral}
 	 * labeled alternative in {@link PythonParser#expr}.

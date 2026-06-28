@@ -1,11 +1,11 @@
 package SymbolTable.PyFlask;
 
-import AST.PyFlask.Expressions.*;
 import AST.Program;
-import AST.Statement;
-import AST.PyFlask.Statements.*;
-import AST.PyFlask.Expression;
 import AST.PyFlask.Block;
+import AST.PyFlask.Expression;
+import AST.PyFlask.Expressions.*;
+import AST.PyFlask.Statements.*;
+import AST.Statement;
 
 public abstract class ASTVisitor {
     // Program
@@ -26,7 +26,7 @@ public abstract class ASTVisitor {
 
     public void visit(ClassDef node) {
         if (node.body != null) {
-            for(Statement stm: node.body){
+            for (Statement stm : node.body) {
                 stm.accept(this);
             }
         }
@@ -65,6 +65,7 @@ public abstract class ASTVisitor {
             node.body.accept(this);
         }
     }
+
     public void visit(DecoratorExpr node) {
         if (node.arguments != null) {
             for (Expression arg : node.arguments) {
@@ -74,6 +75,7 @@ public abstract class ASTVisitor {
             }
         }
     }
+
     public void visit(LogicalExpr node) {
         if (node.left != null) {
             node.left.accept(this);
@@ -101,6 +103,7 @@ public abstract class ASTVisitor {
             node.filter.accept(this);
         }
     }
+
     public void visit(ForStmt node) {
         if (node.loopVariable != null) {
             node.loopVariable.accept(this);
@@ -229,5 +232,17 @@ public abstract class ASTVisitor {
                 stmt.accept(this);
             }
         }
+    }
+
+    public void visit(TupleExpr node) {
+        if (node.elements != null) {
+            for (Expression expr : node.elements) {
+                expr.accept(this);
+            }
+        }
+    }
+
+    public void visit(GlobalStmt globalStmt) {
+
     }
 }
