@@ -1,11 +1,11 @@
 package SymbolTable.PyFlask;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TemplateContext {
-        public String templateName;
+    public String templateName;
 
-        public Set<String> passedVariables =
-                new HashSet<>();
+    public Map<String, Object> passedVariables =
+            new HashMap<>();
 }

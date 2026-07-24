@@ -27,4 +27,11 @@ public class GenerationContext {
     public String toString() {
         return variables.toString();
     }
+
+    public GenerationContext copy() {
+
+        GenerationContext copy = new GenerationContext();
+        copy.variables.putAll(this.variables);
+        return copy;
+    }
 }

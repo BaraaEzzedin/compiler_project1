@@ -36,7 +36,7 @@ public class SymbolTableBuilder {
     private JinjaTemplateInfo templateInfo;
 
     public JinjaTemplateInfo getTemplateInfo() {
-        return templateInfo;
+        return this.templateInfo;
     }
 
     public SymbolTableBuilder(

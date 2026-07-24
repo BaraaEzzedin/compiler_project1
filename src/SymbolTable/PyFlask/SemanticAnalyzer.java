@@ -175,10 +175,10 @@ public class SemanticAnalyzer extends ASTVisitor {
 
                     if (arg instanceof KeyValue kv) {
 
-                        if (kv.key instanceof IdentifierExpr id2) {
+                        if (kv.key instanceof IdentifierExpr key && kv.value instanceof IdentifierExpr value) {
 
                             ctx.passedVariables
-                                    .add(id2.name);
+                                    .put(key.name, value.name);
                         }
                     }
                 }
@@ -306,42 +306,42 @@ public class SemanticAnalyzer extends ASTVisitor {
         }
     }
 
-    public void printTemplateContexts() {
-
-        System.out.println("\n=== Flask Template Contexts ===");
-
-        if (templateContexts.isEmpty()) {
-            System.out.println("No render_template() calls found.");
-            return;
-        }
-
-        for (TemplateContext ctx : templateContexts) {
-
-            System.out.println(
-                    "Template: " +
-                            ctx.templateName);
-
-            System.out.println(
-                    "Passed Variables:");
-
-            if (ctx.passedVariables.isEmpty()) {
-
-                System.out.println(
-                        "  <none>");
-
-            } else {
-
-                for (String variable :
-                        ctx.passedVariables) {
-
-                    System.out.println(
-                            "  " + variable);
-                }
-            }
-
-            System.out.println();
-        }
-    }
+//    public void printTemplateContexts() {
+//
+//        System.out.println("\n=== Flask Template Contexts ===");
+//
+//        if (templateContexts.isEmpty()) {
+//            System.out.println("No render_template() calls found.");
+//            return;
+//        }
+//
+//        for (TemplateContext ctx : templateContexts) {
+//
+//            System.out.println(
+//                    "Template: " +
+//                            ctx.templateName);
+//
+//            System.out.println(
+//                    "Passed Variables:");
+//
+//            if (ctx.passedVariables.isEmpty()) {
+//
+//                System.out.println(
+//                        "  <none>");
+//
+//            } else {
+//
+//                for (String variable :
+//                        ctx.passedVariables) {
+//
+//                    System.out.println(
+//                            "  " + variable);
+//                }
+//            }
+//
+//            System.out.println();
+//        }
+//    }
 
     public void validateTemplateVariables(
             Map<String, JinjaTemplateInfo> templates) {
@@ -371,7 +371,7 @@ public class SemanticAnalyzer extends ASTVisitor {
 
             for (String variable : usedVariables) {
 
-                if (!ctx.passedVariables.contains(variable)) {
+                if (!ctx.passedVariables.containsKey(variable)) {
 
                     report(
                             0,

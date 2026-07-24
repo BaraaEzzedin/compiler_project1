@@ -58,6 +58,19 @@ public class ExpressionEvaluator {
             return this.context.get(id.name);
 
         }
+        if (expr instanceof TupleExpr list) {
+            List<Object> result =
+                    new ArrayList<>();
+
+            for (Expression e : list.elements) {
+
+                result.add(
+                        evaluate(e));
+
+            }
+
+            return result;
+        }
         return null;
     }
 }

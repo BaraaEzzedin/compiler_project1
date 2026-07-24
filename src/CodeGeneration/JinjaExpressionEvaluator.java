@@ -3,6 +3,7 @@ package CodeGeneration;
 import AST.JinjaCss.JinjaExpression;
 import AST.JinjaCss.JinjaExpressions.JinjaIdentifier;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,19 +21,48 @@ public class JinjaExpressionEvaluator {
             JinjaExpression expr) {
         if (expr instanceof JinjaIdentifier id) {
 
-            Object current =
-                    context.get(id.parts.get(0));
+//            Object current =
+//                    context.get(id.parts.get(0));
+//
+//            for (int i = 1; i < id.parts.size(); i++) {
+//
+//                if (!(current instanceof Map<?, ?> map))
+//                    return null;
+//
+//                current =
+//                        map.get(id.parts.get(i));
+//
+//            }
+//
+//            return current;
+            Object firstObject = context.get(id.parts.get(0));
 
-            for (int i = 1; i < id.parts.size(); i++) {
+            if (firstObject instanceof List<?>) {
+                // Case 2: It's a list
+                List<?> list = (List<?>) firstObject;
 
-                if (!(current instanceof Map<?, ?> map))
-                    return null;
-
-                current =
-                        map.get(id.parts.get(i));
+                for (Object item : list) {
+                    Object current = item;
+                    for (int i = 1; i < id.parts.size(); i++) {
+                        if (current instanceof Map<?, ?> map) {
+                            current = map.get(id.parts.get(i));
+                        } else {
+                            current = null;
+                            break;
+                        }
+                    }
+                    return current;
+                }
+            } else {
+                // Case 1: It's a single object
+                Object current = firstObject;
+                for (int i = 1; i < id.parts.size(); i++) {
+                    if (!(current instanceof Map<?, ?> map))
+                        return null;
+                    current = map.get(id.parts.get(i));
+                }
+                return current;
             }
-
-            return current;
         }
         return null;
     }
