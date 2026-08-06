@@ -2,6 +2,7 @@ package CodeGeneration;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class GenerationContext {
     Map<String, Object> variables =
@@ -17,6 +18,10 @@ public class GenerationContext {
 
     public boolean contains(String name) {
         return variables.containsKey(name);
+    }
+
+    public Set<String> names() {
+        return variables.keySet();
     }
 
     public void remove(String name) {

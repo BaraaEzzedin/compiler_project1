@@ -80,10 +80,20 @@ jinjaExpression
     ;
 
 jinjaPrimary
-    : IDENTIFIER_JINJA (DOT_JINJA IDENTIFIER_JINJA)*    #JinjaIdentifier
+    : IDENTIFIER_JINJA LPAREN jinjaArgList? RPAREN      #JinjaCall
+    | IDENTIFIER_JINJA (DOT_JINJA IDENTIFIER_JINJA)*    #JinjaIdentifier
     | NUMBER_JINJA  #JinjaNumber
     | STRING_JINJA   #JinjaString
     | LPAREN jinjaExpression RPAREN   #JinjaParenExpr
+    ;
+
+jinjaArgList
+    : jinjaArg (COMMA_JINJA jinjaArg)*    #JinjaArguments
+    ;
+
+jinjaArg
+    : IDENTIFIER_JINJA EQUALS_JINJA jinjaExpression    #JinjaKeywordArg
+    | jinjaExpression                                  #JinjaPositionalArg
     ;
 
 forStatement

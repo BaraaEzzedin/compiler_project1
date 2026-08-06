@@ -1,4 +1,4 @@
-// Generated from /home/mohee/compiler_project1/src/JinjaCssGrammar/ProjectParser.g4 by ANTLR 4.13.2
+// Generated from ProjectParser.g4 by ANTLR 4.13.2
 package JinjaCssGrammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -392,6 +392,18 @@ public interface ProjectParserListener extends ParseTreeListener {
 	 */
 	void exitJinjaNeqExpr(ProjectParser.JinjaNeqExprContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code JinjaCall}
+	 * labeled alternative in {@link ProjectParser#jinjaPrimary}.
+	 * @param ctx the parse tree
+	 */
+	void enterJinjaCall(ProjectParser.JinjaCallContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code JinjaCall}
+	 * labeled alternative in {@link ProjectParser#jinjaPrimary}.
+	 * @param ctx the parse tree
+	 */
+	void exitJinjaCall(ProjectParser.JinjaCallContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code JinjaIdentifier}
 	 * labeled alternative in {@link ProjectParser#jinjaPrimary}.
 	 * @param ctx the parse tree
@@ -439,6 +451,42 @@ public interface ProjectParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitJinjaParenExpr(ProjectParser.JinjaParenExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code JinjaArguments}
+	 * labeled alternative in {@link ProjectParser#jinjaArgList}.
+	 * @param ctx the parse tree
+	 */
+	void enterJinjaArguments(ProjectParser.JinjaArgumentsContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code JinjaArguments}
+	 * labeled alternative in {@link ProjectParser#jinjaArgList}.
+	 * @param ctx the parse tree
+	 */
+	void exitJinjaArguments(ProjectParser.JinjaArgumentsContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code JinjaKeywordArg}
+	 * labeled alternative in {@link ProjectParser#jinjaArg}.
+	 * @param ctx the parse tree
+	 */
+	void enterJinjaKeywordArg(ProjectParser.JinjaKeywordArgContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code JinjaKeywordArg}
+	 * labeled alternative in {@link ProjectParser#jinjaArg}.
+	 * @param ctx the parse tree
+	 */
+	void exitJinjaKeywordArg(ProjectParser.JinjaKeywordArgContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code JinjaPositionalArg}
+	 * labeled alternative in {@link ProjectParser#jinjaArg}.
+	 * @param ctx the parse tree
+	 */
+	void enterJinjaPositionalArg(ProjectParser.JinjaPositionalArgContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code JinjaPositionalArg}
+	 * labeled alternative in {@link ProjectParser#jinjaArg}.
+	 * @param ctx the parse tree
+	 */
+	void exitJinjaPositionalArg(ProjectParser.JinjaPositionalArgContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code JinjaForStatement}
 	 * labeled alternative in {@link ProjectParser#forStatement}.

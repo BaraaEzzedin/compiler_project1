@@ -1,4 +1,4 @@
-// Generated from /home/mohee/compiler_project1/src/JinjaCssGrammar/ProjectParser.g4 by ANTLR 4.13.2
+// Generated from ProjectParser.g4 by ANTLR 4.13.2
 package JinjaCssGrammar;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -401,6 +401,18 @@ public class ProjectParserBaseListener implements ProjectParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterJinjaCall(ProjectParser.JinjaCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitJinjaCall(ProjectParser.JinjaCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterJinjaIdentifier(ProjectParser.JinjaIdentifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -444,6 +456,42 @@ public class ProjectParserBaseListener implements ProjectParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitJinjaParenExpr(ProjectParser.JinjaParenExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterJinjaArguments(ProjectParser.JinjaArgumentsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitJinjaArguments(ProjectParser.JinjaArgumentsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterJinjaKeywordArg(ProjectParser.JinjaKeywordArgContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitJinjaKeywordArg(ProjectParser.JinjaKeywordArgContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterJinjaPositionalArg(ProjectParser.JinjaPositionalArgContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitJinjaPositionalArg(ProjectParser.JinjaPositionalArgContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -14,11 +14,15 @@ import AST.JinjaCss.CSSTerms.*;
 import AST.JinjaCss.HtmlElements.*;
 import AST.JinjaCss.JinjaExpressions.*;
 import AST.JinjaCss.Statements.*;
+import JinjaCssGrammar.ProjectLexer;
 import JinjaCssGrammar.ProjectParser;
 import JinjaCssGrammar.ProjectParserBaseVisitor;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class ProjectVisitor extends ProjectParserBaseVisitor<ASTNode> {
@@ -198,6 +202,38 @@ public class ProjectVisitor extends ProjectParserBaseVisitor<ASTNode> {
     }
 
     @Override
+    public ASTNode visitJinjaCall(ProjectParser.JinjaCallContext ctx) {
+        int line = ctx.getStart().getLine();
+
+        String name = ctx.IDENTIFIER_JINJA().getText();
+
+        List<JinjaExpression> positional = new ArrayList<>();
+        LinkedHashMap<String, JinjaExpression> keyword = new LinkedHashMap<>();
+
+        if (ctx.jinjaArgList() instanceof ProjectParser.JinjaArgumentsContext argsCtx) {
+
+            for (ProjectParser.JinjaArgContext argCtx : argsCtx.jinjaArg()) {
+
+                if (argCtx instanceof ProjectParser.JinjaKeywordArgContext kw) {
+
+                    keyword.put(
+                            kw.IDENTIFIER_JINJA().getText(),
+                            (JinjaExpression) visit(kw.jinjaExpression())
+                    );
+
+                } else if (argCtx instanceof ProjectParser.JinjaPositionalArgContext pos) {
+
+                    positional.add(
+                            (JinjaExpression) visit(pos.jinjaExpression())
+                    );
+                }
+            }
+        }
+
+        return new JinjaCallExpression(line, name, positional, keyword);
+    }
+
+    @Override
     public ASTNode visitJinjaIdentifier(ProjectParser.JinjaIdentifierContext ctx) {
         int line = ctx.getStart().getLine();
         if (ctx.IDENTIFIER_JINJA().size() == 1) {
@@ -241,8 +277,17 @@ public class ProjectVisitor extends ProjectParserBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitTextNode(ProjectParser.TextNodeContext ctx) {
         int line = ctx.getStart().getLine();
-        String text = ctx.HTML_TEXT().getText();
+        String text = collapseWhitespace(ctx.HTML_TEXT().getText());
         return new TextStatement(line, text);
+    }
+
+    /**
+     * Source formatting inside text is not meaningful to HTML, but the presence of
+     * a space is, so runs of whitespace collapse to one space instead of being
+     * dropped - otherwise "$" and "{{ price }}" would end up glued together.
+     */
+    private String collapseWhitespace(String text) {
+        return text.replaceAll("\\s+", " ");
     }
 
     @Override
@@ -478,14 +523,94 @@ public class ProjectVisitor extends ProjectParserBaseVisitor<ASTNode> {
             }
         }
 
-        return new HtmlAttribute(line, name, value);
+        return new HtmlAttribute(line, name, value, splitAttributeValue(value, line));
+    }
+
+    /**
+     * An attribute value reaches us as one opaque token, so any {{ ... }} inside it
+     * still has to be parsed. Each segment is handed back to the Jinja grammar as a
+     * standalone {{ ... }} so that expressions such as
+     * {@code url_for('static', filename='images/' + p.image)} go through the same
+     * rules as the rest of the template.
+     */
+    private List<Object> splitAttributeValue(String value, int line) {
+        List<Object> parts = new ArrayList<>();
+
+        if (value == null) {
+            return parts;
+        }
+
+        int index = 0;
+
+        while (index < value.length()) {
+
+            int open = value.indexOf("{{", index);
+
+            if (open < 0) {
+                parts.add(value.substring(index));
+                break;
+            }
+
+            int close = value.indexOf("}}", open);
+
+            if (close < 0) {
+                parts.add(value.substring(index));
+                break;
+            }
+
+            if (open > index) {
+                parts.add(value.substring(index, open));
+            }
+
+            String segment = value.substring(open, close + 2);
+            JinjaExpression expr = parseJinjaExpression(segment, line);
+
+            if (expr != null) {
+                parts.add(expr);
+            } else {
+                parts.add(segment);
+            }
+
+            index = close + 2;
+        }
+
+        return parts;
+    }
+
+    private JinjaExpression parseJinjaExpression(String source, int line) {
+        try {
+            ProjectLexer lexer =
+                    new ProjectLexer(CharStreams.fromString(source));
+
+            // the segment is parsed on its own, so tell the lexer where it really came from
+            lexer.setLine(line);
+
+            ProjectParser parser =
+                    new ProjectParser(new CommonTokenStream(lexer));
+
+            lexer.removeErrorListeners();
+            parser.removeErrorListeners();
+
+            ASTNode node = visit(parser.jinjaVariable());
+
+            if (node instanceof JinjaVariableStatement stmt) {
+                return stmt.expression;
+            }
+
+        } catch (Exception e) {
+            System.err.println(
+                    "Could not parse attribute expression "
+                            + source + " on line " + line
+                            + ": " + e.getMessage());
+        }
+
+        return null;
     }
 
     @Override
     public ASTNode visitHtmlText(ProjectParser.HtmlTextContext ctx) {
         int line = ctx.getStart().getLine();
-        String text = ctx.HTML_TEXT().getText();
-        text = text.strip();
+        String text = collapseWhitespace(ctx.HTML_TEXT().getText());
         return new TextStatement(line, text);
     }
 

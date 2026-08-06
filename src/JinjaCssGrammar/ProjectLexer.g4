@@ -76,6 +76,7 @@ IDENTIFIER_JINJA: [a-zA-Z_] [a-zA-Z0-9_]*;
 PIPE: '|';
 LPAREN: '(';
 RPAREN: ')';
+COMMA_JINJA: ',';
 STRING_JINJA: '"' .*? '"' | '\'' .*? '\'';
 JINJA_WS: [ \t\r\n]+ -> skip;
 

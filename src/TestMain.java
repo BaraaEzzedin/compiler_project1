@@ -1,5 +1,7 @@
 import AST.Program;
 import CodeGeneration.JinjaCodeGenerator;
+import CodeGeneration.RouteExtractor;
+import CodeGeneration.RouteTable;
 import CodeGeneration.RuntimeExtractor;
 import CodeGeneration.TemplateInvocation;
 import JinjaCssGrammar.ProjectLexer;
@@ -128,6 +130,9 @@ public class TestMain {
 //            JinjaCodeGenerator generator = new JinjaCodeGenerator(context);
 //            String generatedHtml = generator.generate(program);
 //            Files.writeString(Path.of("./templates", "productss.html"), generatedHtml);
+            RouteTable routes = new RouteTable();
+            ast.accept(new RouteExtractor(routes));
+
             List<TemplateInvocation> templateInvocations =
                     new ArrayList<>();
             RuntimeExtractor extractor =
@@ -143,7 +148,8 @@ public class TestMain {
 
                 JinjaCodeGenerator generator =
                         new JinjaCodeGenerator(
-                                invocation.getContext());
+                                invocation.getContext(),
+                                routes);
 
                 String html =
                         generator.generate(program);

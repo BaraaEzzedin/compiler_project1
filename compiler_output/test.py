@@ -1,5 +1,6 @@
+from render_html import render_add, render_list, render_view
 import os
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, redirect, url_for, request
 from werkzeug.utils import secure_filename
 app = Flask(__name__)
 UPLOAD_FOLDER = "static/images"
@@ -7,7 +8,7 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 products = []
 @app.route("/")
 def list_products():
-    return render_template("list.html", products=products)
+    return render_list(products=products)
 
 @app.route("/add", methods=["GET", "POST"])
 def add_product():
@@ -28,13 +29,13 @@ def add_product():
         products.append(product)
         return redirect(url_for("list_products"))
 
-    return render_template("add.html")
+    return render_add()
 
 @app.route("/products/<int:product_id>")
 def view_product(product_id):
     for product in products:
         if product["id"] == product_id:
-            return render_template("view.html", product=product)
+            return render_view(product=product)
 
 
     return "Product not found"

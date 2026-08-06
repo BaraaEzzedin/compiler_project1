@@ -1,4 +1,4 @@
-// Generated from /home/mohee/compiler_project1/src/JinjaCssGrammar/ProjectParser.g4 by ANTLR 4.13.2
+// Generated from ProjectParser.g4 by ANTLR 4.13.2
 package JinjaCssGrammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -235,6 +235,13 @@ public interface ProjectParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitJinjaNeqExpr(ProjectParser.JinjaNeqExprContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code JinjaCall}
+	 * labeled alternative in {@link ProjectParser#jinjaPrimary}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitJinjaCall(ProjectParser.JinjaCallContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code JinjaIdentifier}
 	 * labeled alternative in {@link ProjectParser#jinjaPrimary}.
 	 * @param ctx the parse tree
@@ -262,6 +269,27 @@ public interface ProjectParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitJinjaParenExpr(ProjectParser.JinjaParenExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code JinjaArguments}
+	 * labeled alternative in {@link ProjectParser#jinjaArgList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitJinjaArguments(ProjectParser.JinjaArgumentsContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code JinjaKeywordArg}
+	 * labeled alternative in {@link ProjectParser#jinjaArg}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitJinjaKeywordArg(ProjectParser.JinjaKeywordArgContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code JinjaPositionalArg}
+	 * labeled alternative in {@link ProjectParser#jinjaArg}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitJinjaPositionalArg(ProjectParser.JinjaPositionalArgContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code JinjaForStatement}
 	 * labeled alternative in {@link ProjectParser#forStatement}.

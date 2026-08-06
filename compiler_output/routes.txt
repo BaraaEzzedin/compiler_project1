@@ -1,0 +1,4 @@
+list_products -> /
+add_product -> /add
+view_product -> /products/<int:product_id>
+delete_product -> /delete/<int:product_id>

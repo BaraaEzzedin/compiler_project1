@@ -413,10 +413,17 @@ Program (line 1)
                   HtmlAttribute 'href' = "/" (line 93)
                   HtmlAttribute 'class' = "back-link" (line 93)
                 Content:
-                  TextStatement (line 93) "← Back to product list"
+                  TextStatement (line 93) " ← Back to product list "
               NormalHtmlElement 'form' (line 94)
                 Attributes:
                   HtmlAttribute 'action' = "{{ url_for('delete_product', product_id=product.id) }}" (line 95)
+                    Parts:
+                      JinjaCallExpression 'url_for' (line 95)
+                        Arguments:
+                          JinjaString (line 95) "delete_product"
+                        Keyword Arguments:
+                          product_id:
+                            JinjaIdentifier (line 95) 'product.id'
                   HtmlAttribute 'method' = "POST" (line 96)
                 Content:
                   NormalHtmlElement 'button' (line 98)
@@ -433,15 +440,28 @@ Program (line 1)
           SelfClosingHtmlElement 'img' (line 102)
             Attributes:
               HtmlAttribute 'src' = "{{ url_for('static', filename='images/' + product.image) }}" (line 103)
+                Parts:
+                  JinjaCallExpression 'url_for' (line 103)
+                    Arguments:
+                      JinjaString (line 103) "static"
+                    Keyword Arguments:
+                      filename:
+                        JinjaBinaryExpression '+' (line 103)
+                          Left:
+                            JinjaString (line 103) "images/"
+                          Right:
+                            JinjaIdentifier (line 103) 'product.image'
               HtmlAttribute 'alt' = "{{ product.name }}" (line 104)
+                Parts:
+                  JinjaIdentifier (line 104) 'product.name'
               HtmlAttribute 'width' = "500" (line 105)
               HtmlAttribute 'height' = "500" (line 106)
           NormalHtmlElement 'p' (line 108)
             Content:
               NormalHtmlElement 'strong' (line 109)
                 Content:
-                  TextStatement (line 109) "Price:"
-              TextStatement (line 109) "$"
+                  TextStatement (line 109) " Price: "
+              TextStatement (line 109) " $"
               JinjaVariableStatement (line 110)
                 Expression:
                   JinjaIdentifier (line 110) 'product.price'
@@ -449,7 +469,7 @@ Program (line 1)
             Content:
               NormalHtmlElement 'strong' (line 113)
                 Content:
-                  TextStatement (line 113) "Description:"
+                  TextStatement (line 113) " Description: "
           NormalHtmlElement 'p' (line 115)
             Content:
               JinjaVariableStatement (line 115)

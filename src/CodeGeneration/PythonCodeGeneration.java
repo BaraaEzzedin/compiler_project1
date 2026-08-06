@@ -10,18 +10,58 @@ import AST.Statement;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
 
 public class PythonCodeGeneration {
+    /**
+     * Module the generated render functions live in.
+     */
+    public static final String RENDER_MODULE = "render_html";
+
     private final StringBuilder code =
             new StringBuilder();
 
     private int indent = 0;
 
+    /**
+     * Template file name to the render function compiled for it, e.g.
+     * "list.html" -> "render_list". Every render_template call is redirected to
+     * one of these, which is how Jinja leaves the generated program.
+     */
+    private final Map<String, String> renderFunctions;
+
+    public PythonCodeGeneration() {
+        this(new LinkedHashMap<>());
+    }
+
+    public PythonCodeGeneration(Map<String, String> renderFunctions) {
+        this.renderFunctions = renderFunctions;
+    }
+
     public String generate(Program program) {
+
+        emitRenderImport();
 
         visitProgram(program);
 
         return code.toString();
+    }
+
+    private void emitRenderImport() {
+
+        if (renderFunctions.isEmpty()) {
+            return;
+        }
+
+        emit("from ");
+        emit(RENDER_MODULE);
+        emit(" import ");
+        emit(String.join(", ", new TreeSet<>(renderFunctions.values())));
+        emit("\n");
     }
 
     public void visitProgram(Program program) {
@@ -175,6 +215,18 @@ public class PythonCodeGeneration {
     }
 
     private void visitImport(ImportStmt node) {
+
+        List<String> imports = new ArrayList<>(node.imports);
+
+        // the compiled templates replaced it, so Flask's renderer is no longer needed
+        if (node.isFrom && "flask".equals(node.fromModule) && !renderFunctions.isEmpty()) {
+            imports.remove("render_template");
+        }
+
+        if (imports.isEmpty()) {
+            return;
+        }
+
         emitIndent();
 
         if (node.isFrom) {
@@ -189,11 +241,11 @@ public class PythonCodeGeneration {
 
         }
 
-        for (int i = 0; i < node.imports.size(); i++) {
+        for (int i = 0; i < imports.size(); i++) {
 
-            emit(node.imports.get(i));
+            emit(imports.get(i));
 
-            if (i < node.imports.size() - 1) {
+            if (i < imports.size() - 1) {
                 emit(", ");
             }
         }
@@ -349,6 +401,11 @@ public class PythonCodeGeneration {
     }
 
     private void visitFunctionCallExpr(FunctionCallExpr node) {
+
+        if (visitRenderTemplateCall(node)) {
+            return;
+        }
+
         visitExpression(node.callee);
 
         emit("(");
@@ -370,6 +427,54 @@ public class PythonCodeGeneration {
             }
         }
         emit(")");
+    }
+
+    /**
+     * Rewrites render_template("list.html", products=products) as the call to the
+     * function compiled from that template, dropping the template name because the
+     * generated function already knows which file it rewrites.
+     *
+     * @return true when the call was handled here
+     */
+    private boolean visitRenderTemplateCall(FunctionCallExpr node) {
+
+        if (!(node.callee instanceof IdentifierExpr callee)
+                || !callee.name.equals("render_template")) {
+            return false;
+        }
+
+        if (node.args == null || node.args.isEmpty()
+                || !(node.args.get(0) instanceof StringExpr template)) {
+            return false;
+        }
+
+        String function = renderFunctions.get(template.value);
+
+        if (function == null) {
+            return false;
+        }
+
+        emit(function);
+        emit("(");
+
+        for (int i = 1; i < node.args.size(); i++) {
+
+            Expression arg = node.args.get(i);
+
+            if (arg instanceof KeyValue kv) {
+                visitKeyValue(kv);
+            } else {
+                visitExpression(arg);
+            }
+
+            if (i != node.args.size() - 1) {
+                emit(", ");
+            }
+        }
+
+        emit(")");
+
+        return true;
     }
 
     private void visitKeyValue(KeyValue kv) {

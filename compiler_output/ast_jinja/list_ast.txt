@@ -612,7 +612,7 @@ Program (line 1)
               HtmlAttribute 'href' = "/add" (line 135)
               HtmlAttribute 'class' = "btn" (line 135)
             Content:
-              TextStatement (line 135) "+ Add Product"
+              TextStatement (line 135) " + Add Product "
           NormalHtmlElement 'h2' (line 136)
             Content:
               TextStatement (line 136) "All Products"
@@ -636,7 +636,20 @@ Program (line 1)
                             Attributes:
                               HtmlAttribute 'class' = "product-image" (line 142)
                               HtmlAttribute 'src' = "{{ url_for('static', filename='images/' + p.image) }}" (line 143)
+                                Parts:
+                                  JinjaCallExpression 'url_for' (line 143)
+                                    Arguments:
+                                      JinjaString (line 143) "static"
+                                    Keyword Arguments:
+                                      filename:
+                                        JinjaBinaryExpression '+' (line 143)
+                                          Left:
+                                            JinjaString (line 143) "images/"
+                                          Right:
+                                            JinjaIdentifier (line 143) 'p.image'
                               HtmlAttribute 'alt' = "{{ p.name }}" (line 144)
+                                Parts:
+                                  JinjaIdentifier (line 144) 'p.name'
                           NormalHtmlElement 'div' (line 146)
                             Attributes:
                               HtmlAttribute 'class' = "product-info" (line 146)
@@ -659,9 +672,12 @@ Program (line 1)
                               NormalHtmlElement 'a' (line 149)
                                 Attributes:
                                   HtmlAttribute 'href' = "/products/{{ p.id }}" (line 149)
+                                    Parts:
+                                      Text "/products/"
+                                      JinjaIdentifier (line 149) 'p.id'
                                   HtmlAttribute 'class' = "btn btn-small" (line 149)
                                 Content:
-                                  TextStatement (line 149) "View Details"
+                                  TextStatement (line 149) " View Details "
             JinjaElseStatement (line 156)
               Body:
                 NormalHtmlElement 'p' (line 157)

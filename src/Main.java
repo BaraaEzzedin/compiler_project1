@@ -204,6 +204,9 @@
 import AST.JinjaCss.Program;
 import CodeGeneration.JinjaCodeGenerator;
 import CodeGeneration.PythonCodeGeneration;
+import CodeGeneration.PythonTemplateGenerator;
+import CodeGeneration.RouteExtractor;
+import CodeGeneration.RouteTable;
 import CodeGeneration.RuntimeExtractor;
 import CodeGeneration.TemplateInvocation;
 import JinjaCssGrammar.ProjectLexer;
@@ -224,8 +227,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import static org.antlr.v4.runtime.CharStreams.fromFileName;
 
@@ -359,6 +365,19 @@ public class Main {
                     analyzer.getReport()
             );
 
+            /*
+             * ==========================================
+             * Routes, so url_for can be resolved
+             * ==========================================
+             */
+            RouteTable routes = new RouteTable();
+            ast.accept(new RouteExtractor(routes));
+
+            Files.writeString(
+                    outputDir.resolve("routes.txt"),
+                    routes.toString()
+            );
+
             List<TemplateInvocation> templateInvocations =
                     new ArrayList<>();
             RuntimeExtractor extractor =
@@ -374,7 +393,8 @@ public class Main {
 
                 JinjaCodeGenerator generator =
                         new JinjaCodeGenerator(
-                                invocation.getContext());
+                                invocation.getContext(),
+                                routes);
 
                 String html =
                         generator.generate(program);
@@ -385,6 +405,46 @@ public class Main {
                         html
                 );
             }
+
+            /*
+             * ==========================================
+             * Compile each template into a Python renderer
+             * ==========================================
+             */
+            Map<String, String> renderFunctions = new LinkedHashMap<>();
+
+            for (String fileName : templateFiles) {
+                renderFunctions.put(fileName, renderFunctionName(fileName));
+            }
+
+            List<String> warnings = new ArrayList<>();
+
+            StringBuilder renderModule = new StringBuilder();
+            renderModule.append(PythonTemplateGenerator.prelude());
+
+            for (String fileName : templateFiles) {
+
+                PythonTemplateGenerator templateGenerator =
+                        new PythonTemplateGenerator(routes, warnings);
+
+                renderModule.append("\n\n")
+                        .append(templateGenerator.generate(
+                                fileName,
+                                renderFunctions.get(fileName),
+                                contextNames(templateInvocations, fileName),
+                                templatePrograms.get(fileName)
+                        ));
+            }
+
+            Files.writeString(
+                    outputDir.resolve(PythonCodeGeneration.RENDER_MODULE + ".py"),
+                    renderModule.toString()
+            );
+
+            for (String warning : warnings) {
+                System.out.println("Warning: " + warning);
+            }
+
             StringBuilder sb = new StringBuilder();
 
             for (TemplateInvocation invocation : templateInvocations) {
@@ -402,11 +462,50 @@ public class Main {
                     outputDir.resolve("runtime_context.txt"),
                     sb.toString()
             );
-            PythonCodeGeneration generator = new PythonCodeGeneration();
+            PythonCodeGeneration generator =
+                    new PythonCodeGeneration(renderFunctions);
+
             generator.generate(ast);
             generator.writeToFile("test.py");
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * "list.html" -> "render_list"
+     */
+    private static String renderFunctionName(String templateName) {
+
+        String base = templateName;
+
+        int dot = base.lastIndexOf('.');
+
+        if (dot > 0) {
+            base = base.substring(0, dot);
+        }
+
+        return "render_" + base.replaceAll("[^A-Za-z0-9_]", "_");
+    }
+
+    /**
+     * The context names a template is rendered with, taken from the render_template
+     * calls found in the Flask program. They become the parameters of the generated
+     * render function.
+     */
+    private static List<String> contextNames(
+            List<TemplateInvocation> invocations,
+            String templateName) {
+
+        Set<String> names = new TreeSet<>();
+
+        for (TemplateInvocation invocation : invocations) {
+
+            if (templateName.equals(invocation.getTemplateName())) {
+                names.addAll(invocation.getContext().names());
+            }
+        }
+
+        return new ArrayList<>(names);
     }
 }

@@ -1,13 +1,6 @@
 package CodeGeneration;
 
-import AST.JinjaCss.CSSDeclarations.CSSDeclaration;
-import AST.JinjaCss.CSSSelectors.*;
 import AST.JinjaCss.*;
-import AST.JinjaCss.CSSStatements.CSSMediaExpression;
-import AST.JinjaCss.CSSStatements.CSSMediaQuery;
-import AST.JinjaCss.CSSStatements.CSSMediaRule;
-import AST.JinjaCss.CSSStatements.CSSRule;
-import AST.JinjaCss.CSSTerms.*;
 import AST.JinjaCss.HtmlElements.*;
 import AST.JinjaCss.JinjaExpressions.JinjaBooleanExpression;
 import AST.JinjaCss.JinjaExpressions.JinjaIdentifier;
@@ -15,15 +8,7 @@ import AST.JinjaCss.JinjaExpressions.JinjaNumber;
 import AST.JinjaCss.JinjaExpressions.JinjaString;
 import AST.JinjaCss.Statements.*;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class JinjaCodeGenerator {
     private final StringBuilder out = new StringBuilder();
@@ -31,9 +16,9 @@ public class JinjaCodeGenerator {
     private final JinjaExpressionEvaluator evaluator;
     private int indent;
 
-    public JinjaCodeGenerator(GenerationContext context) {
+    public JinjaCodeGenerator(GenerationContext context, RouteTable routes) {
         this.context = context;
-        this.evaluator = new JinjaExpressionEvaluator(context);
+        this.evaluator = new JinjaExpressionEvaluator(context, routes);
     }
 
     public String generate(Program program) {
@@ -72,7 +57,8 @@ public class JinjaCodeGenerator {
                 evaluator.evaluate(node.expression);
 
         if (value != null) {
-            out.append(value);
+            emitIndent();
+            out.append(value).append("\n");
         }
     }
 
@@ -116,7 +102,14 @@ public class JinjaCodeGenerator {
     }
 
     private void visitTextStatement(TextStatement node) {
-        out.append(node.text);
+        String text = node.text.trim();
+
+        if (text.isEmpty()) {
+            return;
+        }
+
+        emitIndent();
+        out.append(text).append("\n");
     }
 
     private void visitHtmlElement(HtmlElement node) {
@@ -137,246 +130,16 @@ public class JinjaCodeGenerator {
     private void visitStyleElement(StyleElement node) {
         emitIndent();
         out.append("<style>\n");
-        for (CSSStatement stmt : node.cssStatements) {
-            visitCSSStatement(stmt);
-        }
 
+        out.append(CssSerializer.serialize(node));
+
+        emitIndent();
         out.append("</style>\n");
-        outdent();
-    }
-
-    private void visitCSSStatement(CSSStatement stmt) {
-        if (stmt instanceof CSSRule node) {
-            visitCSSRule(node);
-        } else if (stmt instanceof CSSMediaRule node) {
-            visitCSSMediaRule(node);
-        }
-    }
-
-    private void visitCSSMediaRule(CSSMediaRule node) {
-        out.append("@media ");
-
-        visitCSSMediaQuery(node.mediaQuery);
-
-        out.append(" {\n");
-
-        for (CSSRule rule : node.rules) {
-            visitCSSRule(rule);
-        }
-
-        out.append("}\n");
-    }
-
-    private void visitCSSMediaQuery(CSSMediaQuery node) {
-        visitCSSMediaExpression(node.expression);
-    }
-
-    private void visitCSSMediaExpression(CSSMediaExpression node) {
-        out.append("(");
-
-        out.append(node.feature);
-
-        if (node.value != null) {
-
-            out.append(": ");
-
-            visitCSSValue(node.value);
-        }
-
-        out.append(")");
-    }
-
-    private void visitCSSRule(CSSRule node) {
-        visitCSSSelector(node.selector);
-
-        out.append(" {\n");
-
-        for (CSSDeclaration decl : node.declarations) {
-            visitCSSDeclaration(decl);
-        }
-
-        out.append("}\n");
-    }
-
-    private void visitCSSDeclaration(CSSDeclaration node) {
-        out.append("    ");
-
-        out.append(node.property);
-
-        out.append(": ");
-
-        visitCSSValue(node.value);
-
-        out.append(";\n");
-    }
-
-    private void visitCSSValue(CSSValue value) {
-        if (value instanceof CSSSingleValue node) {
-            visitCSSSingleValue(node);
-        } else if (value instanceof CSSMultipleValues node) {
-            visitCSSMultipleValues(node);
-        } else if (value instanceof CSSValueList node) {
-            visitCSSValueList(node);
-        }
-    }
-
-    private void visitCSSValueList(CSSValueList node) {
-        for (int i = 0; i < node.values.size(); i++) {
-
-            visitCSSValue(node.values.get(i));
-
-            if (i < node.values.size() - 1) {
-                out.append(", ");
-            }
-        }
-    }
-
-    private void visitCSSMultipleValues(CSSMultipleValues node) {
-        for (int i = 0; i < node.terms.size(); i++) {
-
-            visitCSSTerm(node.terms.get(i));
-
-            if (i < node.terms.size() - 1) {
-                out.append(" ");
-            }
-        }
-    }
-
-    private void visitCSSSingleValue(CSSSingleValue node) {
-        visitCSSTerm(node.term);
-    }
-
-    private void visitCSSTerm(CSSTerm node) {
-        if (node instanceof CSSIdentifier t) {
-            visitCSSIdentifier(t);
-        } else if (node instanceof CSSColor t) {
-            visitCSSColor(t);
-        } else if (node instanceof CSSString t) {
-            visitCSSString(t);
-        } else if (node instanceof CSSVariable t) {
-            visitCSSVariable(t);
-        } else if (node instanceof CSSNumberTerm t) {
-            visitCSSNumberTerm(t);
-        } else if (node instanceof CSSFunctionTerm t) {
-            visitCSSFunctionTerm(t);
-        }
-    }
-
-    private void visitCSSString(CSSString t) {
-        out.append(t.value);
-    }
-
-    private void visitCSSVariable(CSSVariable t) {
-        out.append(t.name);
-    }
-
-    private void visitCSSNumberTerm(CSSNumberTerm node) {
-        if (node.number == Math.floor(node.number))
-            out.append((int) node.number);
-        else
-            out.append(node.number);
-        if (node.unit != null) {
-            out.append(node.unit);
-        }
-    }
-
-    private void visitCSSFunctionTerm(CSSFunctionTerm node) {
-        out.append(node.functionName);
-        out.append("(");
-
-        if (node.arguments.values.size() == 1 &&
-                node.arguments.values.get(0) instanceof CSSMultipleValues multi) {
-
-            for (int i = 0; i < multi.terms.size(); i++) {
-
-                visitCSSTerm(multi.terms.get(i));
-
-                if (i < multi.terms.size() - 1) {
-                    out.append(", ");
-                }
-            }
-
-        } else {
-
-            visitCSSValueList(node.arguments);
-        }
-
-        out.append(")");
-    }
-
-    private void visitCSSColor(CSSColor t) {
-        out.append(t.value);
-    }
-
-    private void visitCSSIdentifier(CSSIdentifier node) {
-        out.append(node.name);
-    }
-
-    private void visitCSSSelector(CSSSelector node) {
-        for (int i = 0; i < node.selectorSequences.size(); i++) {
-
-            visitCSSSelectorSequence(
-                    node.selectorSequences.get(i));
-
-            if (i < node.selectorSequences.size() - 1) {
-                out.append(", ");
-            }
-        }
-    }
-
-    private void visitCSSSelectorSequence(CSSSelectorSequence node) {
-        for (int i = 0; i < node.compoundSelectors.size(); i++) {
-
-            visitCSSCompoundSelector(node.compoundSelectors.get(i));
-
-            if (i < node.compoundSelectors.size() - 1) {
-                out.append(" ");
-            }
-        }
-    }
-
-    private void visitCSSCompoundSelector(CSSCompoundSelector node) {
-        for (CSSSimpleSelector selector :
-                node.simpleSelectors) {
-
-            visitCSSSimpleSelector(selector);
-        }
-    }
-
-    private void visitCSSSimpleSelector(CSSSimpleSelector selector) {
-
-        if (selector instanceof CSSClassSelector node) {
-            visitCSSClassSelector(node);
-        } else if (selector instanceof CSSTypeSelector node) {
-            visitCSSTypeSelector(node);
-        } else if (selector instanceof CSSUniversalSelector node) {
-            visitCSSUniversalSelector(node);
-        } else if (selector instanceof CSSPseudoSelector node) {
-            visitCSSPseudoSelector(node);
-        }
-    }
-
-    private void visitCSSUniversalSelector(CSSUniversalSelector node) {
-        out.append("*");
-    }
-
-    private void visitCSSPseudoSelector(CSSPseudoSelector node) {
-        out.append(":").append(node.pseudoName);
-    }
-
-    private void visitCSSTypeSelector(CSSTypeSelector node) {
-        out.append(node.elementName);
-    }
-
-    private void visitCSSClassSelector(CSSClassSelector node) {
-        out.append('.').append(node.className);
-
-        if (node.pseudoSelector != null) {
-            visitCSSPseudoSelector(node.pseudoSelector);
-        }
     }
 
     private void visitSelfClosingHtmlElement(SelfClosingHtmlElement node) {
+        emitIndent();
+
         out.append("<")
                 .append(node.tagName);
 
@@ -409,6 +172,8 @@ public class JinjaCodeGenerator {
                 visitStatement(child);
             }
         }
+
+        outdent();
         emitIndent();
 
         out.append("</").append(node.tagName).append(">");
@@ -422,7 +187,7 @@ public class JinjaCodeGenerator {
 
         if (node.value != null) {
             out.append("=\"")
-                    .append(resolveAttributeValue(node.value))
+                    .append(resolveAttributeValue(node))
                     .append("\"");
         }
     }
@@ -548,43 +313,22 @@ public class JinjaCodeGenerator {
         }
     }
 
-    private String resolveAttributeValue(String value) {
+    /**
+     * The value was already split into text and expressions while parsing, so each
+     * expression only has to be evaluated against the snapshot context.
+     */
+    private String resolveAttributeValue(HtmlAttribute attribute) {
 
-        Pattern pattern =
-                Pattern.compile("\\{\\{\\s*(.*?)\\s*\\}\\}");
+        StringBuilder result = new StringBuilder();
 
-        Matcher matcher =
-                pattern.matcher(value);
+        for (Object part : attribute.parts) {
 
-        StringBuffer result =
-                new StringBuffer();
-
-        while (matcher.find()) {
-
-            String expression =
-                    matcher.group(1).trim();
-
-            List<String> parts =
-                    Arrays.asList(expression.split("\\."));
-
-            Object replacement =
-                    evaluator.evaluate(
-                            new JinjaIdentifier(
-                                    0,
-                                    parts
-                            )
-                    );
-
-            String replacementText =
-                    formatValue(replacement);
-
-            matcher.appendReplacement(
-                    result,
-                    Matcher.quoteReplacement(replacementText)
-            );
+            if (part instanceof JinjaExpression expr) {
+                result.append(formatValue(evaluator.evaluate(expr)));
+            } else {
+                result.append(part);
+            }
         }
-
-        matcher.appendTail(result);
 
         return result.toString();
     }
@@ -621,14 +365,5 @@ public class JinjaCodeGenerator {
     private void emitLine(String text) {
         emitIndent();
         out.append(text).append("\n");
-    }
-
-    public void writeToFile(String filename) throws IOException {
-        Files.createDirectories(Path.of("/home/mohee/Desktop/generated-compiler/templates"));
-        Files.writeString(Path.of("/home/mohee/Desktop/generated-compiler/templates", filename), out.toString());
-    }
-
-    public static Set<String> sortedCopy(Set<String> values) {
-        return new TreeSet<>(values);
     }
 }

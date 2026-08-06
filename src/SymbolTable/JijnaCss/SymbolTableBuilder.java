@@ -15,6 +15,7 @@ import AST.JinjaCss.HtmlElements.NormalHtmlElement;
 import AST.JinjaCss.HtmlElements.SelfClosingHtmlElement;
 import AST.JinjaCss.HtmlElements.StyleElement;
 import AST.JinjaCss.JinjaExpressions.JinjaBinaryExpression;
+import AST.JinjaCss.JinjaExpressions.JinjaCallExpression;
 import AST.JinjaCss.JinjaExpressions.JinjaFilterExpression;
 import AST.JinjaCss.JinjaExpressions.JinjaIdentifier;
 import AST.JinjaCss.JinjaExpressions.JinjaParenthesesExpression;
@@ -289,6 +290,14 @@ public class SymbolTableBuilder {
         } else if (expr instanceof JinjaParenthesesExpression) {
             JinjaParenthesesExpression parenExpr = (JinjaParenthesesExpression) expr;
             visitJinjaExpression(parenExpr.expression);
+        } else if (expr instanceof JinjaCallExpression) {
+            JinjaCallExpression callExpr = (JinjaCallExpression) expr;
+            for (JinjaExpression arg : callExpr.positional) {
+                visitJinjaExpression(arg);
+            }
+            for (JinjaExpression arg : callExpr.keyword.values()) {
+                visitJinjaExpression(arg);
+            }
         }
 
     }

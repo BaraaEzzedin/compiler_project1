@@ -489,7 +489,7 @@ Program (line 1)
               HtmlAttribute 'href' = "/" (line 109)
               HtmlAttribute 'class' = "back-link" (line 109)
             Content:
-              TextStatement (line 109) "← Back to product list"
+              TextStatement (line 109) " ← Back to product list "
           NormalHtmlElement 'h2' (line 110)
             Content:
               TextStatement (line 110) "Add New Product"
@@ -503,7 +503,7 @@ Program (line 1)
                 Attributes:
                   HtmlAttribute 'class' = "form-label" (line 112)
                 Content:
-                  TextStatement (line 112) "Name"
+                  TextStatement (line 112) " Name "
               SelfClosingHtmlElement 'input' (line 113)
                 Attributes:
                   HtmlAttribute 'type' = "text" (line 113)
@@ -513,7 +513,7 @@ Program (line 1)
                 Attributes:
                   HtmlAttribute 'class' = "form-label" (line 114)
                 Content:
-                  TextStatement (line 114) "Price"
+                  TextStatement (line 114) " Price "
               SelfClosingHtmlElement 'input' (line 115)
                 Attributes:
                   HtmlAttribute 'type' = "number" (line 115)
@@ -524,7 +524,7 @@ Program (line 1)
                 Attributes:
                   HtmlAttribute 'class' = "form-label" (line 116)
                 Content:
-                  TextStatement (line 116) "Product Image"
+                  TextStatement (line 116) " Product Image "
               SelfClosingHtmlElement 'input' (line 117)
                 Attributes:
                   HtmlAttribute 'type' = "file" (line 117)
@@ -535,7 +535,7 @@ Program (line 1)
                 Attributes:
                   HtmlAttribute 'class' = "form-label" (line 118)
                 Content:
-                  TextStatement (line 118) "Description"
+                  TextStatement (line 118) " Description "
               NormalHtmlElement 'textarea' (line 119)
                 Attributes:
                   HtmlAttribute 'name' = "description" (line 119)
