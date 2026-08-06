@@ -1,0 +1,9 @@
+Template: list.html
+{products=[]}
+
+Template: add.html
+{}
+
+Template: view.html
+{product={image=null, price=null, name=null, description=null, id=null}}
+

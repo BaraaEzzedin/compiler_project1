@@ -17,53 +17,24 @@ public class JinjaExpressionEvaluator {
         this.context = context;
     }
 
-    public Object evaluate(
-            JinjaExpression expr) {
+    public Object evaluate(JinjaExpression expr) {
+
         if (expr instanceof JinjaIdentifier id) {
 
-//            Object current =
-//                    context.get(id.parts.get(0));
-//
-//            for (int i = 1; i < id.parts.size(); i++) {
-//
-//                if (!(current instanceof Map<?, ?> map))
-//                    return null;
-//
-//                current =
-//                        map.get(id.parts.get(i));
-//
-//            }
-//
-//            return current;
-            Object firstObject = context.get(id.parts.get(0));
+            Object current = context.get(id.parts.get(0));
 
-            if (firstObject instanceof List<?>) {
-                // Case 2: It's a list
-                List<?> list = (List<?>) firstObject;
+            for (int i = 1; i < id.parts.size(); i++) {
 
-                for (Object item : list) {
-                    Object current = item;
-                    for (int i = 1; i < id.parts.size(); i++) {
-                        if (current instanceof Map<?, ?> map) {
-                            current = map.get(id.parts.get(i));
-                        } else {
-                            current = null;
-                            break;
-                        }
-                    }
-                    return current;
+                if (!(current instanceof Map<?, ?> map)) {
+                    return null;
                 }
-            } else {
-                // Case 1: It's a single object
-                Object current = firstObject;
-                for (int i = 1; i < id.parts.size(); i++) {
-                    if (!(current instanceof Map<?, ?> map))
-                        return null;
-                    current = map.get(id.parts.get(i));
-                }
-                return current;
+
+                current = map.get(id.parts.get(i));
             }
+
+            return current;
         }
+
         return null;
     }
 

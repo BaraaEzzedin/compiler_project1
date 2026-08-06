@@ -624,8 +624,8 @@ public class JinjaCodeGenerator {
     }
 
     public void writeToFile(String filename) throws IOException {
-        Files.createDirectories(Path.of("/home/abdalrhman/Desktop/generated-compiler/templates"));
-        Files.writeString(Path.of("/home/abdalrhman/Desktop/generated-compiler/templates", filename), out.toString());
+        Files.createDirectories(Path.of("/home/mohee/Desktop/generated-compiler/templates"));
+        Files.writeString(Path.of("/home/mohee/Desktop/generated-compiler/templates", filename), out.toString());
     }
 
     public static Set<String> sortedCopy(Set<String> values) {

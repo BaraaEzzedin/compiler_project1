@@ -386,6 +386,38 @@ public class SemanticAnalyzer extends ASTVisitor {
         }
     }
 
+    public String getReport() {
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Semantic Errors:")
+                .append(System.lineSeparator());
+
+        List<CompilerError> errors = this.getErrors();
+
+        if (errors.isEmpty()) {
+
+            sb.append("No semantic errors.")
+                    .append(System.lineSeparator());
+
+            return sb.toString();
+        }
+
+        for (CompilerError error : errors) {
+
+            sb.append(error)
+                    .append(System.lineSeparator());
+        }
+
+        sb.append(System.lineSeparator())
+                .append("Total: ")
+                .append(errors.size())
+                .append(" error(s)")
+                .append(System.lineSeparator());
+
+        return sb.toString();
+    }
+
     public void printErrors() {
         System.out.println("\nSemantic Errors:");
         if (this.getErrors().isEmpty()) {

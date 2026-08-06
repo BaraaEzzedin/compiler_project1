@@ -118,7 +118,7 @@
 //         * ==========================================
 //         */
 //        String pythonPath =
-//                "samples/app.py";
+//                "samples/test.py";
 //
 //        CharStream pythonInput =
 //                CharStreams.fromFileName(
@@ -170,7 +170,7 @@
 //                new PythonCodeGeneration();
 //
 //        generator.generate(pythonAst);
-//        generator.writeToFile("app.py");
+//        generator.writeToFile("test.py");
 //
 /// /        System.out.println(generated);
 /// /        GenerationContext context = new GenerationContext();
@@ -204,6 +204,8 @@
 import AST.JinjaCss.Program;
 import CodeGeneration.JinjaCodeGenerator;
 import CodeGeneration.PythonCodeGeneration;
+import CodeGeneration.RuntimeExtractor;
+import CodeGeneration.TemplateInvocation;
 import JinjaCssGrammar.ProjectLexer;
 import JinjaCssGrammar.ProjectParser;
 import PyFlaskGrammar.PyFlaskGrammar.PythonLexer;
@@ -214,13 +216,18 @@ import SymbolTable.PyFlask.SemanticAnalyzer;
 import Visitor.ProjectVisitor;
 import Visitor.PythonVisitor;
 import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import static org.antlr.v4.runtime.CharStreams.fromFileName;
 
 //////            System.out.println(
 //////                    "\n=== Python Symbol Table ===");
@@ -262,208 +269,143 @@ public class Main {
     public static void main(String[] args) {
 
         try {
+            Path outputDir = Path.of("compiler_output");
 
-            /*
-             * ==========================================
-             * Parse Jinja Templates
-             * ==========================================
-             */
-            Map<String, JinjaTemplateInfo> templates =
-                    new HashMap<>();
+            Files.createDirectories(outputDir);
+            Files.createDirectories(outputDir.resolve("ast_jinja"));
+            Files.createDirectories(outputDir.resolve("templates"));
 
-            Map<String, Program> templateAsts =
-                    new HashMap<>();
+            Map<String, JinjaTemplateInfo> templates = new HashMap<>();
+            Map<String, AST.JinjaCss.Program> templatePrograms = new HashMap<>();
 
-            File templateDir =
-                    new File("templates");
+            String[] templateFiles = {
+                    "add.html",
+                    "list.html",
+                    "view.html"
+            };
 
-            File[] templateFiles =
-                    templateDir.listFiles();
+            for (String fileName : templateFiles) {
 
-            if (templateFiles != null) {
+                String path = "templates/" + fileName;
 
-                for (File file : templateFiles) {
+                CharStream input = fromFileName(path);
 
-                    if (!file.getName()
-                            .endsWith(".html")) {
-                        continue;
-                    }
+                ProjectLexer lexer = new ProjectLexer(input);
 
-                    System.out.println(
-                            "\n==============================");
-                    System.out.println(
-                            "Template: " +
-                                    file.getName());
-                    System.out.println(
-                            "==============================");
+                CommonTokenStream token =
+                        new CommonTokenStream(lexer);
 
-                    CharStream input =
-                            CharStreams.fromFileName(
-                                    file.getPath());
+                ProjectParser parser =
+                        new ProjectParser(token);
 
-                    ProjectLexer lexer =
-                            new ProjectLexer(input);
+                ParseTree tree = parser.program();
 
-                    CommonTokenStream tokens =
-                            new CommonTokenStream(
-                                    lexer);
+                ProjectVisitor visitor =
+                        new ProjectVisitor();
 
-                    ProjectParser parser =
-                            new ProjectParser(tokens);
+                AST.JinjaCss.Program program =
+                        (AST.JinjaCss.Program) visitor.visit(tree);
 
-                    ParseTree tree =
-                            parser.program();
+                Files.writeString(
+                        outputDir.resolve("ast_jinja")
+                                .resolve(fileName.replace(".html", "_ast.txt")),
+                        program.prettyPrint(0)
+                );
 
-                    ProjectVisitor visitor =
-                            new ProjectVisitor();
+                SymbolTableBuilder builder =
+                        new SymbolTableBuilder(fileName);
 
-                    Program ast =
-                            (Program) visitor.visit(tree);
+                builder.build(program);
 
-                    System.out.println(
-                            ast.prettyPrint(0));
+                templates.put(
+                        fileName,
+                        builder.getTemplateInfo()
+                );
 
-                    SymbolTableBuilder builder =
-                            new SymbolTableBuilder(
-                                    file.getName());
-
-                    builder.build(ast);
-
-                    templates.put(
-                            file.getName(),
-                            builder.getTemplateInfo());
-
-                    templateAsts.put(
-                            file.getName(),
-                            ast);
-//                    JinjaCodeGenerator generator = new JinjaCodeGenerator();
-//                    generator.generate(ast);
-//                    generator.writeToFile(file.getName());
-
-                }
+                templatePrograms.put(
+                        fileName,
+                        program
+                );
             }
 
-            /*
-             * ==========================================
-             * Parse Flask / Python
-             * ==========================================
-             */
-            String pythonPath =
-                    "samples/app.py";
+            String pythonPath = "samples/test.py";
+            CharStream pythonInput = fromFileName(pythonPath);
+            PythonLexer pythonLexer = new PythonLexer(pythonInput);
+            CommonTokenStream pythonToken = new CommonTokenStream(pythonLexer);
 
-            CharStream pythonInput =
-                    CharStreams.fromFileName(
-                            pythonPath);
+            PythonParser pythonParser = new PythonParser(pythonToken);
+            ParseTree pythonTree = pythonParser.prog();
+            PythonVisitor programVisitor = new PythonVisitor();
+            AST.Program ast = (AST.Program) programVisitor.visit(pythonTree);
 
-            PythonLexer pythonLexer =
-                    new PythonLexer(
-                            pythonInput);
+            Files.writeString(
+                    outputDir.resolve("ast_python.txt"),
+                    ast.toString()
+            );
 
-            CommonTokenStream pythonTokens =
-                    new CommonTokenStream(
-                            pythonLexer);
+            // Build symbol table
+            SymbolTable.PyFlask.SymbolTableBuilder pythonSymbolTableBuilder = new SymbolTable.PyFlask.SymbolTableBuilder();
+            ast.accept(pythonSymbolTableBuilder);
 
-            PythonParser pythonParser =
-                    new PythonParser(
-                            pythonTokens);
+            // Print symbol table
+            SemanticAnalyzer analyzer = new SemanticAnalyzer(pythonSymbolTableBuilder.getSymbolTable());
+            ast.accept(analyzer);
 
-            ParseTree pythonTree =
-                    pythonParser.prog();
+//            analyzer.validateTemplateVariables(templates);
 
-            PythonVisitor pythonVisitor =
-                    new PythonVisitor();
+//            analyzer.printErrors();
+            Files.writeString(
+                    outputDir.resolve("semantic_report.txt"),
+                    analyzer.getReport()
+            );
 
-            AST.Program pythonAst =
-                    (AST.Program)
-                            pythonVisitor.visit(
-                                    pythonTree);
+            List<TemplateInvocation> templateInvocations =
+                    new ArrayList<>();
+            RuntimeExtractor extractor =
+                    new RuntimeExtractor(templateInvocations);
 
-            System.out.println(
-                    "\n=== Python AST ===");
+            ast.accept(extractor);
 
-            System.out.println(
-                    pythonAst);
+            for (TemplateInvocation invocation : templateInvocations) {
 
-            /*
-             * ==========================================
-             * Build Python Symbol Table
-             * ==========================================
-             */
-            SymbolTable.PyFlask.SymbolTableBuilder
-                    symbolTableBuilder =
-                    new SymbolTable.PyFlask
-                            .SymbolTableBuilder();
+                AST.JinjaCss.Program program =
+                        templatePrograms.get(
+                                invocation.getTemplateName());
 
-            pythonAst.accept(
-                    symbolTableBuilder);
+                JinjaCodeGenerator generator =
+                        new JinjaCodeGenerator(
+                                invocation.getContext());
 
-            System.out.println(
-                    "\n=== Python Symbol Table ===");
+                String html =
+                        generator.generate(program);
 
-            System.out.println(
-                    symbolTableBuilder
-                            .getSymbolTable());
+                Files.writeString(
+                        outputDir.resolve("templates")
+                                .resolve(invocation.getTemplateName()),
+                        html
+                );
+            }
+            StringBuilder sb = new StringBuilder();
 
-            /*
-             * ==========================================
-             * Semantic Analysis
-             * ==========================================
-             */
-            SemanticAnalyzer analyzer =
-                    new SemanticAnalyzer(
-                            symbolTableBuilder
-                                    .getSymbolTable());
+            for (TemplateInvocation invocation : templateInvocations) {
 
-            pythonAst.accept(analyzer);
+                sb.append("Template: ")
+                        .append(invocation.getTemplateName())
+                        .append(System.lineSeparator());
 
-            analyzer.validateTemplateVariables(templates);
+                sb.append(invocation.getContext())
+                        .append(System.lineSeparator())
+                        .append(System.lineSeparator());
+            }
 
-            /*
-             * ==========================================
-             * Print Errors
-             * ==========================================
-             */
-            analyzer.printErrors();
-
-            /*
-             * ==========================================
-             * Code Generation
-             * ==========================================
-             */
-//            CodeGenerationContext codeGenContext =
-//                    new CodeGenerationContext(pythonAst);
-
+            Files.writeString(
+                    outputDir.resolve("runtime_context.txt"),
+                    sb.toString()
+            );
             PythonCodeGeneration generator = new PythonCodeGeneration();
-            generator.generate(pythonAst);
-            generator.writeToFile("app.py");
-
-//            for (Map.Entry<String, JinjaTemplateInfo> entry : templates.entrySet()) {
-//                String templateName = entry.getKey();
-//                codeGenContext.registerTemplate(
-//                        templateName,
-//                        templateAsts.get(templateName),
-//                        entry.getValue());
-//            }
-//
-//            for (TemplateContext callSite : analyzer.getTemplateContexts()) {
-//                codeGenContext.linkCallSite(callSite);
-//            }
-//
-//            FlaskProjectGenerator projectGenerator =
-//                    new FlaskProjectGenerator(codeGenContext);
-//
-//            projectGenerator.generate();
-//            projectGenerator.printSummary();
-//
-//            Path outputDir = Path.of("generated_project");
-//            projectGenerator.writeTo(outputDir);
-//
-//            System.out.println(
-//                    "\nGenerated Flask project written to: "
-//                            + outputDir.toAbsolutePath());
-
-        } catch (Exception e) {
-
+            generator.generate(ast);
+            generator.writeToFile("test.py");
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

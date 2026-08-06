@@ -1,7 +1,0 @@
-python generator
-parser
-lexer
-visitor (global stmt,tuple expr, import module, arg, keyvalue removed,function def, generator expr, assigmStmt)
-ast visitor
-GlobalStmt class
-TupleExpr class

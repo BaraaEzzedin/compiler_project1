@@ -472,7 +472,7 @@ public class PythonCodeGeneration {
     }
 
     public void writeToFile(String filename) throws IOException {
-        Files.createDirectories(Path.of("/home/abdalrhman/Desktop/generated-compiler"));
-        Files.writeString(Path.of("/home/abdalrhman/Desktop/generated-compiler", filename), code.toString());
+        Files.createDirectories(Path.of("/home/mohee/compiler_project1/compiler_output/"));
+        Files.writeString(Path.of("/home/mohee/compiler_project1/compiler_output/", filename), code.toString());
     }
 }

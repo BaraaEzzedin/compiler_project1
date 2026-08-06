@@ -1,0 +1,551 @@
+Program (line 1)
+  Import (line 1)
+    Module: null
+    Names: os
+  Import (line 2)
+    From: flask
+    Names: Flask, render_template, redirect, url_for, request
+  Import (line 3)
+    From: werkzeug.utils
+    Names: secure_filename
+  Assign (line 4)
+    Target:
+      IdentifierExpr (line 4) app
+    Value:
+      FunctionCallExpr (line 4)
+        Callee:
+          IdentifierExpr (line 4) Flask
+        Args:
+          IdentifierExpr (line 4) __name__
+  Assign (line 5)
+    Target:
+      IdentifierExpr (line 5) UPLOAD_FOLDER
+    Value:
+      StringExpr (line 5) "static/images"
+  Assign (line 6)
+    Target:
+      AttributeExpr (line 6)
+        Target:
+          IdentifierExpr (line 6) app
+        Attribute:
+          IndexExpr (line 6)
+            Array:
+              IdentifierExpr (line 6) config
+            Index:
+              StringExpr (line 6) "UPLOAD_FOLDER"
+    Value:
+      IdentifierExpr (line 6) UPLOAD_FOLDER
+  Assign (line 7)
+    Target:
+      IdentifierExpr (line 7) products
+    Value:
+      ArrayLiteral (line 7)
+  FunctionDef list_products (line 8)
+    Decorators:
+      DecoratorExpr (line 8)
+        Name: app.route
+        Args:
+          StringExpr (line 8) "/"
+    Params: []
+    Body:
+      Block (line 10)
+        Return (line 10)
+          FunctionCallExpr (line 10)
+            Callee:
+              IdentifierExpr (line 10) render_template
+            Args:
+              StringExpr (line 10) "list.html"
+              KeyValue (line 10)
+                Key:
+                  IdentifierExpr (line 10) products
+                Value:
+                  IdentifierExpr (line 10) products
+  FunctionDef add_product (line 12)
+    Decorators:
+      DecoratorExpr (line 12)
+        Name: app.route
+        Args:
+          StringExpr (line 12) "/add"
+          KeyValue (line 12)
+            Key:
+              IdentifierExpr (line 12) methods
+            Value:
+              ArrayLiteral (line 12)
+                TupleExpr (line 12)
+                  Element:
+                    StringExpr (line 12) "GET"
+                  Element:
+                    StringExpr (line 12) "POST"
+    Params: []
+    Body:
+      Block (line 14)
+        If (line 14)
+          Condition:
+            AttributeExpr (line 14)
+              Target:
+                IdentifierExpr (line 14) request
+              Attribute:
+                BinaryExpr '==' (line 14)
+                  Left:
+                    IdentifierExpr (line 14) method
+                  Right:
+                    StringExpr (line 14) "POST"
+          Then:
+            Block (line 15)
+              Assign (line 15)
+                Target:
+                  IdentifierExpr (line 15) name
+                Value:
+                  AttributeExpr (line 15)
+                    Target:
+                      AttributeExpr (line 15)
+                        Target:
+                          IdentifierExpr (line 15) request
+                        Attribute:
+                          IdentifierExpr (line 15) form
+                    Attribute:
+                      FunctionCallExpr (line 15)
+                        Callee:
+                          IdentifierExpr (line 15) get
+                        Args:
+                          StringExpr (line 15) "name"
+              Assign (line 16)
+                Target:
+                  IdentifierExpr (line 16) price
+                Value:
+                  AttributeExpr (line 16)
+                    Target:
+                      AttributeExpr (line 16)
+                        Target:
+                          IdentifierExpr (line 16) request
+                        Attribute:
+                          IdentifierExpr (line 16) form
+                    Attribute:
+                      FunctionCallExpr (line 16)
+                        Callee:
+                          IdentifierExpr (line 16) get
+                        Args:
+                          StringExpr (line 16) "price"
+              Assign (line 17)
+                Target:
+                  IdentifierExpr (line 17) description
+                Value:
+                  AttributeExpr (line 17)
+                    Target:
+                      AttributeExpr (line 17)
+                        Target:
+                          IdentifierExpr (line 17) request
+                        Attribute:
+                          IdentifierExpr (line 17) form
+                    Attribute:
+                      FunctionCallExpr (line 17)
+                        Callee:
+                          IdentifierExpr (line 17) get
+                        Args:
+                          StringExpr (line 17) "description"
+              Assign (line 18)
+                Target:
+                  IdentifierExpr (line 18) image
+                Value:
+                  AttributeExpr (line 18)
+                    Target:
+                      IdentifierExpr (line 18) request
+                    Attribute:
+                      IndexExpr (line 18)
+                        Array:
+                          IdentifierExpr (line 18) files
+                        Index:
+                          StringExpr (line 18) "image"
+              Assign (line 19)
+                Target:
+                  IdentifierExpr (line 19) filename
+                Value:
+                  IdentifierExpr (line 19) None
+              If (line 20)
+                Condition:
+                  AttributeExpr (line 20)
+                    Target:
+                      LogicalExpr 'and' (line 20)
+                        Left:
+                          IdentifierExpr (line 20) image
+                        Right:
+                          IdentifierExpr (line 20) image
+                    Attribute:
+                      BinaryExpr '!=' (line 20)
+                        Left:
+                          IdentifierExpr (line 20) filename
+                        Right:
+                          StringExpr (line 20) ""
+                Then:
+                  Block (line 21)
+                    Assign (line 21)
+                      Target:
+                        IdentifierExpr (line 21) filename
+                      Value:
+                        FunctionCallExpr (line 21)
+                          Callee:
+                            IdentifierExpr (line 21) secure_filename
+                          Args:
+                            AttributeExpr (line 21)
+                              Target:
+                                IdentifierExpr (line 21) image
+                              Attribute:
+                                IdentifierExpr (line 21) filename
+                    Assign (line 22)
+                      Target:
+                        IdentifierExpr (line 22) image_path
+                      Value:
+                        AttributeExpr (line 22)
+                          Target:
+                            AttributeExpr (line 22)
+                              Target:
+                                IdentifierExpr (line 22) os
+                              Attribute:
+                                IdentifierExpr (line 22) path
+                          Attribute:
+                            FunctionCallExpr (line 22)
+                              Callee:
+                                IdentifierExpr (line 22) join
+                              Args:
+                                TupleExpr (line 22)
+                                  Element:
+                                    AttributeExpr (line 22)
+                                      Target:
+                                        IdentifierExpr (line 22) app
+                                      Attribute:
+                                        IndexExpr (line 22)
+                                          Array:
+                                            IdentifierExpr (line 22) config
+                                          Index:
+                                            StringExpr (line 22) "UPLOAD_FOLDER"
+                                  Element:
+                                    IdentifierExpr (line 22) filename
+                    ExprStmt (line 23)
+                      AttributeExpr (line 23)
+                        Target:
+                          IdentifierExpr (line 23) image
+                        Attribute:
+                          FunctionCallExpr (line 23)
+                            Callee:
+                              IdentifierExpr (line 23) save
+                            Args:
+                              IdentifierExpr (line 23) image_path
+                Else:
+                  Block (line 25)
+                    Assign (line 25)
+                      Target:
+                        IdentifierExpr (line 25) filename
+                      Value:
+                        IdentifierExpr (line 25) None
+              Assign (line 27)
+                Target:
+                  IdentifierExpr (line 27) product
+                Value:
+                  DictLiteral (line 27)
+                    KeyValue (line 27)
+                      Key:
+                        StringExpr (line 27) "id"
+                      Value:
+                        BinaryExpr '+' (line 27)
+                          Left:
+                            FunctionCallExpr (line 27)
+                              Callee:
+                                IdentifierExpr (line 27) len
+                              Args:
+                                IdentifierExpr (line 27) products
+                          Right:
+                            NumberExpr (line 27) 1.0
+                    KeyValue (line 27)
+                      Key:
+                        StringExpr (line 27) "name"
+                      Value:
+                        IdentifierExpr (line 27) name
+                    KeyValue (line 27)
+                      Key:
+                        StringExpr (line 27) "price"
+                      Value:
+                        IdentifierExpr (line 27) price
+                    KeyValue (line 27)
+                      Key:
+                        StringExpr (line 27) "description"
+                      Value:
+                        IdentifierExpr (line 27) description
+                    KeyValue (line 27)
+                      Key:
+                        StringExpr (line 27) "image"
+                      Value:
+                        IdentifierExpr (line 27) filename
+              ExprStmt (line 28)
+                AttributeExpr (line 28)
+                  Target:
+                    IdentifierExpr (line 28) products
+                  Attribute:
+                    FunctionCallExpr (line 28)
+                      Callee:
+                        IdentifierExpr (line 28) append
+                      Args:
+                        IdentifierExpr (line 28) product
+              Return (line 29)
+                FunctionCallExpr (line 29)
+                  Callee:
+                    IdentifierExpr (line 29) redirect
+                  Args:
+                    FunctionCallExpr (line 29)
+                      Callee:
+                        IdentifierExpr (line 29) url_for
+                      Args:
+                        StringExpr (line 29) "list_products"
+        Return (line 31)
+          FunctionCallExpr (line 31)
+            Callee:
+              IdentifierExpr (line 31) render_template
+            Args:
+              StringExpr (line 31) "add.html"
+  FunctionDef view_product (line 33)
+    Decorators:
+      DecoratorExpr (line 33)
+        Name: app.route
+        Args:
+          StringExpr (line 33) "/products/<int:product_id>"
+    Params: [product_id]
+    Body:
+      Block (line 35)
+        For (line 35)
+          Loop Variable:
+            IdentifierExpr (line 35) product
+          Iterable:
+            IdentifierExpr (line 35) products
+          Body:
+            Block (line 36)
+              If (line 36)
+                Condition:
+                  BinaryExpr '==' (line 36)
+                    Left:
+                      IndexExpr (line 36)
+                        Array:
+                          IdentifierExpr (line 36) product
+                        Index:
+                          StringExpr (line 36) "id"
+                    Right:
+                      IdentifierExpr (line 36) product_id
+                Then:
+                  Block (line 37)
+                    Return (line 37)
+                      FunctionCallExpr (line 37)
+                        Callee:
+                          IdentifierExpr (line 37) render_template
+                        Args:
+                          StringExpr (line 37) "view.html"
+                          KeyValue (line 37)
+                            Key:
+                              IdentifierExpr (line 37) product
+                            Value:
+                              IdentifierExpr (line 37) product
+        Return (line 40)
+          StringExpr (line 40) "Product not found"
+  FunctionDef delete_product (line 42)
+    Decorators:
+      DecoratorExpr (line 42)
+        Name: app.route
+        Args:
+          StringExpr (line 42) "/delete/<int:product_id>"
+          KeyValue (line 42)
+            Key:
+              IdentifierExpr (line 42) methods
+            Value:
+              ArrayLiteral (line 42)
+                StringExpr (line 42) "POST"
+    Params: [product_id]
+    Body:
+      Block (line 44)
+        Global (line 44)
+          Name: products
+        Assign (line 45)
+          Target:
+            IdentifierExpr (line 45) product
+          Value:
+            FunctionCallExpr (line 45)
+              Callee:
+                IdentifierExpr (line 45) next
+              Args:
+                TupleExpr (line 45)
+                  Element:
+                    GeneratorExpr (line 45)
+                      Yield:
+                        IdentifierExpr (line 45) p
+                      LoopVar:
+                        IdentifierExpr (line 45) p
+                      Iterable:
+                        IdentifierExpr (line 45) products
+                      Filter:
+                        BinaryExpr '==' (line 45)
+                          Left:
+                            IndexExpr (line 45)
+                              Array:
+                                IdentifierExpr (line 45) p
+                              Index:
+                                StringExpr (line 45) "id"
+                          Right:
+                            IdentifierExpr (line 45) product_id
+                  Element:
+                    IdentifierExpr (line 45) None
+        If (line 46)
+          Condition:
+            BinaryExpr '==' (line 46)
+              Left:
+                IdentifierExpr (line 46) product
+              Right:
+                IdentifierExpr (line 46) None
+          Then:
+            Block (line 47)
+              Return (line 47)
+                TupleExpr (line 47)
+                  Element:
+                    StringExpr (line 47) "Not Found"
+                  Element:
+                    NumberExpr (line 47) 404.0
+        Assign (line 49)
+          Target:
+            IdentifierExpr (line 49) image_path
+          Value:
+            AttributeExpr (line 49)
+              Target:
+                AttributeExpr (line 49)
+                  Target:
+                    IdentifierExpr (line 49) os
+                  Attribute:
+                    IdentifierExpr (line 49) path
+              Attribute:
+                FunctionCallExpr (line 49)
+                  Callee:
+                    IdentifierExpr (line 49) join
+                  Args:
+                    TupleExpr (line 49)
+                      Element:
+                        AttributeExpr (line 49)
+                          Target:
+                            IdentifierExpr (line 49) app
+                          Attribute:
+                            IndexExpr (line 49)
+                              Array:
+                                IdentifierExpr (line 49) config
+                              Index:
+                                StringExpr (line 49) "UPLOAD_FOLDER"
+                      Element:
+                        IndexExpr (line 49)
+                          Array:
+                            IdentifierExpr (line 49) product
+                          Index:
+                            StringExpr (line 49) "image"
+        If (line 50)
+          Condition:
+            AttributeExpr (line 50)
+              Target:
+                AttributeExpr (line 50)
+                  Target:
+                    BinaryExpr '!=' (line 50)
+                      Left:
+                        IndexExpr (line 50)
+                          Array:
+                            IdentifierExpr (line 50) product
+                          Index:
+                            StringExpr (line 50) "image"
+                      Right:
+                        LogicalExpr 'and' (line 50)
+                          Left:
+                            StringExpr (line 50) "default.jpg"
+                          Right:
+                            IdentifierExpr (line 50) os
+                  Attribute:
+                    IdentifierExpr (line 50) path
+              Attribute:
+                FunctionCallExpr (line 50)
+                  Callee:
+                    IdentifierExpr (line 50) exists
+                  Args:
+                    IdentifierExpr (line 50) image_path
+          Then:
+            Block (line 51)
+              ExprStmt (line 51)
+                AttributeExpr (line 51)
+                  Target:
+                    IdentifierExpr (line 51) os
+                  Attribute:
+                    FunctionCallExpr (line 51)
+                      Callee:
+                        IdentifierExpr (line 51) remove
+                      Args:
+                        IdentifierExpr (line 51) image_path
+        Assign (line 53)
+          Target:
+            IdentifierExpr (line 53) new_products
+          Value:
+            ArrayLiteral (line 53)
+        For (line 54)
+          Loop Variable:
+            IdentifierExpr (line 54) p
+          Iterable:
+            IdentifierExpr (line 54) products
+          Body:
+            Block (line 55)
+              If (line 55)
+                Condition:
+                  BinaryExpr '!=' (line 55)
+                    Left:
+                      IndexExpr (line 55)
+                        Array:
+                          IdentifierExpr (line 55) p
+                        Index:
+                          StringExpr (line 55) "id"
+                    Right:
+                      IdentifierExpr (line 55) product_id
+                Then:
+                  Block (line 56)
+                    ExprStmt (line 56)
+                      AttributeExpr (line 56)
+                        Target:
+                          IdentifierExpr (line 56) new_products
+                        Attribute:
+                          FunctionCallExpr (line 56)
+                            Callee:
+                              IdentifierExpr (line 56) append
+                            Args:
+                              IdentifierExpr (line 56) p
+        Assign (line 59)
+          Target:
+            IdentifierExpr (line 59) products
+          Value:
+            IdentifierExpr (line 59) new_products
+        Return (line 60)
+          FunctionCallExpr (line 60)
+            Callee:
+              IdentifierExpr (line 60) redirect
+            Args:
+              FunctionCallExpr (line 60)
+                Callee:
+                  IdentifierExpr (line 60) url_for
+                Args:
+                  StringExpr (line 60) "list_products"
+  If (line 62)
+    Condition:
+      BinaryExpr '==' (line 62)
+        Left:
+          IdentifierExpr (line 62) __name__
+        Right:
+          StringExpr (line 62) "__main__"
+    Then:
+      Block (line 63)
+        ExprStmt (line 63)
+          AttributeExpr (line 63)
+            Target:
+              IdentifierExpr (line 63) app
+            Attribute:
+              FunctionCallExpr (line 63)
+                Callee:
+                  IdentifierExpr (line 63) run
+                Args:
+                  KeyValue (line 63)
+                    Key:
+                      IdentifierExpr (line 63) debug
+                    Value:
+                      BooleanExpr (line 63) true
