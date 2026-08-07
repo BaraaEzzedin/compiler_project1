@@ -384,11 +384,42 @@ public class PythonCodeGeneration {
 
         emitIndent();
 
+        if (node.expr instanceof FunctionCallExpr call &&
+                isViewTemplateCall(call)) {
+
+            emit("return render_template(");
+            emit("f\"products/{product_id}.html\"");
+            emit(")");
+            emit("\n");
+
+            return;
+        }
+
         emit("return ");
 
-        visitExpression(node.expr);
-
+        if (node.expr != null) {
+            visitExpression(node.expr);
+        }
         emit("\n");
+    }
+
+    private boolean isViewTemplateCall(FunctionCallExpr node) {
+
+        if (!(node.callee instanceof IdentifierExpr id))
+            return false;
+
+        if (!id.name.equals("render_template"))
+            return false;
+
+        if (node.args == null || node.args.isEmpty())
+            return false;
+
+        Expression first = node.args.get(0);
+
+        if (!(first instanceof StringExpr s))
+            return false;
+
+        return s.value.equals("view.html");
     }
 
     private void visitDictLiteral(DictLiteral node) {
@@ -472,7 +503,28 @@ public class PythonCodeGeneration {
     }
 
     public void writeToFile(String filename) throws IOException {
-        Files.createDirectories(Path.of("/home/abdalrhman/Desktop/generated-compiler"));
-        Files.writeString(Path.of("/home/abdalrhman/Desktop/generated-compiler", filename), code.toString());
+        Path outputDir =
+                Path.of("/home/abdalrhman/Desktop/compiler_project1/compiler_output");
+
+        Files.createDirectories(outputDir);
+
+        String helper =
+                """
+                        import json
+                        
+                        def jsonLoad(path):
+                            with open(path, "r", encoding="utf-8") as f:
+                                return json.load(f)
+                        
+                        def jsonSave(path, data):
+                            with open(path, "w", encoding="utf-8") as f:
+                                json.dump(data, f, indent=4)
+                        
+                        """;
+
+        Files.writeString(
+                outputDir.resolve(filename),
+                helper + code.toString()
+        );
     }
 }

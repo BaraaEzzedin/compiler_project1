@@ -396,4 +396,12 @@ public class SemanticAnalyzer extends ASTVisitor {
             }
         }
     }
+
+    public String getReport() {
+        if (errors.isEmpty()) {
+            return "Semantic analysis completed successfully.\nNo errors found.";
+        }
+
+        return String.join(System.lineSeparator(), (CharSequence) errors);
+    }
 }

@@ -1,22 +1,176 @@
-<html>
-    <body>
-        <h1>
-Product Store            </h1>
-            <div>
-                <h3>
-Phone                    </h3>
-                    <p>
-300.0                        </p>
-                        <span>
-Available                            </span>
-                            </div>
-                            <div>
-                                <h3>
-Laptop                                    </h3>
-                                    <p>
-800.0                                        </p>
-                                        <span>
-Not Available                                            </span>
-                                            </div>
-                                            </body>
-                                            </html>
+<head>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-hover: #3a56d4;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07) 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+            --shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.1) 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Inter";
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            background: var(--card);
+            padding: 1.5rem 1rem;
+            text-align: center;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text);
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 2.5rem auto;
+            padding: 0 1rem;
+        }
+
+        .inner {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        h1,
+        h2,
+        h3 {
+            margin-top: 0;
+            color: var(--text);
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #eef2ff;
+        }
+
+        .product-grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        }
+
+        .product-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 1.25rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-name {
+            margin: 0 0 0.5rem;
+            font-size: 1.25rem;
+        }
+
+        .price {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 0.5rem 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.65rem 1.25rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            text-align: center;
+            margin-top: auto;
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 640px) {
+            .inner {
+                padding: 1.5rem;
+            }
+
+            header {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+    <title>Products List</title>
+</head>
+<div class="container">
+    <div class="inner">
+        <a href="/add" class="btn"> + Add Product </a>
+        <h2>All Products</h2>
+        {% if products %}
+        <div class="product-grid">
+            {% for p in products %}
+            <div class="product-card">
+                <img
+                        class="product-image"
+                        src="{{ url_for('static', filename='images/' + p.image) }}"
+                        alt="{{ p.name }}"
+                />
+                <div class="product-info">
+                    <h3 class="product-name">{{ p.name }}</h3>
+                    <div class="price">${{ p.price }}</div>
+                    <a href="/products/{{ p.id }}" class="btn btn-small">
+                        View Details
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>No products yet.</p>
+        {% endif %}
+    </div>
+</div>

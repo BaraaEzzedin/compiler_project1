@@ -18,10 +18,7 @@ import AST.JinjaCss.Statements.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -448,6 +445,7 @@ public class JinjaCodeGenerator {
 //        out.append("\n");
 
         Object iterable = evaluator.evaluate(node.iterable);
+        System.out.println(iterable);
 
         if (!(iterable instanceof List<?> list)) {
             return;
@@ -550,6 +548,7 @@ public class JinjaCodeGenerator {
 
     private String resolveAttributeValue(String value) {
 
+
         Pattern pattern =
                 Pattern.compile("\\{\\{\\s*(.*?)\\s*\\}\\}");
 
@@ -564,6 +563,34 @@ public class JinjaCodeGenerator {
             String expression =
                     matcher.group(1).trim();
 
+            if (expression.startsWith("url_for(")) {
+
+                Pattern p = Pattern.compile(
+                        "filename\\s*=\\s*'([^']*)'\\s*\\+\\s*(\\w+)\\.(\\w+)"
+                );
+
+                Matcher m = p.matcher(expression);
+
+                if (m.find()) {
+
+                    String prefix = m.group(1);      // images/
+                    String variable = m.group(2);    // p
+                    String field = m.group(3);       // image
+
+                    Map<?, ?> object =
+                            (Map<?, ?>) context.get(variable);
+
+                    String filename =
+                            String.valueOf(object.get(field));
+
+                    matcher.appendReplacement(
+                            result,
+                            "/static/" + prefix + filename
+                    );
+
+                    continue;
+                }
+            }
             List<String> parts =
                     Arrays.asList(expression.split("\\."));
 
@@ -591,8 +618,9 @@ public class JinjaCodeGenerator {
 
     private String formatValue(Object value) {
 
-        if (value == null)
+        if (value == null) {
             return "";
+        }
 
         if (value instanceof Double d) {
 

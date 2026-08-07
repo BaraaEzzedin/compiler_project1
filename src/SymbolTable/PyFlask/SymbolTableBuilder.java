@@ -40,6 +40,22 @@ public class SymbolTableBuilder
                         "render_template",
                         SymbolKind.BUILTIN,
                         0));
+        currentScope.define(
+                new Symbol(
+                        "jsonLoad",
+                        SymbolKind.BUILTIN,
+                        0));
+        currentScope.define(
+                new Symbol(
+                        "jsonSave",
+                        SymbolKind.BUILTIN,
+                        0));
+        currentScope.define(
+                new Symbol(
+                        "str",
+                        SymbolKind.BUILTIN,
+                        0));
+
 
         currentScope.define(
                 new Symbol(
@@ -141,10 +157,10 @@ public class SymbolTableBuilder
 
         bind(node);
 
-        Symbol symbol = new Symbol(node.name,SymbolKind.FUNCTION,node.line);
+        Symbol symbol = new Symbol(node.name, SymbolKind.FUNCTION, node.line);
         symbol.parameterCount = node.parameters.size();
-        if(!currentScope.define(symbol)){
-            SemanticAnalyzer.report(node.line,"Duplicate definition of function '" + node.name + "'");
+        if (!currentScope.define(symbol)) {
+            SemanticAnalyzer.report(node.line, "Duplicate definition of function '" + node.name + "'");
             return;
         }
 
@@ -157,7 +173,7 @@ public class SymbolTableBuilder
                     param,
                     SymbolKind.PARAMETER,
                     node.line);
-            if(!currentScope.define(params)){
+            if (!currentScope.define(params)) {
                 SemanticAnalyzer.report(
                         node.line,
                         "Duplicate definition for param '" + param + "'"
@@ -203,9 +219,9 @@ public class SymbolTableBuilder
 
         bind(node);
 
-        Symbol symbol = new Symbol(node.name,SymbolKind.CLASS,node.line);
+        Symbol symbol = new Symbol(node.name, SymbolKind.CLASS, node.line);
 
-        if(!currentScope.define(symbol)){
+        if (!currentScope.define(symbol)) {
             SemanticAnalyzer.report(
                     node.line,
                     "Duplicate definition of class '" + node.name + "'"
@@ -231,7 +247,7 @@ public class SymbolTableBuilder
 
         if (node.name instanceof IdentifierExpr id) {
 
-            Symbol symbol =new Symbol(id.name,SymbolKind.VARIABLE,node.line);
+            Symbol symbol = new Symbol(id.name, SymbolKind.VARIABLE, node.line);
             currentScope.define(symbol);
         }
 
@@ -257,8 +273,7 @@ public class SymbolTableBuilder
                         )
                 );
             }
-        }
-        else {
+        } else {
 
             currentScope.define(
                     new Symbol(
@@ -280,6 +295,7 @@ public class SymbolTableBuilder
             }
         }
     }
+
     @Override
     public void visit(ForStmt node) {
 
@@ -364,6 +380,7 @@ public class SymbolTableBuilder
     public void visit(BooleanExpr node) {
         bind(node);
     }
+
     @Override
     public void visit(BinaryExpr node) {
 
@@ -375,11 +392,11 @@ public class SymbolTableBuilder
         if (node.right != null)
             node.right.accept(this);
     }
+
     @Override
     public void visit(FunctionCallExpr node) {
 
         bind(node);
-
 
 
         if (node.callee != null)
@@ -391,6 +408,7 @@ public class SymbolTableBuilder
             }
         }
     }
+
     @Override
     public void visit(AttributeExpr node) {
 
@@ -399,6 +417,7 @@ public class SymbolTableBuilder
         if (node.target != null)
             node.target.accept(this);
     }
+
     @Override
     public void visit(ArrayLiteral node) {
 
@@ -408,11 +427,13 @@ public class SymbolTableBuilder
             e.accept(this);
         }
     }
+
     @Override
     public void visit(DictLiteral node) {
         bind(node);
         super.visit(node);
     }
+
     @Override
     public void visit(IndexExpr node) {
         bind(node);

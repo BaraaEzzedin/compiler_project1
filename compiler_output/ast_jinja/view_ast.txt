@@ -1,0 +1,457 @@
+Program (line 1)
+  NormalHtmlElement 'head' (line 1)
+    Content:
+      StyleElement (line 2)
+        CSS Statements:
+          CSSRule (line 3)
+            Selector:
+              CSSSelector (line 3)
+                CSSSelectorSequence (line 3)
+                  CSSCompoundSelector (line 3)
+                    CSSPseudoSelector ':root' (line 3)
+            Declarations:
+              CSSDeclaration '--primary' (line 4)
+                Value:
+                  CSSSingleValue (line 4)
+                    CSSColor (line 4) "#4361ee"
+              CSSDeclaration '--primary-hover' (line 5)
+                Value:
+                  CSSSingleValue (line 5)
+                    CSSColor (line 5) "#3a56d4"
+              CSSDeclaration '--bg' (line 6)
+                Value:
+                  CSSSingleValue (line 6)
+                    CSSColor (line 6) "#f8fafc"
+              CSSDeclaration '--card' (line 7)
+                Value:
+                  CSSSingleValue (line 7)
+                    CSSColor (line 7) "#ffffff"
+              CSSDeclaration '--border' (line 8)
+                Value:
+                  CSSSingleValue (line 8)
+                    CSSColor (line 8) "#e2e8f0"
+              CSSDeclaration '--text' (line 9)
+                Value:
+                  CSSSingleValue (line 9)
+                    CSSColor (line 9) "#1e293b"
+              CSSDeclaration '--text-light' (line 10)
+                Value:
+                  CSSSingleValue (line 10)
+                    CSSColor (line 10) "#64748b"
+              CSSDeclaration '--shadow-sm' (line 11)
+                Value:
+                  CSSMultipleValues (line 11)
+                    CSSNumberTerm (line 11) 0
+                    CSSNumberTerm (line 11) 1px
+                    CSSNumberTerm (line 11) 3px
+                    CSSFunctionTerm 'rgba' (line 11)
+                      Arguments:
+                        CSSValueList (line 11)
+                          CSSMultipleValues (line 11)
+                            CSSNumberTerm (line 11) 0
+                            CSSNumberTerm (line 11) 0
+                            CSSNumberTerm (line 11) 0
+                            CSSNumberTerm (line 11) 0.1
+              CSSDeclaration '--shadow' (line 12)
+                Value:
+                  CSSMultipleValues (line 12)
+                    CSSNumberTerm (line 12) 0
+                    CSSNumberTerm (line 12) 4px
+                    CSSNumberTerm (line 12) 6px
+                    CSSIdentifier (line 12) '-1px'
+                    CSSFunctionTerm 'rgba' (line 12)
+                      Arguments:
+                        CSSValueList (line 12)
+                          CSSMultipleValues (line 12)
+                            CSSNumberTerm (line 12) 0
+                            CSSNumberTerm (line 12) 0
+                            CSSNumberTerm (line 12) 0
+                            CSSNumberTerm (line 12) 0.07
+                    CSSNumberTerm (line 12) 0
+                    CSSNumberTerm (line 12) 2px
+                    CSSNumberTerm (line 12) 4px
+                    CSSIdentifier (line 12) '-1px'
+                    CSSFunctionTerm 'rgba' (line 12)
+                      Arguments:
+                        CSSValueList (line 12)
+                          CSSMultipleValues (line 12)
+                            CSSNumberTerm (line 12) 0
+                            CSSNumberTerm (line 12) 0
+                            CSSNumberTerm (line 12) 0
+                            CSSNumberTerm (line 12) 0.04
+              CSSDeclaration '--shadow-lg' (line 13)
+                Value:
+                  CSSMultipleValues (line 13)
+                    CSSNumberTerm (line 13) 0
+                    CSSNumberTerm (line 13) 10px
+                    CSSNumberTerm (line 13) 25px
+                    CSSIdentifier (line 13) '-3px'
+                    CSSFunctionTerm 'rgba' (line 13)
+                      Arguments:
+                        CSSValueList (line 13)
+                          CSSMultipleValues (line 13)
+                            CSSNumberTerm (line 13) 0
+                            CSSNumberTerm (line 13) 0
+                            CSSNumberTerm (line 13) 0
+                            CSSNumberTerm (line 13) 0.1
+                    CSSNumberTerm (line 13) 0
+                    CSSNumberTerm (line 13) 4px
+                    CSSNumberTerm (line 13) 6px
+                    CSSIdentifier (line 13) '-2px'
+                    CSSFunctionTerm 'rgba' (line 13)
+                      Arguments:
+                        CSSValueList (line 13)
+                          CSSMultipleValues (line 13)
+                            CSSNumberTerm (line 13) 0
+                            CSSNumberTerm (line 13) 0
+                            CSSNumberTerm (line 13) 0
+                            CSSNumberTerm (line 13) 0.05
+              CSSDeclaration '--radius' (line 14)
+                Value:
+                  CSSSingleValue (line 14)
+                    CSSNumberTerm (line 14) 12px
+          CSSRule (line 17)
+            Selector:
+              CSSSelector (line 17)
+                CSSSelectorSequence (line 17)
+                  CSSCompoundSelector (line 17)
+                    CSSClassSelector '.container' (line 17)
+            Declarations:
+              CSSDeclaration 'max-width' (line 18)
+                Value:
+                  CSSSingleValue (line 18)
+                    CSSNumberTerm (line 18) 1100px
+              CSSDeclaration 'margin' (line 19)
+                Value:
+                  CSSMultipleValues (line 19)
+                    CSSNumberTerm (line 19) 2.5rem
+                    CSSIdentifier (line 19) 'auto'
+              CSSDeclaration 'padding' (line 20)
+                Value:
+                  CSSMultipleValues (line 20)
+                    CSSNumberTerm (line 20) 0
+                    CSSNumberTerm (line 20) 1rem
+          CSSRule (line 23)
+            Selector:
+              CSSSelector (line 23)
+                CSSSelectorSequence (line 23)
+                  CSSCompoundSelector (line 23)
+                    CSSClassSelector '.inner' (line 23)
+            Declarations:
+              CSSDeclaration 'background' (line 24)
+                Value:
+                  CSSSingleValue (line 24)
+                    CSSVariable (line 24) var(--var(--card))
+              CSSDeclaration 'border-radius' (line 25)
+                Value:
+                  CSSSingleValue (line 25)
+                    CSSVariable (line 25) var(--var(--radius))
+              CSSDeclaration 'padding' (line 26)
+                Value:
+                  CSSSingleValue (line 26)
+                    CSSNumberTerm (line 26) 2rem
+              CSSDeclaration 'box-shadow' (line 27)
+                Value:
+                  CSSSingleValue (line 27)
+                    CSSVariable (line 27) var(--var(--shadow-lg))
+          CSSRule (line 30)
+            Selector:
+              CSSSelector (line 30)
+                CSSSelectorSequence (line 30)
+                  CSSCompoundSelector (line 30)
+                    CSSTypeSelector 'h1' (line 30)
+                CSSSelectorSequence (line 31)
+                  CSSCompoundSelector (line 31)
+                    CSSTypeSelector 'h2' (line 31)
+                CSSSelectorSequence (line 32)
+                  CSSCompoundSelector (line 32)
+                    CSSTypeSelector 'h3' (line 32)
+            Declarations:
+              CSSDeclaration 'margin-top' (line 33)
+                Value:
+                  CSSSingleValue (line 33)
+                    CSSNumberTerm (line 33) 0
+              CSSDeclaration 'color' (line 34)
+                Value:
+                  CSSSingleValue (line 34)
+                    CSSVariable (line 34) var(--var(--text))
+          CSSRule (line 37)
+            Selector:
+              CSSSelector (line 37)
+                CSSSelectorSequence (line 37)
+                  CSSCompoundSelector (line 37)
+                    CSSTypeSelector 'h2' (line 37)
+            Declarations:
+              CSSDeclaration 'font-size' (line 38)
+                Value:
+                  CSSSingleValue (line 38)
+                    CSSNumberTerm (line 38) 1.6rem
+              CSSDeclaration 'font-weight' (line 39)
+                Value:
+                  CSSSingleValue (line 39)
+                    CSSNumberTerm (line 39) 600
+              CSSDeclaration 'margin-bottom' (line 40)
+                Value:
+                  CSSSingleValue (line 40)
+                    CSSNumberTerm (line 40) 1.5rem
+              CSSDeclaration 'padding-bottom' (line 41)
+                Value:
+                  CSSSingleValue (line 41)
+                    CSSNumberTerm (line 41) 0.5rem
+              CSSDeclaration 'border-bottom' (line 42)
+                Value:
+                  CSSMultipleValues (line 42)
+                    CSSNumberTerm (line 42) 2px
+                    CSSIdentifier (line 42) 'solid'
+                    CSSColor (line 42) "#eef2ff"
+          CSSRule (line 45)
+            Selector:
+              CSSSelector (line 45)
+                CSSSelectorSequence (line 45)
+                  CSSCompoundSelector (line 45)
+                    CSSClassSelector '.back-link' (line 45)
+            Declarations:
+              CSSDeclaration 'display' (line 46)
+                Value:
+                  CSSSingleValue (line 46)
+                    CSSIdentifier (line 46) 'inline-block'
+              CSSDeclaration 'margin-bottom' (line 47)
+                Value:
+                  CSSSingleValue (line 47)
+                    CSSNumberTerm (line 47) 1.5rem
+              CSSDeclaration 'color' (line 48)
+                Value:
+                  CSSSingleValue (line 48)
+                    CSSVariable (line 48) var(--var(--primary))
+              CSSDeclaration 'text-decoration' (line 49)
+                Value:
+                  CSSSingleValue (line 49)
+                    CSSIdentifier (line 49) 'none'
+              CSSDeclaration 'font-weight' (line 50)
+                Value:
+                  CSSSingleValue (line 50)
+                    CSSNumberTerm (line 50) 500
+          CSSRule (line 53)
+            Selector:
+              CSSSelector (line 53)
+                CSSSelectorSequence (line 53)
+                  CSSCompoundSelector (line 53)
+                    CSSClassSelector '.back-link' (line 53)
+                      CSSPseudoSelector ':hover' (line 53)
+            Declarations:
+              CSSDeclaration 'text-decoration' (line 54)
+                Value:
+                  CSSSingleValue (line 54)
+                    CSSIdentifier (line 54) 'underline'
+          CSSRule (line 57)
+            Selector:
+              CSSSelector (line 57)
+                CSSSelectorSequence (line 57)
+                  CSSCompoundSelector (line 57)
+                    CSSClassSelector '.btn' (line 57)
+            Declarations:
+              CSSDeclaration 'display' (line 58)
+                Value:
+                  CSSSingleValue (line 58)
+                    CSSIdentifier (line 58) 'inline-block'
+              CSSDeclaration 'padding' (line 59)
+                Value:
+                  CSSMultipleValues (line 59)
+                    CSSNumberTerm (line 59) 0.65rem
+                    CSSNumberTerm (line 59) 1.25rem
+              CSSDeclaration 'background' (line 60)
+                Value:
+                  CSSSingleValue (line 60)
+                    CSSVariable (line 60) var(--var(--primary))
+              CSSDeclaration 'color' (line 61)
+                Value:
+                  CSSSingleValue (line 61)
+                    CSSIdentifier (line 61) 'white'
+              CSSDeclaration 'text-decoration' (line 62)
+                Value:
+                  CSSSingleValue (line 62)
+                    CSSIdentifier (line 62) 'none'
+              CSSDeclaration 'border-radius' (line 63)
+                Value:
+                  CSSSingleValue (line 63)
+                    CSSNumberTerm (line 63) 8px
+              CSSDeclaration 'font-weight' (line 64)
+                Value:
+                  CSSSingleValue (line 64)
+                    CSSNumberTerm (line 64) 500
+              CSSDeclaration 'font-size' (line 65)
+                Value:
+                  CSSSingleValue (line 65)
+                    CSSNumberTerm (line 65) 0.95rem
+              CSSDeclaration 'text-align' (line 66)
+                Value:
+                  CSSSingleValue (line 66)
+                    CSSIdentifier (line 66) 'center'
+              CSSDeclaration 'margin-top' (line 67)
+                Value:
+                  CSSSingleValue (line 67)
+                    CSSIdentifier (line 67) 'auto'
+          CSSRule (line 70)
+            Selector:
+              CSSSelector (line 70)
+                CSSSelectorSequence (line 70)
+                  CSSCompoundSelector (line 70)
+                    CSSClassSelector '.btn' (line 70)
+                      CSSPseudoSelector ':hover' (line 70)
+            Declarations:
+              CSSDeclaration 'background' (line 71)
+                Value:
+                  CSSSingleValue (line 71)
+                    CSSVariable (line 71) var(--var(--primary-hover))
+              CSSDeclaration 'transform' (line 72)
+                Value:
+                  CSSSingleValue (line 72)
+                    CSSFunctionTerm 'translateY' (line 72)
+                      Arguments:
+                        CSSValueList (line 72)
+                          CSSSingleValue (line 72)
+                            CSSIdentifier (line 72) '-1px'
+              CSSDeclaration 'box-shadow' (line 73)
+                Value:
+                  CSSMultipleValues (line 73)
+                    CSSNumberTerm (line 73) 0
+                    CSSNumberTerm (line 73) 6px
+                    CSSNumberTerm (line 73) 16px
+                    CSSFunctionTerm 'rgba' (line 73)
+                      Arguments:
+                        CSSValueList (line 73)
+                          CSSMultipleValues (line 73)
+                            CSSNumberTerm (line 73) 67
+                            CSSNumberTerm (line 73) 97
+                            CSSNumberTerm (line 73) 238
+                            CSSNumberTerm (line 73) 0.3
+          CSSRule (line 76)
+            Selector:
+              CSSSelector (line 76)
+                CSSSelectorSequence (line 76)
+                  CSSCompoundSelector (line 76)
+                    CSSClassSelector '.btn-small' (line 76)
+            Declarations:
+              CSSDeclaration 'padding' (line 77)
+                Value:
+                  CSSMultipleValues (line 77)
+                    CSSNumberTerm (line 77) 0.5rem
+                    CSSNumberTerm (line 77) 1rem
+              CSSDeclaration 'font-size' (line 78)
+                Value:
+                  CSSSingleValue (line 78)
+                    CSSNumberTerm (line 78) 0.85rem
+          CSSRule (line 81)
+            Selector:
+              CSSSelector (line 81)
+                CSSSelectorSequence (line 81)
+                  CSSCompoundSelector (line 81)
+                    CSSClassSelector '.btn-danger' (line 81)
+            Declarations:
+              CSSDeclaration 'background-color' (line 82)
+                Value:
+                  CSSSingleValue (line 82)
+                    CSSIdentifier (line 82) 'red'
+          CSSRule (line 85)
+            Selector:
+              CSSSelector (line 85)
+                CSSSelectorSequence (line 85)
+                  CSSCompoundSelector (line 85)
+                    CSSClassSelector '.btn-danger' (line 85)
+                      CSSPseudoSelector ':hover' (line 85)
+            Declarations:
+              CSSDeclaration 'background-color' (line 86)
+                Value:
+                  CSSSingleValue (line 86)
+                    CSSIdentifier (line 86) 'red'
+          CSSMediaRule (line 89)
+            Query:
+              CSSMediaQuery (line 89)
+                Expression:
+                  CSSMediaExpression 'max-width' (line 89)
+                    Value:
+                      CSSSingleValue (line 89)
+                        CSSNumberTerm (line 89) 640px
+            Rules:
+              CSSRule (line 90)
+                Selector:
+                  CSSSelector (line 90)
+                    CSSSelectorSequence (line 90)
+                      CSSCompoundSelector (line 90)
+                        CSSClassSelector '.inner' (line 90)
+                Declarations:
+                  CSSDeclaration 'padding' (line 91)
+                    Value:
+                      CSSSingleValue (line 91)
+                        CSSNumberTerm (line 91) 1.5rem
+              CSSRule (line 94)
+                Selector:
+                  CSSSelector (line 94)
+                    CSSSelectorSequence (line 94)
+                      CSSCompoundSelector (line 94)
+                        CSSTypeSelector 'header' (line 94)
+                Declarations:
+                  CSSDeclaration 'font-size' (line 95)
+                    Value:
+                      CSSSingleValue (line 95)
+                        CSSNumberTerm (line 95) 1.5rem
+      NormalHtmlElement 'title' (line 99)
+        Content:
+          TextStatement (line 99) "Product Details"
+  NormalHtmlElement 'div' (line 101)
+    Attributes:
+      HtmlAttribute 'class' = "container" (line 101)
+    Content:
+      NormalHtmlElement 'div' (line 102)
+        Attributes:
+          HtmlAttribute 'class' = "inner" (line 102)
+        Content:
+          NormalHtmlElement 'div' (line 103)
+            Content:
+              NormalHtmlElement 'a' (line 104)
+                Attributes:
+                  HtmlAttribute 'href' = "/" (line 104)
+                  HtmlAttribute 'class' = "back-link" (line 104)
+                Content:
+                  TextStatement (line 104) "← Back to product list"
+              NormalHtmlElement 'form' (line 105)
+                Attributes:
+                  HtmlAttribute 'action' = "/delete/{{product.id}}" (line 106)
+                  HtmlAttribute 'method' = "POST" (line 107)
+                Content:
+                  NormalHtmlElement 'button' (line 109)
+                    Attributes:
+                      HtmlAttribute 'type' = "submit" (line 109)
+                      HtmlAttribute 'class' = "btn btn-small btn-danger" (line 109)
+                    Content:
+                      TextStatement (line 109) "Delete"
+          NormalHtmlElement 'h2' (line 112)
+            Content:
+              JinjaVariableStatement (line 112)
+                Expression:
+                  JinjaIdentifier (line 112) 'product.name'
+          SelfClosingHtmlElement 'img' (line 113)
+            Attributes:
+              HtmlAttribute 'src' = "{{ url_for('static', filename='images/' + product.image) }}" (line 114)
+              HtmlAttribute 'alt' = "{{ product.name }}" (line 115)
+              HtmlAttribute 'width' = "500" (line 116)
+              HtmlAttribute 'height' = "500" (line 117)
+          NormalHtmlElement 'p' (line 119)
+            Content:
+              NormalHtmlElement 'strong' (line 120)
+                Content:
+                  TextStatement (line 120) "Price:"
+              TextStatement (line 120) "$"
+              JinjaVariableStatement (line 121)
+                Expression:
+                  JinjaIdentifier (line 121) 'product.price'
+          NormalHtmlElement 'p' (line 123)
+            Content:
+              NormalHtmlElement 'strong' (line 124)
+                Content:
+                  TextStatement (line 124) "Description:"
+          NormalHtmlElement 'p' (line 126)
+            Content:
+              JinjaVariableStatement (line 126)
+                Expression:
+                  JinjaIdentifier (line 126) 'product.description'

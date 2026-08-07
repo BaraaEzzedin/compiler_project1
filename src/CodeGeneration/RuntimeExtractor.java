@@ -38,6 +38,7 @@ public class RuntimeExtractor extends ASTVisitor {
         super.visit(node);
     }
 
+
     @Override
     public void visit(FunctionCallExpr node) {
         if (!(node.callee instanceof IdentifierExpr id)) {

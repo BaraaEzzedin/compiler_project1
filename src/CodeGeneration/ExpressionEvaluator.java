@@ -2,7 +2,9 @@ package CodeGeneration;
 
 import AST.PyFlask.Expression;
 import AST.PyFlask.Expressions.*;
+import helper.JsonFunctions;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,6 +73,38 @@ public class ExpressionEvaluator {
 
             return result;
         }
+
+        if (expr instanceof FunctionCallExpr call) {
+            return evaluateFunctionCall(call);
+        }
         return null;
+    }
+
+    private Object evaluateFunctionCall(FunctionCallExpr node) {
+
+        if (!(node.callee instanceof IdentifierExpr id)) {
+            return null;
+        }
+
+        switch (id.name) {
+
+            case "jsonLoad": {
+
+//                String path =
+//                        (String) evaluate(node.args.get(0));
+                Path pythonFile = Path.of("compiler_output/app.py");
+
+                Path jsonPath = pythonFile
+                        .getParent()
+                        .resolve("products.json")
+                        .normalize();
+
+                return JsonFunctions.json_load(jsonPath.toString());
+//                return JsonFunctions.json_load(path);
+            }
+
+            default:
+                return null;
+        }
     }
 }
