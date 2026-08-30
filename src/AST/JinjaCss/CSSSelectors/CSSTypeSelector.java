@@ -3,8 +3,8 @@ package AST.JinjaCss.CSSSelectors;
 import AST.JinjaCss.CSSSimpleSelector;
 
 public class CSSTypeSelector extends CSSSimpleSelector {
-    String elementName;
-    CSSPseudoSelector pseudoSelector;
+    public String elementName;
+    public CSSPseudoSelector pseudoSelector;
     public CSSTypeSelector(int line, String elementName, CSSPseudoSelector pseudoSelector ) {
         super(line, "CSSTypeSelector");
         this.elementName=elementName;

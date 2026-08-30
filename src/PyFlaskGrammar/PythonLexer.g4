@@ -16,6 +16,7 @@ OR: 'or';
 BREAK: 'break';
 CONTINUE: 'continue';
 CLASS: 'class';
+GLOBAL: 'global';
 AS: 'as';
 AT: '@';
 ASSIGN: '=';
