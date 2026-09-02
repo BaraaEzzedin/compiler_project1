@@ -1,9 +1,12 @@
 Template: list.html
-{products=[{id=1.0, name=product 3, price=1200, description=salkdkandkjnakjdnka                                            , image=wallpaper.jpeg}, {id=2.0, name=aklmdlkasmdlkas, price=12001, description=aksknjkdandkjankdsjnaksjndajkd, image=x-ray.webp}]}
+{products=[{id=1.0, name=product 2, price=39999, description=product description, image=x-ray.webp}, {id=3.0, name=prodcusss, price=1299, description=dsad, image=xray.jpeg}]}
 
 Template: add.html
 {}
 
-Template: view.html
-{product={image=null, price=null, name=null, description=null, id=null}}
+Product context:
+{product={id=1.0, name=product 2, price=39999, description=product description, image=x-ray.webp}}
+
+Product context:
+{product={id=3.0, name=prodcusss, price=1299, description=dsad, image=xray.jpeg}}
 

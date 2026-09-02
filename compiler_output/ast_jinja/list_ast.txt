@@ -485,185 +485,191 @@ Program (line 1)
                 Value:
                   CSSSingleValue (line 119)
                     CSSIdentifier (line 119) 'center'
-              CSSDeclaration 'margin-top' (line 120)
-                Value:
-                  CSSSingleValue (line 120)
-                    CSSIdentifier (line 120) 'auto'
-              CSSDeclaration 'background' (line 121)
+              CSSDeclaration 'margin' (line 121)
                 Value:
                   CSSSingleValue (line 121)
-                    CSSVariable (line 121) var(--var(--primary-hover))
-              CSSDeclaration 'transform' (line 122)
+                    CSSNumberTerm (line 121) 5px
+              CSSDeclaration 'background' (line 122)
                 Value:
                   CSSSingleValue (line 122)
-                    CSSFunctionTerm 'translateY' (line 122)
-                      Arguments:
-                        CSSValueList (line 122)
-                          CSSSingleValue (line 122)
-                            CSSIdentifier (line 122) '-1px'
-              CSSDeclaration 'box-shadow' (line 123)
+                    CSSVariable (line 122) var(--var(--primary-hover))
+              CSSDeclaration 'transform' (line 123)
                 Value:
-                  CSSMultipleValues (line 123)
-                    CSSNumberTerm (line 123) 0
-                    CSSNumberTerm (line 123) 6px
-                    CSSNumberTerm (line 123) 16px
-                    CSSFunctionTerm 'rgba' (line 123)
+                  CSSSingleValue (line 123)
+                    CSSFunctionTerm 'translateY' (line 123)
                       Arguments:
                         CSSValueList (line 123)
-                          CSSMultipleValues (line 123)
-                            CSSNumberTerm (line 123) 67
-                            CSSNumberTerm (line 123) 97
-                            CSSNumberTerm (line 123) 238
-                            CSSNumberTerm (line 123) 0.3
-          CSSRule (line 126)
-            Selector:
-              CSSSelector (line 126)
-                CSSSelectorSequence (line 126)
-                  CSSCompoundSelector (line 126)
-                    CSSClassSelector '.btn' (line 126)
-                      CSSPseudoSelector ':hover' (line 126)
-            Declarations:
-              CSSDeclaration 'background' (line 127)
+                          CSSSingleValue (line 123)
+                            CSSIdentifier (line 123) '-1px'
+              CSSDeclaration 'box-shadow' (line 124)
                 Value:
-                  CSSSingleValue (line 127)
-                    CSSVariable (line 127) var(--var(--primary-hover))
-              CSSDeclaration 'transform' (line 128)
+                  CSSMultipleValues (line 124)
+                    CSSNumberTerm (line 124) 0
+                    CSSNumberTerm (line 124) 6px
+                    CSSNumberTerm (line 124) 16px
+                    CSSFunctionTerm 'rgba' (line 124)
+                      Arguments:
+                        CSSValueList (line 124)
+                          CSSMultipleValues (line 124)
+                            CSSNumberTerm (line 124) 67
+                            CSSNumberTerm (line 124) 97
+                            CSSNumberTerm (line 124) 238
+                            CSSNumberTerm (line 124) 0.3
+          CSSRule (line 127)
+            Selector:
+              CSSSelector (line 127)
+                CSSSelectorSequence (line 127)
+                  CSSCompoundSelector (line 127)
+                    CSSClassSelector '.btn' (line 127)
+                      CSSPseudoSelector ':hover' (line 127)
+            Declarations:
+              CSSDeclaration 'background' (line 128)
                 Value:
                   CSSSingleValue (line 128)
-                    CSSFunctionTerm 'translateY' (line 128)
-                      Arguments:
-                        CSSValueList (line 128)
-                          CSSSingleValue (line 128)
-                            CSSIdentifier (line 128) '-1px'
-              CSSDeclaration 'box-shadow' (line 129)
+                    CSSVariable (line 128) var(--var(--primary-hover))
+              CSSDeclaration 'transform' (line 129)
                 Value:
-                  CSSMultipleValues (line 129)
-                    CSSNumberTerm (line 129) 0
-                    CSSNumberTerm (line 129) 6px
-                    CSSNumberTerm (line 129) 16px
-                    CSSFunctionTerm 'rgba' (line 129)
+                  CSSSingleValue (line 129)
+                    CSSFunctionTerm 'translateY' (line 129)
                       Arguments:
                         CSSValueList (line 129)
-                          CSSMultipleValues (line 129)
-                            CSSNumberTerm (line 129) 67
-                            CSSNumberTerm (line 129) 97
-                            CSSNumberTerm (line 129) 238
-                            CSSNumberTerm (line 129) 0.3
-          CSSRule (line 132)
+                          CSSSingleValue (line 129)
+                            CSSIdentifier (line 129) '-1px'
+              CSSDeclaration 'box-shadow' (line 130)
+                Value:
+                  CSSMultipleValues (line 130)
+                    CSSNumberTerm (line 130) 0
+                    CSSNumberTerm (line 130) 6px
+                    CSSNumberTerm (line 130) 16px
+                    CSSFunctionTerm 'rgba' (line 130)
+                      Arguments:
+                        CSSValueList (line 130)
+                          CSSMultipleValues (line 130)
+                            CSSNumberTerm (line 130) 67
+                            CSSNumberTerm (line 130) 97
+                            CSSNumberTerm (line 130) 238
+                            CSSNumberTerm (line 130) 0.3
+          CSSRule (line 133)
             Selector:
-              CSSSelector (line 132)
-                CSSSelectorSequence (line 132)
-                  CSSCompoundSelector (line 132)
-                    CSSClassSelector '.btn-small' (line 132)
+              CSSSelector (line 133)
+                CSSSelectorSequence (line 133)
+                  CSSCompoundSelector (line 133)
+                    CSSClassSelector '.btn-small' (line 133)
             Declarations:
-              CSSDeclaration 'padding' (line 133)
+              CSSDeclaration 'padding' (line 134)
                 Value:
-                  CSSMultipleValues (line 133)
-                    CSSNumberTerm (line 133) 0.5rem
-                    CSSNumberTerm (line 133) 1rem
-              CSSDeclaration 'font-size' (line 134)
+                  CSSMultipleValues (line 134)
+                    CSSNumberTerm (line 134) 0.5rem
+                    CSSNumberTerm (line 134) 1rem
+              CSSDeclaration 'font-size' (line 135)
                 Value:
-                  CSSSingleValue (line 134)
-                    CSSNumberTerm (line 134) 0.85rem
-          CSSMediaRule (line 137)
+                  CSSSingleValue (line 135)
+                    CSSNumberTerm (line 135) 0.85rem
+          CSSMediaRule (line 138)
             Query:
-              CSSMediaQuery (line 137)
+              CSSMediaQuery (line 138)
                 Expression:
-                  CSSMediaExpression 'max-width' (line 137)
+                  CSSMediaExpression 'max-width' (line 138)
                     Value:
-                      CSSSingleValue (line 137)
-                        CSSNumberTerm (line 137) 640px
+                      CSSSingleValue (line 138)
+                        CSSNumberTerm (line 138) 640px
             Rules:
-              CSSRule (line 138)
+              CSSRule (line 139)
                 Selector:
-                  CSSSelector (line 138)
-                    CSSSelectorSequence (line 138)
-                      CSSCompoundSelector (line 138)
-                        CSSClassSelector '.inner' (line 138)
+                  CSSSelector (line 139)
+                    CSSSelectorSequence (line 139)
+                      CSSCompoundSelector (line 139)
+                        CSSClassSelector '.inner' (line 139)
                 Declarations:
-                  CSSDeclaration 'padding' (line 139)
+                  CSSDeclaration 'padding' (line 140)
                     Value:
-                      CSSSingleValue (line 139)
-                        CSSNumberTerm (line 139) 1.5rem
-              CSSRule (line 142)
+                      CSSSingleValue (line 140)
+                        CSSNumberTerm (line 140) 1.5rem
+              CSSRule (line 143)
                 Selector:
-                  CSSSelector (line 142)
-                    CSSSelectorSequence (line 142)
-                      CSSCompoundSelector (line 142)
-                        CSSTypeSelector 'header' (line 142)
+                  CSSSelector (line 143)
+                    CSSSelectorSequence (line 143)
+                      CSSCompoundSelector (line 143)
+                        CSSTypeSelector 'header' (line 143)
                 Declarations:
-                  CSSDeclaration 'font-size' (line 143)
+                  CSSDeclaration 'font-size' (line 144)
                     Value:
-                      CSSSingleValue (line 143)
-                        CSSNumberTerm (line 143) 1.5rem
-      NormalHtmlElement 'title' (line 147)
+                      CSSSingleValue (line 144)
+                        CSSNumberTerm (line 144) 1.5rem
+      NormalHtmlElement 'title' (line 148)
         Content:
-          TextStatement (line 147) "Products List"
-  NormalHtmlElement 'div' (line 149)
+          TextStatement (line 148) "Products List"
+  NormalHtmlElement 'div' (line 150)
     Attributes:
-      HtmlAttribute 'class' = "container" (line 149)
+      HtmlAttribute 'class' = "container" (line 150)
     Content:
-      NormalHtmlElement 'div' (line 150)
+      NormalHtmlElement 'div' (line 151)
         Attributes:
-          HtmlAttribute 'class' = "inner" (line 150)
+          HtmlAttribute 'class' = "inner" (line 151)
         Content:
-          NormalHtmlElement 'a' (line 151)
+          NormalHtmlElement 'a' (line 152)
             Attributes:
-              HtmlAttribute 'href' = "/add" (line 151)
-              HtmlAttribute 'class' = "btn" (line 151)
+              HtmlAttribute 'href' = "/add" (line 152)
+              HtmlAttribute 'class' = "btn" (line 152)
             Content:
-              TextStatement (line 151) "+ Add Product"
-          NormalHtmlElement 'h2' (line 152)
+              TextStatement (line 152) "+ Add Product"
+          NormalHtmlElement 'h2' (line 153)
             Content:
-              TextStatement (line 152) "All Products"
-          JinjaIfStatement (line 153)
+              TextStatement (line 153) "All Products"
+          JinjaIfStatement (line 154)
             Condition:
-              JinjaIdentifier (line 153) 'products'
+              JinjaIdentifier (line 154) 'productss'
             Then:
-              NormalHtmlElement 'div' (line 154)
+              NormalHtmlElement 'div' (line 155)
                 Attributes:
-                  HtmlAttribute 'class' = "product-grid" (line 154)
+                  HtmlAttribute 'class' = "product-grid" (line 155)
                 Content:
-                  JinjaForStatement 'p' (line 155)
+                  JinjaForStatement 'p' (line 156)
                     Iterable:
-                      JinjaIdentifier (line 155) 'products'
+                      JinjaIdentifier (line 156) 'productss'
                     Body:
-                      NormalHtmlElement 'div' (line 156)
+                      NormalHtmlElement 'div' (line 157)
                         Attributes:
-                          HtmlAttribute 'class' = "product-card" (line 156)
+                          HtmlAttribute 'class' = "product-card" (line 157)
                         Content:
-                          SelfClosingHtmlElement 'img' (line 157)
+                          SelfClosingHtmlElement 'img' (line 158)
                             Attributes:
-                              HtmlAttribute 'class' = "product-image" (line 158)
-                              HtmlAttribute 'src' = "{{ url_for('static', filename='images/' + p.image) }}" (line 159)
-                              HtmlAttribute 'alt' = "{{ p.name }}" (line 160)
-                          NormalHtmlElement 'div' (line 162)
+                              HtmlAttribute 'class' = "product-image" (line 159)
+                              HtmlAttribute 'src' = "{{ url_for('static', filename='images/' + p.image) }}" (line 160)
+                              HtmlAttribute 'alt' = "{{ p.name }}" (line 161)
+                          NormalHtmlElement 'div' (line 163)
                             Attributes:
-                              HtmlAttribute 'class' = "product-info" (line 162)
+                              HtmlAttribute 'class' = "product-info" (line 163)
                             Content:
-                              NormalHtmlElement 'h3' (line 163)
+                              NormalHtmlElement 'h3' (line 164)
                                 Attributes:
-                                  HtmlAttribute 'class' = "product-name" (line 163)
+                                  HtmlAttribute 'class' = "product-name" (line 164)
                                 Content:
-                                  JinjaVariableStatement (line 163)
-                                    Expression:
-                                      JinjaIdentifier (line 163) 'p.name'
-                              NormalHtmlElement 'div' (line 164)
-                                Attributes:
-                                  HtmlAttribute 'class' = "price" (line 164)
-                                Content:
-                                  TextStatement (line 164) "$"
                                   JinjaVariableStatement (line 164)
                                     Expression:
-                                      JinjaIdentifier (line 164) 'p.price'
-                              NormalHtmlElement 'a' (line 165)
+                                      JinjaIdentifier (line 164) 'p.name'
+                              NormalHtmlElement 'div' (line 165)
                                 Attributes:
-                                  HtmlAttribute 'href' = "/products/{{ p.id }}" (line 165)
-                                  HtmlAttribute 'class' = "btn btn-small" (line 165)
+                                  HtmlAttribute 'class' = "price" (line 165)
                                 Content:
-                                  TextStatement (line 165) "View Details"
-            JinjaElseStatement (line 172)
+                                  TextStatement (line 165) "$"
+                                  JinjaVariableStatement (line 165)
+                                    Expression:
+                                      JinjaIdentifier (line 165) 'p.price'
+                              NormalHtmlElement 'a' (line 166)
+                                Attributes:
+                                  HtmlAttribute 'href' = "/products/{{ p.id }}" (line 166)
+                                  HtmlAttribute 'class' = "btn btn-small" (line 166)
+                                Content:
+                                  TextStatement (line 166) "View Details"
+                              NormalHtmlElement 'a' (line 169)
+                                Attributes:
+                                  HtmlAttribute 'href' = "/products/{{ p.id }}/edit" (line 170)
+                                  HtmlAttribute 'class' = "btn btn-small" (line 171)
+                                Content:
+                                  TextStatement (line 172) "Edit"
+            JinjaElseStatement (line 179)
               Body:
-                NormalHtmlElement 'p' (line 173)
+                NormalHtmlElement 'p' (line 180)
                   Content:
-                    TextStatement (line 173) "No products yet."
+                    TextStatement (line 180) "No products yet."

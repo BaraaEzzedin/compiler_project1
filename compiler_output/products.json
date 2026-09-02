@@ -1,16 +1,16 @@
 [
     {
         "id": 1,
-        "name": "product 3",
-        "price": "1200",
-        "description": "salkdkandkjnakjdnka                                            ",
-        "image": "wallpaper.jpeg"
+        "name": "product 2",
+        "price": "39999",
+        "description": "product description",
+        "image": "x-ray.webp"
     },
     {
-        "id": 2,
-        "name": "aklmdlkasmdlkas",
-        "price": "12001",
-        "description": "aksknjkdandkjankdsjnaksjndajkd",
-        "image": "x-ray.webp"
+        "id": 3,
+        "name": "prodcusss",
+        "price": "1299",
+        "description": "dsad",
+        "image": "xray.jpeg"
     }
 ]

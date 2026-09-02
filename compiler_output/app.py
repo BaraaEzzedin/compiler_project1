@@ -9,7 +9,7 @@ def jsonSave(path, data):
         json.dump(data, f, indent=4)
 
 import os
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, send_from_directory
 from werkzeug.utils import secure_filename
 app = Flask(__name__)
 UPLOAD_FOLDER = "static/images"
@@ -24,7 +24,7 @@ def add_product():
     if request.method == "POST":
         name = request.form.get("name")
         price = request.form.get("price")
-        description = request.form.get("description")
+        description = request.form.get("description").strip()
         image = request.files["image"]
         filename = None
         if image and image.filename != "":
@@ -50,26 +50,28 @@ def view_product(product_id):
 
     return "Product not found"
 
-@app.route("/delete/<int:product_id>", methods=["POST"])
-def delete_product(product_id):
-    global products
-    product = next((p for p in products if p["id"] == product_id), None)
-    if product == None:
-        return "Not Found", 404
+@app.route("/products/<int:product_id>/edit", methods=["GET", "POST"])
+def edit_product(product_id):
+    if request.method == "POST":
+        for product in products:
+            if product["id"] == product_id:
+                product["name"] = request.form.get("name")
+                product["price"] = request.form.get("price")
+                product["description"] = request.form.get("description").strip()
+                image = request.files.get("image")
+                if image and image.filename != "":
+                    filename = secure_filename(image.filename)
+                    image_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+                    image.save(image_path)
+                    product["image"] = filename
 
-    image_path = os.path.join(app.config["UPLOAD_FOLDER"], product["image"])
-    if product["image"] != "default.jpg" and os.path.exists(image_path):
-        os.remove(image_path)
-
-    new_products = []
-    for p in products:
-        if p["id"] != product_id:
-            new_products.append(p)
+                jsonSave("./products.json", products)
+                return redirect(url_for("list_products"))
 
 
-    products = new_products
-    jsonSave("./products.json", products)
-    return redirect(url_for("list_products"))
+        return "Product not found"
+
+    return send_from_directory("templates/products", str(product_id) + "_edit.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

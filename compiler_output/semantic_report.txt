@@ -1,2 +1,2 @@
-Semantic analysis completed successfully.
-No errors found.
+Line 10: Undefined variable 'productss'. Did you mean 'products'?
+Line 0: Template variable 'productss' is used in template 'list.html' but was not passed to render_template()

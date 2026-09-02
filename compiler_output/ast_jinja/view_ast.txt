@@ -445,13 +445,3 @@ Program (line 1)
               JinjaVariableStatement (line 121)
                 Expression:
                   JinjaIdentifier (line 121) 'product.price'
-          NormalHtmlElement 'p' (line 123)
-            Content:
-              NormalHtmlElement 'strong' (line 124)
-                Content:
-                  TextStatement (line 124) "Description:"
-          NormalHtmlElement 'p' (line 126)
-            Content:
-              JinjaVariableStatement (line 126)
-                Expression:
-                  JinjaIdentifier (line 126) 'product.description'
